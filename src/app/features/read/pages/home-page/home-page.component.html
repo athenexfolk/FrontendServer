@@ -1,80 +1,144 @@
-<main>
-  <section class="max-w-screen-xl mx-auto">
-    <div class="p-4">
-      <div class="max-w-screen-md mx-auto bg-gradient-to-br from-slate-950 to-slate-500 rounded-lg p-8 text-white">
-        <h2 class="text-4xl font-black comfortaa">Beginning of The Programmer</h2>
-        <p class="my-6 comfortaa">With BetaBlog, you can write your idea and publish to website user in the blog zone. You can ask what you still don't understand in the forum zone. Also, you can discover the other's blog or forum. Let's get started!</p>
-        <input class="px-4 py-2 border rounded-full w-full focus:outline-0 bg-transparent" type="search" placeholder="Search...">
+<main class="max-w-screen-xl mx-auto flex flex-col gap-8 p-4 md:p-8 md:py-0">
+  <section class="rounded-lg bg-white shadow">
+    <div class="flex flex-col md:flex-row gap-4 p-4">
+      <div class="flex justify-center items-center">
+        <div class="rounded-lg bg-white w-72 h-72 md:h-96 md:w-96 p-4"></div>
+      </div>
+      <div class="grow flex flex-col gap-4 md:gap-8 md:p-8 justify-center">
+        <h2 class="text-4xl md:text-6xl">กำเนิดโปรแกรมเมอร์</h2>
+        <p class="md:text-xl">เบต้าบล็อกให้บริการในการเขียนบทความในรูปแบบบล็อก โดยอำนวยความสะดวกให้โปรแกรมเมอร์โดยการเพิ่มฟังก์ชันในการเขียนโค้ด และสั่งให้โค้ดทำงาน ขณะนี้ ระบบของเราให้บริการในภาษา C, C++, Python, Java</p>
+        <button class="bg-slate-700 rounded-full px-8 py-3 text-white text-lg flex gap-4 justify-center items-center hover:bg-slate-800">เริ่มต้นใช้งาน
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+          </svg>
+        </button>
       </div>
     </div>
   </section>
   <section class="max-w-screen-xl mx-auto">
-    <h3 class="text-xl font-bold flex items-center gap-2 p-2">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-      </svg>
-      In Trending
-    </h3>
-    <div class="p-4 max-w-screen-lg mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="p-2 flex gap-4">
-        <span class="text-3xl font-bold self-center">#1</span>
+    <div class="grid grid-cols-4 gap-x-8">
+      <div class="p-4 col-span-4 md:col-span-3 max-w-screen-xl mx-auto flex flex-col gap-8">
         <article class="flex flex-col gap-2">
-          <div class="flex gap-2 items-center">
-            <div class="w-8 h-8 bg-amber-600 rounded-full"></div>
-            <a class="text-xs font-bold">John Smith</a>
+          <div class="flex gap-4 items-center">
+            <div class="w-10 h-10 bg-slate-100 rounded-full"></div>
+            <a class="text-sm font-bold">John Smith</a>
           </div>
-          <div class="font-bold">
-            <h2 class="text-lg">This is a title coding together.</h2>
+          <div class="flex gap-1 md:gap-4">
+            <div class="p-1 cursor-pointer hover:bg-slate-50/50">
+              <h2 class="text-lg font-bold">This is a title coding together.</h2>
+              <p class="line-clamp-1 md:line-clamp-2">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+              </p>
+            </div>
+            <div class="shrink-0 w-20 h-20 bg-slate-100">
+
+            </div>
+          </div>
+        </article>
+        <article class="flex flex-col gap-2">
+          <div class="flex gap-4 items-center">
+            <div class="w-10 h-10 bg-slate-100 rounded-full"></div>
+            <a class="text-sm font-bold">John Smith</a>
+          </div>
+          <div class="flex gap-1 md:gap-4">
+            <div class="p-1 cursor-pointer hover:bg-slate-50/50">
+              <h2 class="text-lg font-bold">This is a title coding together.</h2>
+              <p class="line-clamp-1 md:line-clamp-2">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+              </p>
+            </div>
+            <div class="shrink-0 w-20 h-20 bg-slate-100">
+
+            </div>
+          </div>
+        </article>
+        <article class="flex flex-col gap-2">
+          <div class="flex gap-4 items-center">
+            <div class="w-10 h-10 bg-slate-100 rounded-full"></div>
+            <a class="text-sm font-bold">John Smith</a>
+          </div>
+          <div class="flex gap-1 md:gap-4">
+            <div class="p-1 cursor-pointer hover:bg-slate-50/50">
+              <h2 class="text-lg font-bold">This is a title coding together.</h2>
+              <p class="line-clamp-1 md:line-clamp-2">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+              </p>
+            </div>
+            <div class="shrink-0 w-20 h-20 bg-slate-100">
+
+            </div>
+          </div>
+        </article>
+        <article class="flex flex-col gap-2">
+          <div class="flex gap-4 items-center">
+            <div class="w-10 h-10 bg-slate-100 rounded-full"></div>
+            <a class="text-sm font-bold">John Smith</a>
+          </div>
+          <div class="flex gap-1 md:gap-4">
+            <div class="p-1 cursor-pointer hover:bg-slate-50/50">
+              <h2 class="text-lg font-bold">This is a title coding together.</h2>
+              <p class="line-clamp-1 md:line-clamp-2">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+              </p>
+            </div>
+            <div class="shrink-0 w-20 h-20 bg-slate-100">
+
+            </div>
+          </div>
+        </article>
+        <article class="flex flex-col gap-2">
+          <div class="flex gap-4 items-center">
+            <div class="w-10 h-10 bg-slate-100 rounded-full"></div>
+            <a class="text-sm font-bold">John Smith</a>
+          </div>
+          <div class="flex gap-1 md:gap-4">
+            <div class="p-1 cursor-pointer hover:bg-slate-50/50">
+              <h2 class="text-lg font-bold">This is a title coding together.</h2>
+              <p class="line-clamp-1 md:line-clamp-2">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+              </p>
+            </div>
+            <div class="shrink-0 w-20 h-20 bg-slate-100">
+
+            </div>
+          </div>
+        </article>
+        <article class="flex flex-col gap-2">
+          <div class="flex gap-4 items-center">
+            <div class="w-10 h-10 bg-slate-100 rounded-full"></div>
+            <a class="text-sm font-bold">John Smith</a>
+          </div>
+          <div class="flex gap-1 md:gap-4">
+            <div class="p-1 cursor-pointer hover:bg-slate-50/50">
+              <h2 class="text-lg font-bold">This is a title coding together.</h2>
+              <p class="line-clamp-1 md:line-clamp-2">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+              </p>
+            </div>
+            <div class="shrink-0 w-20 h-20 bg-slate-100">
+
+            </div>
+          </div>
+        </article>
+        <article class="flex flex-col gap-2">
+          <div class="flex gap-4 items-center">
+            <div class="w-10 h-10 bg-slate-100 rounded-full"></div>
+            <a class="text-sm font-bold">John Smith</a>
+          </div>
+          <div class="flex gap-1 md:gap-4">
+            <div class="p-1 cursor-pointer hover:bg-slate-50/50">
+              <h2 class="text-lg font-bold">This is a title coding together.</h2>
+              <p class="line-clamp-1 md:line-clamp-2">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+              </p>
+            </div>
+            <div class="shrink-0 w-20 h-20 bg-slate-100">
+
+            </div>
           </div>
         </article>
       </div>
-      <div class="p-2 flex gap-4">
-        <span class="text-3xl font-bold self-center">#2</span>
-        <article class="flex flex-col gap-2">
-          <div class="flex gap-2 items-center">
-            <div class="w-8 h-8 bg-amber-600 rounded-full"></div>
-            <a class="text-xs font-bold">John Smith</a>
-          </div>
-          <div class="font-bold">
-            <h2 class="text-lg">This is a title coding togetherggggggggg.</h2>
-          </div>
-        </article>
-      </div>
-      <div class="p-2 flex gap-4">
-        <span class="text-3xl font-bold self-center">#3</span>
-        <article class="flex flex-col gap-2">
-          <div class="flex gap-2 items-center">
-            <div class="w-8 h-8 bg-amber-600 rounded-full"></div>
-            <a class="text-xs font-bold">John Smith</a>
-          </div>
-          <div class="font-bold">
-            <h2 class="text-lg">This is a title coding together.</h2>
-          </div>
-        </article>
-      </div>
-      <div class="p-2 flex gap-4">
-        <span class="text-3xl font-bold self-center">#4</span>
-        <article class="flex flex-col gap-2">
-          <div class="flex gap-2 items-center">
-            <div class="w-8 h-8 bg-amber-600 rounded-full"></div>
-            <a class="text-xs font-bold">John Smith</a>
-          </div>
-          <div class="font-bold">
-            <h2 class="text-lg">This is a title coding together.</h2>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-  <section class="max-w-screen-xl mx-auto">
-    <h3 class="text-xl font-bold flex items-center gap-2 p-2">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
-      </svg>
-      Interesting
-    </h3>
-    <div class="grid grid-cols-4">
-      <aside class="col-span-4 md:col-span-1 h-auto md:h-screen md:sticky top-0 p-2">
+      <aside class="col-span-4 md:col-span-1 h-auto md:h-screen md:sticky top-0 p-4">
         <div>
           <h3 class="font-bold">Tags</h3>
           <div class="p-4 flex gap-4 text-xs flex-wrap">
@@ -89,28 +153,6 @@
           <h3 class="font-bold">Related Links</h3>
         </div>
       </aside>
-      <div class="p-4 col-span-4 md:col-span-3 max-w-screen-xl mx-auto flex flex-col gap-8">
-        <article class="flex flex-col gap-2">
-          <div class="flex gap-2 items-center">
-            <div class="w-8 h-8 bg-amber-600 rounded-full"></div>
-            <a class="text-xs font-bold">John Smith</a>
-          </div>
-          <div class="flex gap-1 md:gap-4">
-            <div class="p-1 cursor-pointer hover:bg-slate-50/50">
-              <h2 class="text-lg font-bold">This is a title coding together.</h2>
-              <p class="line-clamp-2">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-              </p>
-            </div>
-            <div class="shrink-0 w-20 h-20 bg-sky-400">
-
-            </div>
-          </div>
-        </article>
-      </div>
     </div>
-  </section>
-  <section class="bg-gray-300 p-4">
-    EOF
   </section>
 </main>

@@ -3,15 +3,18 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: comfortaa;
-  src: url("assets/fonts/Comfortaa-VariableFont_wght.ttf");
+  font-family: notoloop;
+  src: url("assets/fonts/NotoSansThaiLooped-Regular.ttf");
 }
-
 @font-face {
-  font-family: courierprime;
-  src: url("assets/fonts/CourierPrime-Regular.ttf");
+  font-family: notosans;
+  src: url("assets/fonts/NotoSansThai-VariableFont_wdth,wght.ttf");
+}
+@font-face {
+  font-family: notoserif;
+  src: url("assets/fonts/NotoSerifThai-VariableFont_wdth,wght.ttf");
 }
 
-.comfortaa {
-  font-family: comfortaa, sans-serif;
+body{
+  font-family: notosans;
 }
