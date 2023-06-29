@@ -1,0 +1,36 @@
+<article class="flex flex-col gap-2">
+  <div class="flex justify-between items-center">
+    <app-author-bar></app-author-bar>
+    <div>
+      <button>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="flex justify-between gap-1 md:gap-4">
+    <div class="grow p-1 cursor-pointer hover:bg-slate-50/50">
+      <h2 class="text-xl font-bold line-clamp-1">This is a title coding together test this if it too long when long as long and long oooooo o o o oo o oooooo oooooo ooooo.</h2>
+      <p class="line-clamp-1 md:line-clamp-2">
+        This is a subtitle of this post
+      </p>
+    </div>
+    <div class="shrink-0 w-20 h-20 bg-slate-100 rounded-lg">
+
+    </div>
+  </div>
+  <div class="hidden md:flex gap-8 items-center text-xs">
+    <div class="flex gap-2">
+      <app-tag [tagMessage]="'HTML'"></app-tag>
+      <app-tag [tagMessage]="'HTML'"></app-tag>
+      <app-tag [tagMessage]="'HTML'"></app-tag>
+    </div>
+    <div>
+      <p>12 Jun 2001</p>
+    </div>
+    <div>
+      <p>3 Min</p>
+    </div>
+  </div>
+</article>
