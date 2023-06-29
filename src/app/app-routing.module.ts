@@ -10,6 +10,10 @@ const routes: Routes = [
     path: "read",
     redirectTo: "/",
     pathMatch: "full"
+  },
+  {
+    path: "write",
+    loadChildren: () => import('./features/write/write.module').then(m => m.WriteModule)
   }
 ];
 

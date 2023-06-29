@@ -16,7 +16,7 @@
       </button>
       <nav class="hidden lg:flex items-center gap-4 text-slate-700">
         <a [routerLink]="['']">อ่านบทความ</a>
-        <a [routerLink]="['w']">เขียนบทความ</a>
+        <a [routerLink]="['write']">เขียนบทความ</a>
         <a class="text-gray-300">ตั้งคำถาม</a>
         <a class="text-gray-300">แหล่งชุมชม</a>
       </nav>
@@ -48,11 +48,11 @@
   </header>
   <div class="h-menu bg-white" [ngClass]="{'hidden':!isMobileMenuOpen}">
     <div class="p-2">
-      <nav class="flex flex-col text-center gap-1 text-slate-500">
-        <a class="px-4 py-2 rounded-lg hover:bg-slate-600 hover:text-white" [routerLink]="['']" [routerLinkActive]="['bg-slate-500', 'text-white']">Read</a>
-        <a class="px-4 py-2 rounded-lg hover:bg-slate-600 hover:text-white" [routerLink]="['w']">Write</a>
-        <a class="px-4 py-2 rounded-lg cursor-not-allowed text-gray-300">Ask</a>
-        <a class="px-4 py-2 rounded-lg cursor-not-allowed text-gray-300">Community</a>
+      <nav class="flex flex-col text-center gap-1">
+        <a [routerLink]="['']" (click)="closeMobileMenu()">อ่านบทความ</a>
+        <a [routerLink]="['write']" (click)="closeMobileMenu()">เขียนบทความ</a>
+        <a class="text-gray-300">ตั้งคำถาม</a>
+        <a class="text-gray-300">แหล่งชุมชม</a>
       </nav>
       <hr class="my-3">
       <div *ngIf="!isLoggedIn; else avatar" class="flex justify-center gap-4">

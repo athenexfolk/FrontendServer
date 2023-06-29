@@ -1,0 +1,7 @@
+div[contenteditable="true"]:empty::before {
+  content: attr(placeholder);
+  color: #aaa;
+}
+div[contenteditable="true"]:focus::before {
+  content: "";
+}

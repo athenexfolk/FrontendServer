@@ -13,6 +13,9 @@ export class NavigationHeaderComponent {
   toggleMobileMenu(){
     this.isMobileMenuOpen = !this.isMobileMenuOpen
   }
+  closeMobileMenu() {
+    this.isMobileMenuOpen = false
+  }
 
   toggleProfileMenu() {
     this.isProfileMenuOpen = !this.isProfileMenuOpen
