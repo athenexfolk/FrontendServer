@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import EditorJS from "@editorjs/editorjs";
+import CodeBlock from "../../../../core/editor-tool/code-block";
 
 @Component({
   selector: 'app-write-page',
@@ -11,7 +12,10 @@ export class WritePageComponent implements OnInit {
   ngOnInit() {
     this.editor = new EditorJS({
       holder: "editorjs",
-      placeholder: "ไอเดียสุดบรรเจิด..."
+      placeholder: "ไอเดียสุดบรรเจิด...",
+      tools: {
+        codeBlock: CodeBlock
+      }
     })
   }
 }
