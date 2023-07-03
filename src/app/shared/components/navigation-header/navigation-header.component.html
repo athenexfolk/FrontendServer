@@ -1,6 +1,8 @@
 <div>
   <header class="flex items-center justify-between gap-8 p-4 h-16 md:h-auto md:px-8 bg-white/75 backdrop-blur">
-    <h1 class="text-xl md:text-2xl lg:text-3xl font-black comfortaa">เบต้าบล็อก</h1>
+    <a [routerLink]="['']">
+      <h1 class="text-xl md:text-2xl lg:text-3xl font-black comfortaa">เบต้าบล็อก</h1>
+    </a>
     <div class="grow relative hidden lg:block">
       <input type="search" class="block w-full border px-4 py-2 rounded-xl focus:outline-0 focus:rounded-b-none peer" placeholder="ค้นหาทุกสิ่งทุกอย่าง...">
       <div class="hidden bg-white border border-t-0 rounded-b-lg absolute top-full w-full h-24 peer-focus:block"></div>
@@ -15,9 +17,7 @@
         </svg>
       </button>
       <nav class="hidden lg:flex items-center gap-4 text-slate-700">
-        <a [routerLink]="['']">อ่านบทความ</a>
         <a [routerLink]="['write']">เขียนบทความ</a>
-        <a class="text-gray-300">ตั้งคำถาม</a>
         <a class="text-gray-300">แหล่งชุมชม</a>
       </nav>
       <div *ngIf="!isLoggedIn; else avatar" class="hidden lg:flex gap-4">
