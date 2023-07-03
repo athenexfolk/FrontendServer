@@ -1,11 +1,16 @@
 import {BlockTool, BlockToolData} from "@editorjs/editorjs";
-import loader, { Monaco } from '@monaco-editor/loader';
+import loader from '@monaco-editor/loader';
+import {editor} from 'monaco-editor';
 
 export default class CodeBlock implements BlockTool {
+
+  monacoEditor? : editor.IStandaloneCodeEditor;
 
   wrapper!: HTMLDivElement
   editor!: HTMLDivElement
   input!: HTMLInputElement
+
+
 
   constructor() {
     this.wrapper = document.createElement('div')
@@ -18,7 +23,7 @@ export default class CodeBlock implements BlockTool {
     this.input.placeholder = 'ชื่อไฟล์'
     this.wrapper.appendChild(this.input)
     this.wrapper.appendChild(this.editor)
-    this.editor.style.height = '200px'
+    this.editor.style.height = '190px'
     return this.wrapper;
   }
 
@@ -27,7 +32,7 @@ export default class CodeBlock implements BlockTool {
   }
 
   rendered() {
-    this.createMonaco()
+    this.createMonaco();
   }
 
   static get enableLineBreaks() {
@@ -41,14 +46,17 @@ export default class CodeBlock implements BlockTool {
     };
   }
 
-  createMonaco() {
-    loader.init().then(monaco => {
-      let monacoEditor = monaco.editor.create(this.editor, {
-        value: "function hello() {\n\talert('Hello world!');\n}",
-        language: 'html',
-        theme: 'vs-dark'
-      });
-      // this.GetCodeContents = ()=> monacoEditor.getValue();
-    });
+
+
+
+  async createMonaco() {
+    let monaco = await loader.init();
+    let option : editor.IStandaloneEditorConstructionOptions = {
+      value: "function hello() {\n\talert('Hello world!');\n}",
+      language: 'javascript',
+      theme: 'vs-dark'
+    }
+
+    this.monacoEditor = monaco.editor.create(this.editor,option);
   }
 }
