@@ -37,7 +37,7 @@
   <div class="flex justify-center">
     <div class="w-96 h-96 rounded-lg relative group overflow-hidden">
       <input class="hidden" type="file" (change)="onFileUpload($event)" accept="image/png, image/gif, image/jpeg" #selectFile>
-      <button class="absolute w-full h-full text-slate-600 bg-slate-100 flex items-center justify-center top-0 left-0 text-white opacity-0 hover:opacity-100 transition" (click)="selectFile.click()">
+      <button class="absolute w-full h-full text-slate-600 bg-slate-100 flex items-center justify-center top-0 left-0 opacity-0 hover:opacity-100 transition" (click)="selectFile.click()">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
           <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
         </svg>
