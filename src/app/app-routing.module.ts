@@ -14,6 +14,10 @@ const routes: Routes = [
   {
     path: "write",
     loadChildren: () => import('./features/write/write.module').then(m => m.WriteModule)
+  },
+  {
+    path: "auth",
+    loadChildren: () => import('./features/authenticate/authenticate.module').then(m => m.AuthenticateModule)
   }
 ];
 
