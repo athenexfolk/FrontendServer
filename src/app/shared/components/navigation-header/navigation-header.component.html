@@ -65,7 +65,7 @@
       </nav>
       <hr class="my-3">
       <div *ngIf="!isLoggedIn; else avatar" class="flex justify-center gap-4">
-        <button  [routerLink]="['auth','login']" class="px-4 py-2 bg-slate-700 text-white rounded-full hover:bg-slate-900">
+        <button  [routerLink]="['auth','login']" (click)="closeMobileMenu()" class="px-4 py-2 bg-slate-700 text-white rounded-full hover:bg-slate-900">
           เข้าสู่ระบบ
         </button>
       </div>
