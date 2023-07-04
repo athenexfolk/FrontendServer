@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class NavigationHeaderComponent {
   isMobileMenuOpen = false
-  isLoggedIn = false
+  isLoggedIn = true
   isProfileMenuOpen = false
 
   toggleMobileMenu(){
