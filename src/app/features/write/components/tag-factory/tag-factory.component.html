@@ -1,0 +1,39 @@
+<div class="flex gap-4 justify-between items-center group">
+  <div class="flex gap-4">
+    <div class="relative z-10 text-sm group">
+      <input
+        type="text"
+        class="w-24 border rounded-lg focus:outline-0 px-4 py-2 peer"
+        placeholder="ค้นหาแท็ก"
+      />
+      <div
+        class="absolute w-full bg-white border hidden group-hover:block peer-focus:block"
+      >
+        <div
+          class="p-2 flex flex-col gap-3 text-center"
+          *ngFor="let tag of tags"
+          (click)="addTag(tag)"
+        >
+          {{ tag.name }}
+        </div>
+      </div>
+    </div>
+    <div class="flex items-center flex-wrap gap-2">
+      <div
+        class="relative group/tag"
+        *ngFor="let tag of userTags; let i = index"
+      >
+        <app-tag [tagMessage]="tag.name" />
+        <button
+          (click)="removeTag(i)"
+          class="absolute -top-0.5 -right-0.5 bg-red-500 text-white rounded-full w-4 h-4 flex justify-center items-center text-xs invisible group-hover/tag:visible"
+        >
+          x
+        </button>
+      </div>
+    </div>
+  </div>
+  <p class="text-slate-500/50 invisible group-hover:visible">
+    {{ userTags.length }}/3
+  </p>
+</div>
