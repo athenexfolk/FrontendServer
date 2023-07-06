@@ -1,4 +1,16 @@
-<nav class="flex items-center gap-4 text-slate-700" [ngClass]="{'flex-col': isMobile}">
-  <a [routerLink]="['write']" (click)="onRouteChange()">เขียนบทความ</a>
-  <a class="text-gray-300">แหล่งชุมชม</a>
+<nav
+  class="flex items-center gap-4 text-slate-700"
+  [ngClass]="{ 'flex-col': isMobile }"
+>
+  <a
+    *ngFor="let nav of navLinks"
+    [routerLink]="[nav.route]"
+    (click)="onRouteChange()"
+    [ngClass]="{
+      'text-gray-300': nav.disable,
+      'cursor-not-allowed': nav.disable
+    }"
+  >
+    {{ nav.name }}
+  </a>
 </nav>

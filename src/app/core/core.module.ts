@@ -7,7 +7,6 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
 import { MobileMenuButtonComponent } from './components/mobile-menu/mobile-menu.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { LoginButtonComponent } from './components/login-button/login-button.component';
-import { AvatarButtonComponent } from './components/avatar-button/avatar-button.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 
 @NgModule({
@@ -18,7 +17,6 @@ import { AvatarComponent } from './components/avatar/avatar.component';
     MobileMenuButtonComponent,
     NavigationComponent,
     LoginButtonComponent,
-    AvatarButtonComponent,
     AvatarComponent,
   ],
   imports: [CommonModule, RouterModule],
