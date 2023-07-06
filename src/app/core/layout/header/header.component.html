@@ -1,0 +1,17 @@
+<header
+  class="flex items-center justify-between gap-8 p-4 h-16 md:h-auto md:px-8 bg-white sticky z-50"
+>
+  <Brand />
+  <SearchBar class="hidden md:block grow" />
+  <div class="flex items-center gap-8">
+    <MobileMenu class="md:hidden" />
+    <Navigation class="hidden md:block" />
+    <div *ngIf="!loginStatus; else avatar">
+      <LoginButton />
+    </div>
+  </div>
+</header>
+
+<ng-template #avatar>
+  <Avatar [isLoggedIn]="loginStatus" />
+</ng-template>

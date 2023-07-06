@@ -1,0 +1,12 @@
+<div class="relative">
+  <input
+    type="search"
+    [placeholder]="placeHolder"
+    class="peer block w-full px-4 py-2 border rounded-xl focus:outline-0 focus:rounded-b-none"
+  />
+  <div
+    class="hidden peer-focus:block absolute top-full w-full h-24 p-4 border border-t-0 rounded-b-lg bg-white"
+  >
+    {{ searchData }}
+  </div>
+</div>
