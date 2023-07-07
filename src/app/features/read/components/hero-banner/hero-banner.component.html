@@ -1,0 +1,36 @@
+<section class="rounded-lg bg-white">
+  <div class="flex flex-col lg:flex-row gap-4 p-4">
+    <div class="flex justify-center items-center">
+      <div class="rounded-lg">
+        <img src="assets/images/logo-main.svg" />
+      </div>
+    </div>
+    <div class="grow flex flex-col gap-4 md:gap-8 md:p-8 justify-center">
+      <h2 class="text-4xl md:text-6xl font-bold">
+        {{ title }}
+      </h2>
+      <p class="md:text-xl">
+        {{ description }}
+      </p>
+      <button
+        class="bg-slate-700 rounded-full px-8 py-3 text-white text-lg flex gap-4 justify-center items-center hover:bg-slate-800"
+      >
+        เริ่มต้นใช้งาน
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-6 h-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
