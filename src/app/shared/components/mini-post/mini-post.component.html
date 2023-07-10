@@ -6,24 +6,22 @@
     </div>
   </div>
   <div class="flex justify-between gap-1 md:gap-4">
-    <div class="grow p-1 cursor-pointer hover:bg-slate-50/50">
-      <h2 class="text-xl font-bold line-clamp-1">This is a title coding together test this if it too long when long as long and long oooooo o o o oo o oooooo oooooo ooooo.</h2>
+    <div [routerLink]="['/post']" class="grow p-1 cursor-pointer hover:bg-slate-50/50">
+      <h2 class="text-xl font-bold line-clamp-1">{{data.title}}</h2>
       <p class="line-clamp-1 md:line-clamp-2">
-        This is a subtitle of this post
+        {{data.subtitle}}
       </p>
     </div>
-    <div class="shrink-0 w-20 h-20 bg-slate-100 rounded-lg">
-
+    <div class="shrink-0 w-20 h-20 bg-slate-100 rounded-lg overflow-hidden">
+      <img [src]="data.cover" alt="" class="h-20 w-auto object-cover">
     </div>
   </div>
   <div class="hidden md:flex gap-8 items-center text-xs">
     <div class="flex gap-2">
-      <app-tag [tagMessage]="'HTML'"></app-tag>
-      <app-tag [tagMessage]="'HTML'"></app-tag>
-      <app-tag [tagMessage]="'HTML'"></app-tag>
+      <app-tag *ngFor="let tag of data.tags" [tagMessage]="tag.name"></app-tag>
     </div>
     <div>
-      <p>12 Jun 2001</p>
+      <p>{{data.createAt | date}}</p>
     </div>
     <div>
       <p>3 Min</p>

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Post } from 'src/app/core/services/post.service';
 
 @Component({
   selector: 'app-mini-post',
@@ -7,4 +8,5 @@ import { Component, Input } from '@angular/core';
 })
 export class MiniPostComponent {
   @Input() isMarked = true
+  @Input({required:true}) data!:Post
 }
