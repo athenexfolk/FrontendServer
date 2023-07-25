@@ -1,0 +1,20 @@
+<div class="max-w-7xl mx-auto flex items-center gap-8 p-4">
+  <Brand text="เบต้าบล็อก" />
+  <SearchBar class="grow" />
+  <NavigationBar>
+    <NavigationItem name="เขียนโพสต์" path="write" />
+    <NavigationItem name="แหล่งชุมชน" path="community" />
+  </NavigationBar>
+  <button
+    *ngIf="!userStatus; else account"
+    role="button"
+    [routerLink]="['/auth', 'login']"
+    class="bg-zinc-800 rounded-full px-6 py-3 text-white font-bold"
+  >
+    เข้าสู่ระบบ
+  </button>
+</div>
+
+<ng-template #account>
+  <Account></Account>
+</ng-template>

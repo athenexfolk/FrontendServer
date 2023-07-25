@@ -1,0 +1,7 @@
+div[contenteditable="true"]:empty::before {
+  content: attr(data-placeholder);
+  @apply text-zinc-400;
+}
+div[contenteditable="true"]:focus::before {
+  content: "";
+}

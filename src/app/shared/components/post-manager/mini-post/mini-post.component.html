@@ -1,0 +1,27 @@
+<article class="flex justify-between items-center gap-8">
+  <div class="grow grid grid-cols-1 gap-3">
+    <PostOwner [author]="post.author" />
+    <a role="link" [routerLink]="['/post',post.id]">
+      <div class="group line-clamp-3 hover:cursor-pointer">
+        <h3 class="text-xl font-bold mb-2 group-hover:underline">
+          {{post.title}}
+        </h3>
+        <p>
+          {{post.subtitle}}
+        </p>
+      </div>
+    </a>
+    <div class="flex gap-6 items-center text-xs">
+      <TagGroup *ngIf="post.tags.length">
+        <Tag *ngFor="let tag of post.tags" [name]="tag.name" [color]="tag.color" />
+      </TagGroup>
+      <p>{{post.createdTime}}</p>
+      <p>3 Mins</p>
+    </div>
+  </div>
+  <div class="grow-0">
+    <div class="w-24 h-24 relative rounded-lg bg-zinc-300 overflow-hidden">
+      <img [src]="post.coverImage" class="w-full h-full object-cover">
+    </div>
+  </div>
+</article>

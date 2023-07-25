@@ -1,0 +1,9 @@
+<button
+  role="button"
+  class="rounded-full px-3 py-1 relative group"
+  [style.backgroundColor]="'#' + color"
+  [style.color]="getContrastingColor(color)"
+>
+  {{ name }}
+  <ng-content></ng-content>
+</button>

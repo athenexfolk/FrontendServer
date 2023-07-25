@@ -1,0 +1,11 @@
+<div class="flex gap-4 items-center">
+  <div class="w-10 h-10 rounded-full overflow-hidden">
+    <img class="w-full h-full" [src]="'/api/img/v1' + author.avatar" />
+  </div>
+  <a
+    role="link"
+    [routerLink]="['/', 'profile', author.id]"
+    class="font-bold hover:underline"
+    >{{ author.username }}</a
+  >
+</div>

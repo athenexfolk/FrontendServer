@@ -1,0 +1,19 @@
+<div
+  class="relative"
+  data-toggle="false"
+  (clickInside)="openPanel()"
+  (clickOutside)="closePanel()"
+>
+  <input
+    type="search"
+    [placeholder]="placeholder"
+    class="border rounded-lg w-full px-4 py-2"
+    [ngClass]="{ 'rounded-b-none border-b-0 shadow-lg': isSearching }"
+  />
+  <div
+    *ngIf="isSearching"
+    class="absolute w-full top-full p-4 border rounded-b-lg bg-white shadow-lg z-50"
+  >
+    Result show here...
+  </div>
+</div>

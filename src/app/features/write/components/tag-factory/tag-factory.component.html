@@ -1,0 +1,43 @@
+<div class="grid grid-cols-1 gap-4">
+  <TagGroup>
+    <Tag
+      *ngFor="let tag of tags; let i=index"
+      [name]="tag.name"
+      [color]="tag.color"
+      [disabled]="true"
+    >
+      <button (click)="removeTag(i)"
+        class="lg:invisible group-hover:visible absolute -top-1 -right-1 w-4 h-4 flex justify-center items-center rounded-full bg-red-500 text-white"
+      >
+        x
+      </button>
+    </Tag>
+  </TagGroup>
+  <div
+    class="text-sm relative w-32"
+    data-toggle="false"
+    (clickInside)="openPanel()"
+    (clickOutside)="closePanel()"
+  >
+    <input
+      type="text"
+      placeholder="ค้นหาแท็ก"
+      class="border rounded-lg w-full px-4 py-2"
+      [ngClass]="{ 'rounded-b-none border-b-0 shadow-lg': isSearching }"
+    />
+    <div
+      *ngIf="isSearching"
+      class="absolute w-full top-full p-1 border rounded-b-lg bg-white shadow-lg z-50"
+    >
+      <div class="h-24 overflow-y-scroll py-1">
+        <div
+          *ngFor="let tag of validTags"
+          class="p-1 pl-4 cursor-pointer border-l-4 border-white hover:border-zinc-500"
+          (click)="addTag(tag)"
+        >
+          {{ tag.name }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
