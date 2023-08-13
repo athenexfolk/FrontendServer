@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, distinctUntilChanged, map, shareReplay } from 'rxjs';
+import { Token } from '../models/token';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +46,7 @@ export class AuthService {
   logout() {
     localStorage.clear();
     this.authToken$.next(null);
-    this.router.navigate(['/']);
+    window.location.reload()
   }
 
   getUid() {
@@ -62,10 +63,4 @@ export class AuthService {
   }
 }
 
-export interface Token {
-  access_token: string;
-  token_type: string;
-  expires_in: number;
-  id_token: string;
-  refresh_token: string;
-}
+

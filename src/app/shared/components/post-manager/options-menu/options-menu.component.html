@@ -1,0 +1,30 @@
+<div
+  class="relative"
+  data-toggle="false"
+  (clickInside)="openPanel()"
+  (clickOutside)="closePanel()"
+>
+  <button class="p-2 rounded-full hover:bg-zinc-100">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      class="w-6 h-6"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+      />
+    </svg>
+  </button>
+  <div
+    *ngIf="isPanelOpened"
+    class="absolute -left-20 -bottom-4 w-16 px-4 py-2 shadow rounded-lg bg-white text-center"
+  >
+    <button (click)="updateThisPost()">แก้ไข</button>
+    <button (click)="deleteThisPost()">ลบ</button>
+  </div>
+</div>

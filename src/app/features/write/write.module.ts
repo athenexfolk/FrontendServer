@@ -8,6 +8,7 @@ import { TagFactoryComponent } from './components/tag-factory/tag-factory.compon
 import { ContentEditorComponent } from './components/content-editor/content-editor.component';
 import { CoverImageComponent } from './components/cover-image/cover-image.component';
 import { HeadingsComponent } from './components/headings/headings.component';
+import { EditPageComponent } from './pages/edit-page/edit-page.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { HeadingsComponent } from './components/headings/headings.component';
     TagFactoryComponent,
     ContentEditorComponent,
     CoverImageComponent,
-    HeadingsComponent
+    HeadingsComponent,
+    EditPageComponent
   ],
   imports: [
     CommonModule,

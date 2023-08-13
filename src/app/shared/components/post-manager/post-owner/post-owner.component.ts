@@ -4,12 +4,20 @@ import { Author } from 'src/app/core/models/author';
 @Component({
   selector: 'PostOwner',
   templateUrl: './post-owner.component.html',
-  styleUrls: ['./post-owner.component.scss']
+  styleUrls: ['./post-owner.component.scss'],
 })
 export class PostOwnerComponent {
   @Input() author: Author = {
-    id: "1",
-    username: "John Standy",
-    avatar: "https://ui-avatars.com/api/?name=John+Standy"
-  }
+    id: '0',
+    username: 'username',
+    avatar: '',
+    isFollower: false,
+    isFollowing: false,
+  };
+
+  imageSource = () => {
+    if (this.author.avatar && this.author.avatar.length)
+      return '/api/img/v1/' + this.author.avatar;
+    return 'assets/images/default-avatar.svg';
+  };
 }

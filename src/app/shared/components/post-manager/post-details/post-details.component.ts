@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'PostDetails',
@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./post-details.component.scss']
 })
 export class PostDetailsComponent {
-
+  @Input() createdTime!: Date
+  @Input() lastUpdatedTime!: Date
 }

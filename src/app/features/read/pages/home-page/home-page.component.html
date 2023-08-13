@@ -1,21 +1,31 @@
-<div class="p-8 rounded-lg bg-zinc-100 shadow">
-  <div class="grid grid-cols-2 items-center">
-  <img src="assets/images/logo-main.svg" class="w-72 h-72 mx-auto">
-  <div class="grid grid-cols-1 gap-4">
-    <h2 class="text-6xl font-bold">{{title}}</h2>
-    <p class="text-xl">{{description}}</p>
-    <button class="bg-zinc-600 text-zinc-100 font-bold text-lg px-4 py-2 rounded-full text-center hover:bg-zinc-700">Get Started</button>
-  </div>
+<p class="text-3xl text-center font-bold md:hidden p-4">เบต้าบล็อก</p>
+<div *ngIf="!userStatus" class="px-4 w-full">
+  <div
+    class="p-8 grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-0 items-center"
+  >
+    <img
+      src="assets/images/logo-main.svg"
+      class="w-64 h-64 md:w-72 md:h-72 mx-auto"
+    />
+    <div class="grid grid-cols-1 gap-4">
+      <h2 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold">{{ title }}</h2>
+      <p>{{ description }}</p>
+      <button
+        class="bg-zinc-600 text-zinc-100 font-bold text-lg px-4 py-2 rounded-full text-center hover:bg-zinc-700"
+      >
+        Get Started
+      </button>
+    </div>
   </div>
 </div>
-<div class="flex">
-  <main class="grow p-8">
+<div class="flex flex-col md:flex-row">
+  <main class="grow p-4 md:p-8">
     <h2 class="text-3xl font-bold mb-8">All posts</h2>
-    <MiniPostGroup *ngIf="posts.length; else skeleton">
-      <MiniPost *ngFor="let post of posts" [post]="post" />
+    <MiniPostGroup *ngIf="ppas.length; else skeleton">
+      <MiniPost *ngFor="let ppa of ppas" [ppa]="ppa" />
     </MiniPostGroup>
   </main>
-  <aside class="w-96 grow-0 shrink-0 h-screen sticky top-0 p-8">
+  <aside class="grow-0 shrink-0 md:w-96 md:h-screen sticky top-0 p-4 md:p-8">
     <h2 class="text-3xl font-bold mb-8">Tags</h2>
     <TagGroup>
       <Tag [name]="'HTML'" />

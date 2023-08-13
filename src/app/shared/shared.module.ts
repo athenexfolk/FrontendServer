@@ -23,6 +23,7 @@ import { BrandComponent } from './components/brand/brand.component';
 import { NavigationBarComponent } from './components/navigation-manager/navigation-bar/navigation-bar.component';
 import { NavigationItemComponent } from './components/navigation-manager/navigation-item/navigation-item.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { OptionsMenuComponent } from './components/post-manager/options-menu/options-menu.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     NavigationBarComponent,
     NavigationItemComponent,
     SearchBarComponent,
+    OptionsMenuComponent,
   ],
   imports: [CommonModule, RouterModule],
   exports: [
@@ -73,6 +75,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     NavigationBarComponent,
     NavigationItemComponent,
     SearchBarComponent,
+    OptionsMenuComponent
   ],
 })
 export class SharedModule {}

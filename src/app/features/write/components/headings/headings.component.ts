@@ -9,8 +9,8 @@ export class HeadingsComponent {
   @Input() postTitle = ''
   @Output() postTitleChange = new EventEmitter<string>();
   
-  @Input() postSubtitle = '';
-  @Output() postSubtitleChange = new EventEmitter<string>();
+  @Input() postDescription = '';
+  @Output() postDescriptionChange = new EventEmitter<string>();
 
   onTitleInput(e: Event) {
     let el = e.target as HTMLElement
@@ -19,6 +19,6 @@ export class HeadingsComponent {
 
   onSubtitleInput(e: Event) {
     let el = e.target as HTMLElement
-    this.postSubtitleChange.emit(el.textContent!)
+    this.postDescriptionChange.emit(el.textContent!)
   }
 }

@@ -1,9 +1,13 @@
-<div class="relative max-w-screen-xl mx-auto">
-  <div *ngIf="isLargeScreen">
-    <HeadBar [userStatus]="isLoggedIn"></HeadBar>
-  </div>
-  <router-outlet></router-outlet>
-  <div *ngIf="!isLargeScreen">
-    <BottomBar />
+<div>
+  <div class="relative max-w-screen-xl mx-auto">
+    <div *ngIf="isLargeScreen">
+      <HeadBar [userStatus]="isLoggedIn"></HeadBar>
+    </div>
+    <div class="min-h-screen">
+      <router-outlet></router-outlet>
+    </div>
+    <div *ngIf="!isLargeScreen" class="sticky bottom-0">
+      <BottomBar [userStatus]="isLoggedIn" />
+    </div>
   </div>
 </div>

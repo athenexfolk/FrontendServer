@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Tag } from 'src/app/core/models/tag';
 import { PostService } from 'src/app/core/services/post.service';
 
@@ -9,40 +10,35 @@ import { PostService } from 'src/app/core/services/post.service';
 })
 export class WritePageComponent {
   postTitle = '';
-  postSubtitle = '';
+  postDescription = '';
   postTags: Tag[] = [];
   postCoverImage = '';
   postContent = '';
 
-  isReadyToPublish = false
+  isReadyToPublish = false;
 
-  constructor(private postService: PostService) {}
+  constructor(private postService: PostService, private router: Router) {}
 
   openOverlay() {
-    if(!this.postTitle.length) return
-    this.isReadyToPublish = true
+    if (!this.postTitle.length) return;
+    this.isReadyToPublish = true;
   }
   closeOverlay() {
-    this.isReadyToPublish = false
+    this.isReadyToPublish = false;
   }
 
   publish() {
-    console.log(this.postTitle);
-    console.log(this.postSubtitle);
-    console.log(this.postTags);
-    console.log(this.postCoverImage);
-    console.log(this.postContent);
-    this.postService.addPost({
-      title: this.postTitle,
-      cover: this.postCoverImage,
-      content: 'hello',
-      tags: [],
-      isPublish: true
-    }).subscribe({
-      next: r => console.log(r),
-      error: console.log,
-      complete: () => console.log('completed')
-      
-    })
+    this.postService
+      .addPost({
+        title: this.postTitle,
+        description: this.postDescription,
+        coverImage: this.postCoverImage,
+        content: 'hello',
+        tags: this.postTags.map((tag) => tag.name),
+        isPublish: true,
+      })
+      .subscribe({
+        next: (r) => this.router.navigate(['/','post',r.data])
+      });
   }
 }

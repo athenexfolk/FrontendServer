@@ -1,13 +1,24 @@
-import { Component, Input } from '@angular/core';
-import { CompletePost } from 'src/app/core/models/complete-post';
-import { MiniPost } from 'src/app/core/models/mini-post';
-import { Post } from 'src/app/core/models/post';
+import { Component, Input, OnInit } from '@angular/core';
+import { PostPreviewAndAuthor } from 'src/app/core/models/post-and-author';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'MiniPost',
   templateUrl: './mini-post.component.html',
-  styleUrls: ['./mini-post.component.scss']
+  styleUrls: ['./mini-post.component.scss'],
 })
-export class MiniPostComponent {
-  @Input() post!: MiniPost
+export class MiniPostComponent implements OnInit {
+  @Input() ppa!: PostPreviewAndAuthor;
+  isOwned = false
+
+  constructor(private authService: AuthService) {}
+
+  checkImage(imageString: string) {
+    if (!imageString.length) return 'assets/images/default-image.svg';
+    return imageString;
+  }
+
+  ngOnInit(): void {
+      this.isOwned = this.ppa.author.id === this.authService.getUid()
+  }
 }
