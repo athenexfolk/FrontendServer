@@ -1,6 +1,6 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './core/services/auth.service';
+import { AuthorityService } from './core/auth/authority.service';
 
 @Component({
   selector: 'app-root',
@@ -14,14 +14,13 @@ export class AppComponent implements OnInit {
 
   private breakpointObserver: BreakpointObserver;
 
-  constructor(private bpo: BreakpointObserver, private auth: AuthService) {
+  constructor(private bpo: BreakpointObserver, private auth: AuthorityService) {
 
     this.breakpointObserver = bpo;
 
-    this.auth.isAuthenticated$.subscribe((res) => {
+    this.auth.isLoggedin$.subscribe((res) => {
       this.isLoggedIn = res;
-    console.log(this.isLoggedIn);
-
+      console.log(this.isLoggedIn);
     });
   }
 

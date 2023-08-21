@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AuthService } from 'src/app/core/services/auth.service';
+import { Router } from '@angular/router';
+import { LoginService } from '../../service/login.service';
 
 @Component({
   selector: 'app-login-page',
@@ -14,12 +15,23 @@ export class LoginPageComponent {
   });
 
   constructor(
-    private auth: AuthService,
+    private loginService: LoginService,
+    private router: Router,
     private fb: FormBuilder
   ) {}
 
   onSubmit(): void {
-    this.auth.login(this.loginForm.value.username!, this.loginForm.value.password!)
-    this.loginForm.reset();
+    this.loginService.passwordFlow(this.loginForm.value.username!, this.loginForm.value.password!)
+      .subscribe({
+        error: err=>{alert("login failed")},
+        complete: () => {
+          this.loginForm.reset();
+          this.router.navigate(['/'])
+        }
+      });
+  }
+
+  github(){
+    this.loginService.githubFlow();
   }
 }

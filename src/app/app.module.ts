@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { CoreModule } from './core/core.module';
 import { AppLayoutModule } from './app-layout/app-layout.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './core/interceptor/token.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,7 +18,13 @@ import { AppLayoutModule } from './app-layout/app-layout.module';
     LayoutModule,
     AppLayoutModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

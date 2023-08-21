@@ -21,7 +21,7 @@ export class CoverImageComponent {
     let formData = new FormData();
     formData.append('img', file);
 
-    this.postService.upload(formData).subscribe({
+    this.postService.uploadImage(formData).subscribe({
       next: (data) =>
         this.imageChange.emit(
           'https://p.villsource.tk/api/img/v1/img/' + data.img

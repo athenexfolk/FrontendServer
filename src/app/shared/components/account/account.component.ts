@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from 'src/app/core/services/auth.service';
+import { AuthorityService } from 'src/app/core/auth/authority.service';
 
 @Component({
   selector: 'Account',
@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 export class AccountComponent {
   isPanelOpened = false;
 
-  constructor(private auth: AuthService){}
+  constructor(private auth: AuthorityService){}
   
   openPanel() {
     this.isPanelOpened = true;
@@ -23,6 +23,6 @@ export class AccountComponent {
   }
 
   getProfileImage() {
-    return '/api/img/v1/avatar/'+this.auth.getUid()
+    return '/api/img/v1/avatar/'+this.auth.user_id 
   }
 }

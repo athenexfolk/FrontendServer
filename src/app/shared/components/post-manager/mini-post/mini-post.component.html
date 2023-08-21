@@ -2,7 +2,7 @@
   <div class="grow grid grid-cols-1 gap-3">
     <div class="flex justify-between items-center">
       <PostOwner [author]="ppa.author" />
-      <OptionsMenu *ngIf="isOwned" [postId]="ppa.postPreview.id" />
+      <OptionsMenu *ngIf="isOwned" [postId]="ppa.postPreview.id" (deleteEmitter)="sendDeleteEvent()" />
     </div>
     <a role="link" [routerLink]="['/post', ppa.postPreview.id]">
       <div class="group line-clamp-3 hover:cursor-pointer">

@@ -5,7 +5,11 @@
   (clickOutside)="closePanel()"
 >
   <div class="w-10 h-10 md:w-12 md:h-12 bg-zinc-400 rounded-full hover:cursor-pointer overflow-hidden relative">
-    <img [src]="getProfileImage()" class="w-full h-full object-cover">
+    <img [src]="getProfileImage()" class="w-full h-full object-cover"
+      onError='{
+            this.src = "assets/images/default-avatar.svg"
+            this.onerror = null
+          }'>
   </div>
   <div
     *ngIf="isPanelOpened"

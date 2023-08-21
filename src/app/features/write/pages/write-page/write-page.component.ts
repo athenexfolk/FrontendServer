@@ -38,7 +38,8 @@ export class WritePageComponent {
         isPublish: true,
       })
       .subscribe({
-        next: (r) => this.router.navigate(['/','post',r.data])
+        next: (r) => this.router.navigate(['/','post',r.data]),
+        complete: () => sessionStorage.clear()
       });
   }
 }

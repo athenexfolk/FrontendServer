@@ -67,7 +67,10 @@ export class EditPageComponent {
         isPublish: true,
       })
       .subscribe({
-        complete: () => this.router.navigate(['/', 'post', this.postId]),
+        complete: () => {
+          this.router.navigate(['/', 'post', this.postId]);
+          sessionStorage.clear();
+        },
       });
   }
 }

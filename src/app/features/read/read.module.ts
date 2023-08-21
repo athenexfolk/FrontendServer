@@ -16,6 +16,6 @@ import { PostPageComponent } from './pages/post-page/post-page.component';
     CommonModule,
     SharedModule,
     ReadRoutingModule
-  ]
+  ],
 })
 export class ReadModule { }

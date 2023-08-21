@@ -34,3 +34,8 @@ input {
 ::-webkit-scrollbar-thumb {
   @apply bg-zinc-500 rounded-full;
 }
+
+.hide-scrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}

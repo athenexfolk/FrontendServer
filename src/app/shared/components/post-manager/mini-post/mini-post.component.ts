@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AuthorityService } from 'src/app/core/auth/authority.service';
 import { PostPreviewAndAuthor } from 'src/app/core/models/post-and-author';
-import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'MiniPost',
@@ -9,16 +9,21 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class MiniPostComponent implements OnInit {
   @Input() ppa!: PostPreviewAndAuthor;
-  isOwned = false
+  @Output() deleteEmitter = new EventEmitter();
+  isOwned = false;
 
-  constructor(private authService: AuthService) {}
-
+  constructor(private authService: AuthorityService) {}
+  
   checkImage(imageString: string) {
     if (!imageString.length) return 'assets/images/default-image.svg';
     return imageString;
   }
-
+  
   ngOnInit(): void {
-      this.isOwned = this.ppa.author.id === this.authService.getUid()
+    this.isOwned = this.ppa.author.id === this.authService.user_id;
+    
+  }
+  sendDeleteEvent() {
+    this.deleteEmitter.emit();
   }
 }

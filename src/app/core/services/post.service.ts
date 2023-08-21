@@ -1,32 +1,21 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, filter, map, of, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, filter, map, switchMap, tap } from 'rxjs';
 import { Author } from '../models/author';
-import { AuthService } from './auth.service';
-import { Response } from '../models/response';
-import { Pageable } from '../models/pageable';
-import { Post, PostPreview } from '../models/post-response';
 import { PostAndAuthor, PostPreviewAndAuthor } from '../models/post-and-author';
-import { PostAddDto, PostDto, PostUpdateDto } from '../models/post-request';
-import { ImageResponse } from '../models/image-response';
+import { PostAddDto, PostUpdateDto } from '../models/post-request';
+import { PostRepositoryService } from '../repository/post-repository.service';
+import { ImageRepositoryService } from '../repository/image-repository.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PostService {
-  constructor(private http: HttpClient, private auth: AuthService) {}
-
-  // postRepository: Post
-
-  private getPosts(size: number = 20, pivot: string | null = null) {
-    return this.http.get<Response<Pageable<PostPreview[]>>>(
-      '/api/blog/v1/posts'
-    );
-  }
-
-  private getPostById(id: string) {
-    return this.http.get<Response<Post>>(`/api/blog/v1/posts/${id}`);
-  }
+  constructor(
+    private http: HttpClient,
+    private postRepo: PostRepositoryService,
+    private imageRepo: ImageRepositoryService
+  ) {}
 
   private getAuthors(userIds: string[]) {
     let params = new HttpParams();
@@ -36,8 +25,8 @@ export class PostService {
     return this.http.get<Author[]>('/api/auth/v1/profiles', { params });
   }
 
-  public getAllPosts() {
-    return this.getPosts().pipe(
+  getAllPosts() {
+    return this.postRepo.getPosts().pipe(
       switchMap((response) => {
         const postPreviews = response.data?.data || [];
         const authorIds = postPreviews.map(
@@ -59,10 +48,8 @@ export class PostService {
     );
   }
 
-  private onError(p: any) {} // 👇👇
-
-  public getSinglePostById(id: string) {
-    return this.getPostById(id).pipe(
+  getSinglePostById(id: string) {
+    return this.postRepo.getPostById(id).pipe(
       filter((response) => response.isSuccess),
       switchMap((response) => {
         const post = response.data!;
@@ -80,51 +67,19 @@ export class PostService {
     );
   }
 
-  public addPost(post: PostAddDto) {
-    return this.http.post<Response<string>>('/api/blog/v1/posts', post, {
-      headers: new HttpHeaders({
-        Authorization:
-          this.auth.localToken?.token_type +
-          ' ' +
-          this.auth.localToken?.access_token,
-      }),
-    });
+  addPost(post: PostAddDto) {
+    return this.postRepo.addPost(post);
   }
 
-  public upload(formData: FormData) {
-    return this.http.post<ImageResponse>(`/api/img/v1/img`, formData, {
-      headers: new HttpHeaders({
-        Authorization:
-          this.auth.localToken?.token_type +
-          ' ' +
-          this.auth.localToken?.access_token,
-      }),
-    });
+  deletePost(id: string) {
+    return this.postRepo.deletePost(id);
   }
 
-  public getImage(formData: FormData) {
-    return this.upload(formData).pipe(map((response) => response.img));
+  updatePost(id: string, post: PostUpdateDto) {
+    return this.postRepo.updatePost(id, post);
   }
 
-  public deletePost(id: string) {
-    return this.http.delete<Response<string>>(`/api/blog/v1/posts/${id}`, {
-      headers: new HttpHeaders({
-        Authorization:
-          this.auth.localToken?.token_type +
-          ' ' +
-          this.auth.localToken?.access_token,
-      }),
-    });
-  }
-
-  public updatePost(id: string, post: PostUpdateDto) {
-    return this.http.put<Response<string>>(`/api/blog/v1/posts/${id}`, post, {
-      headers: new HttpHeaders({
-        Authorization:
-          this.auth.localToken?.token_type +
-          ' ' +
-          this.auth.localToken?.access_token,
-      }),
-    });
+  uploadImage(formData: FormData) {
+    return this.imageRepo.uploadImage(formData);
   }
 }
