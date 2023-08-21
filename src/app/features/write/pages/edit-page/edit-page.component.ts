@@ -62,7 +62,7 @@ export class EditPageComponent {
         title: this.postTitle,
         description: this.postDescription,
         coverImage: this.postCoverImage,
-        content: 'hello',
+        content: this.postContent,
         tags: this.postTags.map((tag) => tag.name),
         isPublish: true,
       })

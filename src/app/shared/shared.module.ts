@@ -24,6 +24,7 @@ import { NavigationBarComponent } from './components/navigation-manager/navigati
 import { NavigationItemComponent } from './components/navigation-manager/navigation-item/navigation-item.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { OptionsMenuComponent } from './components/post-manager/options-menu/options-menu.component';
+import { SingleLineSkeletonComponent } from './skeleton/single-line-skeleton/single-line-skeleton.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { OptionsMenuComponent } from './components/post-manager/options-menu/opt
     NavigationItemComponent,
     SearchBarComponent,
     OptionsMenuComponent,
+    SingleLineSkeletonComponent,
   ],
   imports: [CommonModule, RouterModule],
   exports: [
@@ -75,7 +77,8 @@ import { OptionsMenuComponent } from './components/post-manager/options-menu/opt
     NavigationBarComponent,
     NavigationItemComponent,
     SearchBarComponent,
-    OptionsMenuComponent
+    OptionsMenuComponent,
+    SingleLineSkeletonComponent
   ],
 })
 export class SharedModule {}

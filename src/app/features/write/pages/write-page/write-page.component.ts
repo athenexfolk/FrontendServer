@@ -27,13 +27,13 @@ export class WritePageComponent {
     this.isReadyToPublish = false;
   }
 
-  publish() {
+  publish() {    
     this.postService
       .addPost({
         title: this.postTitle,
         description: this.postDescription,
         coverImage: this.postCoverImage,
-        content: 'hello',
+        content: this.postContent,
         tags: this.postTags.map((tag) => tag.name),
         isPublish: true,
       })
