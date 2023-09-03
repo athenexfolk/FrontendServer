@@ -6,3 +6,7 @@ export interface Author {
   isFollower: boolean;
   isFollowing: boolean;
 }
+
+export interface AuthorProfile extends Author {
+  
+}
