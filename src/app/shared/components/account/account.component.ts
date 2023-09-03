@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthorityService } from 'src/app/core/auth/authority.service';
 
 @Component({
@@ -9,8 +10,8 @@ import { AuthorityService } from 'src/app/core/auth/authority.service';
 export class AccountComponent {
   isPanelOpened = false;
 
-  constructor(private auth: AuthorityService){}
-  
+  constructor(private auth: AuthorityService, private router: Router) {}
+
   openPanel() {
     this.isPanelOpened = true;
   }
@@ -20,9 +21,10 @@ export class AccountComponent {
 
   logout() {
     this.auth.logout();
+    this.router.navigate(['/auth','login']);
   }
 
   getProfileImage() {
-    return '/api/img/v1/avatar/'+this.auth.user_id 
+    return '/api/img/v1/avatar/' + this.auth.user_id;
   }
 }
