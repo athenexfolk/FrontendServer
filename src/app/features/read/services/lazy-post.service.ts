@@ -1,6 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, auditTime, debounceTime, filter, map, mergeMap, switchMap } from 'rxjs';
+import {
+  BehaviorSubject,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { PostPreviewAndAuthor } from 'src/app/core/models/post-and-author';
 import { PostPreview, PostsResponse } from '../models/post-response';
 import { Author } from 'src/app/core/models/author';
@@ -13,31 +18,24 @@ export class LazyPostService {
   #POST_ENDPOINT = new URL('/api/blog/v1/posts', this.#BASE_URL);
   #AUTHOR_ENDPOINT = new URL('/api/auth/v1/profiles', this.#BASE_URL);
 
-  #POSTS_SUBJECT: BehaviorSubject<PostPreviewAndAuthor>;
-
-  private get postRefId() {
-    return this.#POSTS_SUBJECT.value.postPreview.id;
-  }
-
-  public get postStream$() {
-    return this.#POSTS_SUBJECT.pipe(
-      filter((post) => !!post.postPreview.id && !!post.postPreview.title)
-    );
-  }
+  posts$: BehaviorSubject<PostPreviewAndAuthor[]>
+  pivot$: BehaviorSubject<string | null>
 
   constructor(private http: HttpClient) {
-    this.#POSTS_SUBJECT = new BehaviorSubject({
-      postPreview: { id: '' },
-    } as PostPreviewAndAuthor);
+    this.posts$ = new BehaviorSubject<PostPreviewAndAuthor[]>([]);
+    this.pivot$ = new BehaviorSubject<string | null>(null)
   }
 
-  loadMore(size: number = 10, callback:() => void) {
-    this.getPostPreviewsWithAuthor(size, this.postRefId)
-      .pipe(mergeMap((data) => data))
-      .subscribe((data) => {
-        this.#POSTS_SUBJECT.next(data);
-        callback();
-      });
+  loadMore(callback: () => void = () => {}) {
+    this.getPostPreviewsWithAuthor(20, this.pivot$.value).pipe(
+      tap((r) => {
+        const lastPostPreview = r[r.length - 1].postPreview;
+        this.pivot$.next(lastPostPreview.id);
+        this.posts$.next([...this.posts$.value, ...r]);
+      })
+    ).subscribe({
+      complete: () => callback()
+    });
   }
 
   private getPostPreviewsWithAuthor(
@@ -83,11 +81,52 @@ export class LazyPostService {
     });
   }
 
-  saveToSession(ppas: PostPreviewAndAuthor[]) {
-    sessionStorage.setItem('ppas', JSON.stringify(ppas));
-  }
+  // #POSTS_SUBJECT: BehaviorSubject<PostPreviewAndAuthor>;
 
-  getFromSession(): PostPreviewAndAuthor[] {
-    return JSON.parse(sessionStorage.getItem('ppas') ?? '[]');
-  }
+  // private get postRefId() {
+  //   return this.#POSTS_SUBJECT.value.postPreview.id;
+  // }
+
+  // public get postStream$() {
+  //   return this.#POSTS_SUBJECT.pipe(
+  //     filter((post) => !!post.postPreview.id && !!post.postPreview.title)
+  //   );
+  // }
+
+  // constructor(private http: HttpClient) {
+  //   this.#POSTS_SUBJECT = new BehaviorSubject({
+  //     postPreview: { id: '' },
+  //   } as PostPreviewAndAuthor);
+  // }
+
+  // loadMore(size: number = 10, callback: () => void) {
+  //   this.getPostPreviewsWithAuthor(size, this.postRefId)
+  //     .pipe(mergeMap((data) => data))
+  //     .subscribe((data) => {
+  //       this.#POSTS_SUBJECT.next(data);
+  //       callback();
+  //     });
+  // }
+
+  //
+
+  // saveToSession(ppas: PostPreviewAndAuthor[]) {
+  //   console.log(ppas);
+
+  //   sessionStorage.setItem('ppas', JSON.stringify(ppas));
+  // }
+
+  // loadFromSession() {
+  //   let a = JSON.parse(
+  //     sessionStorage.getItem('ppas') ?? '[]'
+  //   ) as PostPreviewAndAuthor[];
+  //   console.log(a);
+
+  //   from(a)
+  //     .pipe(
+  //       tap((i) => this.#POSTS_SUBJECT.next(i))
+  //       // tap(console.log)
+  //     )
+  //     .subscribe();
+  // }
 }

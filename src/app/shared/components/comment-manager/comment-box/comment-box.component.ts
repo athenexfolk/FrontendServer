@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./comment-box.component.scss']
 })
 export class CommentBoxComponent {
+  commentData = ''
 
+  sendComment() {
+    console.log('send', this.commentData);
+
+  }
 }

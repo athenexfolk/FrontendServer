@@ -1,3 +1,7 @@
-<div class="grid grid-cols-1 gap-3">
-    <ng-content></ng-content>
+<div class="grid grid-cols-1 gap-3 divide-y">
+  <Comment
+    *ngFor="let cao of caos"
+    [comment]="cao.comment"
+    [owner]="cao.owner"
+  ></Comment>
 </div>

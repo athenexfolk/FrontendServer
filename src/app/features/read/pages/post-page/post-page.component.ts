@@ -9,6 +9,8 @@ import Delimiter from '@editorjs/delimiter';
 import Table from '@editorjs/table';
 import InlineCode from '@editorjs/inline-code';
 import NestedList from '@editorjs/nested-list';
+import { AuthorityService } from 'src/app/core/auth/authority.service';
+import { CommentAndOwner } from 'src/app/core/models/comment';
 
 @Component({
   selector: 'app-post-page',
@@ -16,13 +18,51 @@ import NestedList from '@editorjs/nested-list';
   styleUrls: ['./post-page.component.scss'],
 })
 export class PostPageComponent implements OnInit {
+  loginStatus: boolean = false;
   pa!: PostAndAuthor;
-
   editor!: EditorJS;
+
+  mockComments:CommentAndOwner[] = [
+    {
+      comment: {
+        _id: "123",
+        commentOwnerId: "123",
+        postId: "123",
+        data: "I think it's excellent",
+        replyToId: "123",
+        timestamp: new Date(),
+      },
+      owner: {
+        id: "123",
+        avatar: "",
+        isFollower: false,
+        isFollowing: false,
+        username: "Jane",
+      }
+    },
+    {
+      comment: {
+        _id: "124",
+        commentOwnerId: "123",
+        postId: "123",
+        data: "I think it's aggressive",
+        replyToId: "123",
+        timestamp: new Date(),
+      },
+      owner: {
+        id: "123",
+        avatar: "",
+        isFollower: false,
+        isFollowing: false,
+        username: "Jane",
+      }
+    }
+  ]
 
   constructor(
     private route: ActivatedRoute,
-    private postService: PostService
+    private postService: PostService,
+    private authService: AuthorityService
   ) {}
 
   checkImage(imageString: string) {
@@ -43,6 +83,8 @@ export class PostPageComponent implements OnInit {
         this.initializeEditorJS();
       },
     });
+
+    this.authService.isLoggedin$.subscribe((r) => (this.loginStatus = r));
   }
 
   initializeEditorJS(): void {

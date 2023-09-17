@@ -15,7 +15,7 @@ import { LazyPostService } from '../../services/lazy-post.service';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss'],
 })
-export class HomePageComponent implements OnInit, OnDestroy {
+export class HomePageComponent {
   userStatus = false;
   title = 'กำเนิดโปรแกรมเมอร์';
   description =
@@ -35,16 +35,14 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.authorityService.isLoggedin$.subscribe(
       (userStatus) => (this.userStatus = userStatus)
     );
+    this.lazyPostService.posts$
+      .asObservable()
+      .subscribe((r) => (this.ppas = r));
+      console.log('work');
 
-    this.ppas = this.lazyPostService.getFromSession();
-
-    this.lazyPostService.postStream$.subscribe((data) => this.ppas.push(data));
-    if (!this.ppas.length) this.lazyPostService.loadMore(20, () => {});
+    this.lazyPostService.loadMore();
   }
 
-  ngOnDestroy(): void {
-    this.lazyPostService.saveToSession(this.ppas);
-  }
   postTrackBy(index: number, item: PostPreviewAndAuthor) {
     return item.postPreview.id;
   }
@@ -69,6 +67,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   loadPostOnScroll() {
-    this.lazyPostService.loadMore(15, () => (this.readyStatus = true));
+    this.lazyPostService.loadMore(() => this.readyStatus = true);
   }
 }

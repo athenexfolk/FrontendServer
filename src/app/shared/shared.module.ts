@@ -25,6 +25,7 @@ import { NavigationItemComponent } from './components/navigation-manager/navigat
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { OptionsMenuComponent } from './components/post-manager/options-menu/options-menu.component';
 import { SingleLineSkeletonComponent } from './skeleton/single-line-skeleton/single-line-skeleton.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,7 @@ import { SingleLineSkeletonComponent } from './skeleton/single-line-skeleton/sin
     OptionsMenuComponent,
     SingleLineSkeletonComponent,
   ],
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
   exports: [
     MiniPostComponent,
     TagComponent,
@@ -78,7 +79,7 @@ import { SingleLineSkeletonComponent } from './skeleton/single-line-skeleton/sin
     NavigationItemComponent,
     SearchBarComponent,
     OptionsMenuComponent,
-    SingleLineSkeletonComponent
+    SingleLineSkeletonComponent,
   ],
 })
 export class SharedModule {}
