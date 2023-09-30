@@ -5,7 +5,7 @@ import { AuthorityService } from 'src/app/core/auth/authority.service';
 @Component({
   selector: 'Account',
   templateUrl: './account.component.html',
-  styleUrls: ['./account.component.scss'],
+  styleUrls: ['./account.component.scss']
 })
 export class AccountComponent {
   isPanelOpened = false;

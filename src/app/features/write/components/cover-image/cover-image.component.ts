@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { PostService } from 'src/app/core/services/post.service';
 
 @Component({
@@ -6,11 +6,17 @@ import { PostService } from 'src/app/core/services/post.service';
   templateUrl: './cover-image.component.html',
   styleUrls: ['./cover-image.component.scss'],
 })
-export class CoverImageComponent {
-  @Input() image: string = '';
+export class CoverImageComponent implements OnChanges {
+  @Input() image!: string;
   @Output() imageChange = new EventEmitter<string>();
-
+  
   isCoverImageValid = false;
+
+  ngOnChanges(changes: SimpleChanges): void {
+      if(changes['image'] && !changes['image'].firstChange) {
+        this.isCoverImageValid = true
+      }
+  }
 
   constructor(private postService: PostService) {}
 

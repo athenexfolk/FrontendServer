@@ -14,6 +14,8 @@ export class LoginPageComponent {
     password: '',
   });
 
+  isShowMsg = false;
+
   constructor(
     private loginService: LoginService,
     private router: Router,
@@ -23,7 +25,7 @@ export class LoginPageComponent {
   onSubmit(): void {
     this.loginService.passwordFlow(this.loginForm.value.username!, this.loginForm.value.password!)
       .subscribe({
-        error: err=>{alert("login failed")},
+        error: () => this.isShowMsg = true,
         complete: () => {
           this.loginForm.reset();
           this.router.navigate(['/'])

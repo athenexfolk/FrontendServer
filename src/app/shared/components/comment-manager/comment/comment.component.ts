@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Author } from 'src/app/core/models/author';
 import { Comment } from 'src/app/core/models/comment';
+import { User } from 'src/app/core/models/user';
 
 @Component({
   selector: 'Comment',
@@ -9,5 +9,5 @@ import { Comment } from 'src/app/core/models/comment';
 })
 export class CommentComponent {
   @Input() comment!: Comment;
-  @Input() owner!: Author;
+  @Input() owner!: User;
 }

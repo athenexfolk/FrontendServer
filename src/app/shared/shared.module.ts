@@ -18,11 +18,6 @@ import { CommentGroupComponent } from './components/comment-manager/comment-grou
 import { CommentBoxComponent } from './components/comment-manager/comment-box/comment-box.component';
 import { ClickInsideDirective } from './directives/click-inside.directive';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
-import { AccountComponent } from './components/account/account.component';
-import { BrandComponent } from './components/brand/brand.component';
-import { NavigationBarComponent } from './components/navigation-manager/navigation-bar/navigation-bar.component';
-import { NavigationItemComponent } from './components/navigation-manager/navigation-item/navigation-item.component';
-import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { OptionsMenuComponent } from './components/post-manager/options-menu/options-menu.component';
 import { SingleLineSkeletonComponent } from './skeleton/single-line-skeleton/single-line-skeleton.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -46,11 +41,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommentBoxComponent,
     ClickInsideDirective,
     ClickOutsideDirective,
-    AccountComponent,
-    BrandComponent,
-    NavigationBarComponent,
-    NavigationItemComponent,
-    SearchBarComponent,
     OptionsMenuComponent,
     SingleLineSkeletonComponent,
   ],
@@ -73,11 +63,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommentBoxComponent,
     ClickInsideDirective,
     ClickOutsideDirective,
-    AccountComponent,
-    BrandComponent,
-    NavigationBarComponent,
-    NavigationItemComponent,
-    SearchBarComponent,
     OptionsMenuComponent,
     SingleLineSkeletonComponent,
   ],

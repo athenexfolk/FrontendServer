@@ -6,10 +6,9 @@ import {
   BlockToolData,
 } from '@editorjs/editorjs';
 
-import loader from '@monaco-editor/loader';
-import * as editor from 'monaco-editor/esm/vs/editor/editor.api';
-import { IO, IOCallback, IOType } from '../models/io';
-import { Subject, filter, map, tap } from 'rxjs';
+import * as monaco from 'monaco-editor';
+// import loader from '@monaco-editor/loader';
+// import * as editor from 'monaco-editor/esm/vs/editor/editor.api';
 
 import { Language, availableLanguages } from './available-language';
 
@@ -20,7 +19,7 @@ interface CodeBlockData extends BlockToolData {
 
 export interface CodeBlockConfig {
   name: string;
-  setIO: IOCallback;
+  event: (data: string) => void;
 }
 
 export default class CodeBlock implements BlockTool {
@@ -33,20 +32,19 @@ export default class CodeBlock implements BlockTool {
     code: '',
   };
 
-  IO$ = new Subject<IO>();
-
   _wrapper!: HTMLDivElement;
   _option!: HTMLDivElement;
   _editor!: HTMLDivElement;
-  _output!: HTMLDivElement;
 
   _configWrapper!: HTMLDivElement;
   _filenameInput!: HTMLInputElement;
   _languageSelector!: HTMLSelectElement;
   _runButton!: HTMLButtonElement;
 
-  ieditor!: typeof editor.editor;
-  monacoEditor!: editor.editor.IStandaloneCodeEditor;
+  // ieditor!: typeof editor.editor;
+  // monacoEditor!: editor.editor.IStandaloneCodeEditor;
+
+  monacoEditorInstance!: monaco.editor.IStandaloneCodeEditor
 
   constructor({
     api,
@@ -64,61 +62,45 @@ export default class CodeBlock implements BlockTool {
     this._wrapper = this.drawView();
   }
 
-  save() {}
+  save() {
+    return {
+      // language: this.monacoEditor.getModel()?.getLanguageId(),
+      // code: this.monacoEditor.getValue(),
+    };
+  }
 
   render() {
     return this._wrapper;
   }
 
-  destroy() {
-    this.unsubscribeIO();
-  }
-
   private loadEditor() {
-    loader.init().then((monaco) => {
-      this.ieditor = monaco.editor;
-      this.monacoEditor = this.ieditor.create(this._editor, {
-        value: '',
-        language: 'c',
-      });
+    console.log('loading editor');
 
-      //   this._languageSelector.onchange = () => {
-      //     monaco.editor
-      //     console.log('change');
+    this.monacoEditorInstance = monaco.editor.create(this._editor, {
+      value: this.data.code || 'hello',
+      language: this.data.language || 'c'
+    })
+    // loader.init().then((monaco) => {
+    //   this.ieditor = monaco.editor;
+    //   if (this.data) {
+    //     console.log(this.data.code, this.data.language);
 
-      //     this.data.language = this._languageSelector.value;
-      //     monaco.editor.setModelLanguage(
-      //       this.monacoEditor.getModel(),
-      //       this._languageSelector.value
-      //     );
-      //   };
-    });
+    //     this.monacoEditor = this.ieditor.create(this._editor, {
+    //       value: this.data.code,
+    //       language: this.data.language,
+    //       readOnly: this.readOnly,
+    //     });
+    //   } else {
+    //     this.monacoEditor = this.ieditor.create(this._editor, {
+    //       value: '',
+    //       language: 'c',
+    //     });
+    //   }
+    // });
   }
-
-  private subscribeIO() {
-    this.IO$.pipe(
-      filter((io) => io.type == IOType.OUTPUT),
-      map((io) => io.data)
-    ).subscribe(this.onReceiveOutput);
-  }
-
-  private unsubscribeIO() {
-    this.IO$.complete();
-  }
-
-  private onReceiveOutput = (data: string) => {
-    let div = document.createElement('div');
-    div.textContent = data;
-    this._output.insertBefore(div, this._output.lastChild);
-  };
 
   private sendToExternal(code: string) {
-    console.log('sent');
-
-    this.IO$.next({
-      type: IOType.INPUT,
-      data: code,
-    });
+    this.config?.event(code);
   }
 
   // Struct element node: start ---> //
@@ -126,25 +108,18 @@ export default class CodeBlock implements BlockTool {
     this._wrapper = document.createElement('div');
     this._option = document.createElement('div');
     this._editor = document.createElement('div');
-    this._output = document.createElement('div');
 
     this._wrapper.appendChild(this._option);
     this._wrapper.appendChild(this._editor);
-    this._wrapper.appendChild(this._output);
 
     this._option.classList.add(this.api.styles.block, 'option-wrapper');
     this._editor.classList.add(this.api.styles.block);
-    this._output.classList.add(this.api.styles.block, 'output-wrapper');
     this._wrapper.classList.add(this.api.styles.block, 'code-wrapper');
-
-    this._output.style.display = 'none';
 
     this._editor.style.height = '200px';
 
     this.loadEditor();
-
     this.structOption();
-    this.structOutput();
 
     return this._wrapper;
   }
@@ -184,14 +159,12 @@ export default class CodeBlock implements BlockTool {
       this._languageSelector.appendChild(option);
     });
     this._languageSelector.onchange = () => {
-      console.log('change');
-
       this.data.language = this._languageSelector.value;
 
-      this.ieditor.setModelLanguage(
-        this.monacoEditor.getModel()!,
-        this._languageSelector.value
-      );
+      // this.ieditor.setModelLanguage(
+      //   this.monacoEditor.getModel()!,
+      //   this._languageSelector.value
+      // );
     };
   }
 
@@ -204,42 +177,18 @@ export default class CodeBlock implements BlockTool {
       this.runCode();
     });
   }
-
-  private structOutput() {
-    let input = document.createElement('input');
-    input.type = 'text';
-    this._output.appendChild(input);
-
-    input.addEventListener('keyup', (e) => {
-      if (e.key === 'Enter') {
-        let div = document.createElement('div');
-        div.textContent = input.value;
-        this._output.insertBefore(div, this._output.lastChild);
-        input.value = '';
-      }
-    });
-  }
-
   // Struct element node: end <-- //
 
   private runCode() {
-    this._output.style.display = 'block';
-
-    this.unsubscribeIO();
-    this.IO$ = new Subject<IO>();
-    this.config?.setIO(this.IO$);
-
-    this.subscribeIO();
-    let code = this.monacoEditor.getValue();
-    // console.log(code);
-    this.sendToExternal(code);
-  }
-
-  private insertLanguage() {
-    // this.o
+    // let code = this.monacoEditor.getValue();
+    // this.sendToExternal(code);
   }
 
   static get enableLineBreaks() {
+    return true;
+  }
+
+  static get isReadOnlySupported() {
     return true;
   }
 

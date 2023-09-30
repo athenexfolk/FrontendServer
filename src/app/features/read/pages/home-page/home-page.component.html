@@ -13,22 +13,25 @@
       <button
         class="bg-zinc-600 text-zinc-100 font-bold text-lg px-4 py-2 rounded-full text-center hover:bg-zinc-700"
       >
-        Get Started
+        เริ่มต้นใช้งาน
       </button>
     </div>
   </div>
 </div>
 <div class="flex flex-col lg:flex-row">
   <main class="grow p-4 lg:p-8" #postgroup>
-    <h2 class="text-3xl font-bold mb-8">All posts</h2>
-    <MiniPostGroup *ngIf="ppas.length; else skeleton">
-      <MiniPost
-        *ngFor="let ppa of ppas; trackBy: postTrackBy"
-        [ppa]="ppa"
-        (deleteEmitter)="removeFromId(ppa.postPreview.id)"
-      />
-    </MiniPostGroup>
-    <div *ngIf="!readyStatus" class="flex justify-center">
+    <h2 class="text-3xl font-bold mb-8">โพสต์ทั้งหมด</h2>
+    <ng-container *ngIf="ppas; else skeleton">
+      <MiniPostGroup *ngIf="ppas.length; else emptyPost">
+        <MiniPost
+          *ngFor="let ppa of ppas; trackBy: postTrackBy"
+          [ppa]="ppa"
+          (deleteEmitter)="removeFromId(ppa.postPreview.id)"
+        />
+      </MiniPostGroup>
+    </ng-container>
+
+    <div *ngIf="!readyStatus && ppas.length" class="flex justify-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -44,11 +47,16 @@
         />
       </svg>
     </div>
+    <div *ngIf="endLoad && ppas.length" class="flex justify-center items-center gap-2 my-8">
+      <div class="border border-zinc-500 grow"></div>
+      <p class="font-semibold text-zinc-500">There are no more posts.</p>
+      <div class="border border-zinc-500 grow"></div>
+    </div>
   </main>
   <aside
     class="grow-0 shrink-0 lg:w-96 lg:h-screen sticky top-0 p-4 lg:p-8 bg-zinc-50 z-10 border-b"
   >
-    <h2 class="text-3xl font-bold mb-8 hidden lg:block">Tags</h2>
+    <h2 class="text-3xl font-bold mb-8 hidden lg:block">แท็ก</h2>
     <TagGroup>
       <Tag [name]="'HTML'" />
       <Tag [name]="'CSS'" />
@@ -76,5 +84,11 @@
       <TextSkeleton class="grow" />
       <ImageSkeleton></ImageSkeleton>
     </div>
+  </div>
+</ng-template>
+
+<ng-template #emptyPost>
+  <div class="flex justify-center items-center p-4">
+    No post found
   </div>
 </ng-template>

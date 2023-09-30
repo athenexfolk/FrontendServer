@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+} from '@angular/core';
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import Delimiter from '@editorjs/delimiter';
@@ -19,16 +25,48 @@ export class ContentEditorComponent implements OnDestroy {
   @Output() contentChange = new EventEmitter<string>();
 
   editor!: EditorJS;
+  isEditorInitialized = false;
+
+  autoSave!: any
 
   output = '';
   IO$!: Subject<IO>;
   currentSentBlockId = '';
 
+  constructor() {}
+
   ngOnInit(): void {
-    
+    this.initEditorJS();
+  }
+
+  ngOnDestroy(): void {
+    this.editor.isReady.then(() => {
+      this.editor.destroy();
+    });
+  }
+
+  getIO: IOCallback = (io) => {
+    this.IO$ = io;
+    this.IO$.pipe(
+      filter((io) => io.type == IOType.INPUT),
+      map((io) => io.data)
+    ).subscribe(this.onExecuteCode);
+  };
+
+  onExecuteCode(data: string) {
+    // console.log('receive input : ', data);
+  }
+
+  onReceiveResponse() {
+    // this.IO$.next({ type: IOType.OUTPUT, data: 'Output' });
+  }
+
+  getCodeFromEditor() {}
+
+  initEditorJS() {
     let codeBlockConfig: CodeBlockConfig = {
       name: 'code-block',
-      setIO: this.getIO,
+      event: this.recOutput
     };
 
     this.editor = new EditorJS({
@@ -46,30 +84,25 @@ export class ContentEditorComponent implements OnDestroy {
         },
       },
       onChange: () => {
-        this.editor.save().then((output) => {
-          this.contentChange.emit(JSON.stringify(output));
-        });
+        clearTimeout(this.autoSave)
+        this.autoSave = setTimeout(
+          () =>
+            this.editor.save().then((output) => {
+              this.contentChange.emit(JSON.stringify(output));
+            }),
+          1000
+        );
+      },
+      onReady: () => {
+        if (this.content.length) this.editor.render(JSON.parse(this.content));
       },
     });
   }
 
-  ngOnDestroy(): void {
-      this.editor.destroy()
-  }
+  recOutput = (data: string) => {
+    console.log('data');
+    console.log(data);
 
-  getIO: IOCallback = (io) => {
-    this.IO$ = io;
-    this.IO$.pipe(
-      filter((io) => io.type == IOType.INPUT),
-      map((io) => io.data)
-    ).subscribe(this.onExecuteCode);    
-  };
-
-  onExecuteCode(data: string) {
-    // console.log('receive input : ', data);
-  }
-
-  onReceiveResponse() {
-    // this.IO$.next({ type: IOType.OUTPUT, data: 'Output' });
+    this.output = data;
   }
 }

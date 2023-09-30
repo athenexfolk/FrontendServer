@@ -1,4 +1,4 @@
-import { Author } from "./author";
+import { User } from "./user";
 
 export interface Comment {
   _id: string;
@@ -11,5 +11,5 @@ export interface Comment {
 
 export interface CommentAndOwner {
   comment: Comment;
-  owner: Author
+  owner: User;
 }

@@ -1,14 +1,7 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { AuthorityService } from 'src/app/core/auth/authority.service';
 import type { PostPreviewAndAuthor } from 'src/app/core/models/post-and-author';
-import { LazyPostService } from '../../services/lazy-post.service';
+import { LazyPostService } from 'src/app/core/services/lazy-post.service';
 
 @Component({
   selector: 'app-home-page',
@@ -25,6 +18,7 @@ export class HomePageComponent {
 
   @ViewChild('postgroup') postgroup!: ElementRef<HTMLElement>;
   readyStatus = true;
+  endLoad = false;
 
   constructor(
     private authorityService: AuthorityService,
@@ -38,8 +32,6 @@ export class HomePageComponent {
     this.lazyPostService.posts$
       .asObservable()
       .subscribe((r) => (this.ppas = r));
-      console.log('work');
-
     this.lazyPostService.loadMore();
   }
 
@@ -59,7 +51,9 @@ export class HomePageComponent {
     if (
       window.scrollY + window.innerHeight >
         this.postgroup.nativeElement.offsetHeight &&
-      this.readyStatus
+      this.readyStatus &&
+      !this.endLoad &&
+      this.ppas.length
     ) {
       this.readyStatus = false;
       this.loadPostOnScroll();
@@ -67,6 +61,13 @@ export class HomePageComponent {
   }
 
   loadPostOnScroll() {
-    this.lazyPostService.loadMore(() => this.readyStatus = true);
+    setTimeout(
+      () =>
+        this.lazyPostService.loadMore(
+          () => (this.readyStatus = true),
+          () => (this.endLoad = true)
+        ),
+      1000
+    );
   }
 }

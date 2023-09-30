@@ -27,7 +27,7 @@ export class WritePageComponent {
     this.isReadyToPublish = false;
   }
 
-  publish() {    
+  publish() {
     this.postService
       .addPost({
         title: this.postTitle,

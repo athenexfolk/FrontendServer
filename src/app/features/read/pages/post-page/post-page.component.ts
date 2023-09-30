@@ -11,6 +11,7 @@ import InlineCode from '@editorjs/inline-code';
 import NestedList from '@editorjs/nested-list';
 import { AuthorityService } from 'src/app/core/auth/authority.service';
 import { CommentAndOwner } from 'src/app/core/models/comment';
+import CodeBlock, { CodeBlockConfig } from 'src/app/core/tools/code-block';
 
 @Component({
   selector: 'app-post-page',
@@ -71,9 +72,9 @@ export class PostPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let obsv$ = this.route.params.pipe(
+    let obsv$ = this.route.paramMap.pipe(
       switchMap((params) => {
-        const id = params['postId'];
+        const id = params.get('postId') || '';
         return this.postService.getSinglePostById(id);
       })
     );
@@ -88,6 +89,11 @@ export class PostPageComponent implements OnInit {
   }
 
   initializeEditorJS(): void {
+    let codeBlockConfig: CodeBlockConfig = {
+      name: 'code-block',
+      event: this.recOutput
+    };
+
     if (this.pa && this.pa.post && this.pa.post.content) {
       this.editor = new EditorJS({
         holder: 'reader',
@@ -98,9 +104,16 @@ export class PostPageComponent implements OnInit {
           table: Table,
           inlineCode: InlineCode,
           nestedList: NestedList,
+          codeBlock: {
+            class: CodeBlock as any,
+            config: codeBlockConfig,
+          },
         },
         data: JSON.parse(this.pa.post.content),
       });
+
     }
   }
+
+  recOutput = (code: string) => {}
 }

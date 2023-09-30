@@ -4,7 +4,7 @@
       <div class="flex justify-center mb-8">
         <div class="w-56 h-56 rounded-full border"></div>
       </div>
-      <h1 class="text-3xl font-bold mb-1">John Smith</h1>
+      <h1 class="text-3xl font-bold mb-1" *ngIf="author; else loading">{{ author.username }}</h1>
       <div class="flex gap-2 text-sm items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -62,20 +62,21 @@
         </ul>
       </div>
       <div class="p-8">
-        <MiniPostGroup>
-            <MiniPost />
-            <MiniPost />
-            <MiniPost />
-            <MiniPost />
-            <MiniPost />
-            <MiniPost />
-            <MiniPost />
-            <MiniPost />
-            <MiniPost />
-            <MiniPost />
-          </MiniPostGroup>
+        <!-- <MiniPostGroup>
+          <MiniPost />
+          <MiniPost />
+          <MiniPost />
+          <MiniPost />
+          <MiniPost />
+          <MiniPost />
+          <MiniPost />
+          <MiniPost />
+          <MiniPost />
+          <MiniPost />
+        </MiniPostGroup> -->
       </div>
-      
     </div>
   </div>
 </main>
+
+<ng-template #loading>loading</ng-template>

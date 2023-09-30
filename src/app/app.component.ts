@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
 
   constructor(private bpo: BreakpointObserver, private auth: AuthorityService) {
 
-    this.breakpointObserver = bpo;
+    this.breakpointObserver = this.bpo;
 
     this.auth.isLoggedin$.subscribe((res) => {
       this.isLoggedIn = res;

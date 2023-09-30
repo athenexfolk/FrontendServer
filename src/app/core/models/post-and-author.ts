@@ -1,12 +1,12 @@
-import { Author } from './author';
 import { Post, PostPreview } from './post-response';
+import { User } from './user';
 
 export interface PostPreviewAndAuthor {
   postPreview: PostPreview;
-  author: Author;
+  author: User;
 }
 
 export interface PostAndAuthor {
   post: Post;
-  author: Author;
+  author: User;
 }
