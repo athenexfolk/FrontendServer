@@ -1,7 +1,4 @@
-import {
-  Component,
-  OnInit,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { PostAndAuthor } from 'src/app/core/models/post-and-author';
@@ -16,6 +13,8 @@ import { AuthorityService } from 'src/app/core/auth/authority.service';
 import { CommentAndOwner } from 'src/app/core/models/comment';
 import CodeBlock, { CodeBlockConfig } from 'src/app/core/tools/code-block';
 import { CodeModel } from 'src/app/core/tools/code-model';
+import { CommentService } from 'src/app/core/services/comment.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-post-page',
@@ -30,47 +29,15 @@ export class PostPageComponent implements OnInit {
   code: CodeModel | null = null;
   isShowCodePage: boolean = true;
 
-  mockComments: CommentAndOwner[] = [
-    {
-      comment: {
-        _id: '123',
-        commentOwnerId: '123',
-        postId: '123',
-        data: "I think it's excellent",
-        replyToId: '123',
-        timestamp: new Date(),
-      },
-      owner: {
-        id: '123',
-        avatar: '',
-        isFollower: false,
-        isFollowing: false,
-        username: 'Jane',
-      },
-    },
-    {
-      comment: {
-        _id: '124',
-        commentOwnerId: '123',
-        postId: '123',
-        data: "I think it's aggressive",
-        replyToId: '123',
-        timestamp: new Date(),
-      },
-      owner: {
-        id: '123',
-        avatar: '',
-        isFollower: false,
-        isFollowing: false,
-        username: 'Jane',
-      },
-    },
-  ];
+  comments$!: Observable<CommentAndOwner[]>;
+
+  postId = '';
 
   constructor(
     private route: ActivatedRoute,
     private postService: PostService,
-    private authService: AuthorityService
+    private authService: AuthorityService,
+    private commentService: CommentService
   ) {}
 
   checkImage(imageString: string) {
@@ -81,8 +48,14 @@ export class PostPageComponent implements OnInit {
   ngOnInit(): void {
     let obsv$ = this.route.paramMap.pipe(
       switchMap((params) => {
-        const id = params.get('postId') || '';
-        return this.postService.getSinglePostById(id);
+        this.postId = params.get('postId') || '';
+
+        if (this.authService.isLoggedin && this.postId.length) {
+          this.comments$ = this.commentService.getAllCommentsInPost(
+            this.postId
+          );
+        }
+        return this.postService.getSinglePostById(this.postId);
       })
     );
     obsv$.subscribe({

@@ -1,4 +1,9 @@
-import { User } from "./user";
+import { User } from './user';
+
+export interface CommentRequest {
+  data: string;
+  replyToId?: string;
+}
 
 export interface Comment {
   _id: string;

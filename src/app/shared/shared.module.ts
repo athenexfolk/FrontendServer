@@ -22,6 +22,10 @@ import { OptionsMenuComponent } from './components/post-manager/options-menu/opt
 import { SingleLineSkeletonComponent } from './skeleton/single-line-skeleton/single-line-skeleton.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CodePageComponent } from './pages/code-page/code-page.component';
+import { CommentWrapperComponent } from './components/comment-manager/comment-wrapper/comment-wrapper.component';
+import { ReplyComponent } from './components/comment-manager/reply/reply.component';
+import { ReplyGroupComponent } from './components/comment-manager/reply-group/reply-group.component';
+import { ReplyBoxComponent } from './components/comment-manager/reply-box/reply-box.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +49,10 @@ import { CodePageComponent } from './pages/code-page/code-page.component';
     OptionsMenuComponent,
     SingleLineSkeletonComponent,
     CodePageComponent,
+    CommentWrapperComponent,
+    ReplyComponent,
+    ReplyGroupComponent,
+    ReplyBoxComponent,
   ],
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
   exports: [
@@ -67,7 +75,8 @@ import { CodePageComponent } from './pages/code-page/code-page.component';
     ClickOutsideDirective,
     OptionsMenuComponent,
     SingleLineSkeletonComponent,
-    CodePageComponent
+    CodePageComponent,
+    CommentWrapperComponent
   ],
 })
 export class SharedModule {}
