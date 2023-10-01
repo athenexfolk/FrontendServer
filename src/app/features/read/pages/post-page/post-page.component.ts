@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { PostAndAuthor } from 'src/app/core/models/post-and-author';
 import { PostService } from 'src/app/core/services/post.service';
-import EditorJS, { OutputData } from '@editorjs/editorjs';
+import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import Delimiter from '@editorjs/delimiter';
 import Table from '@editorjs/table';
@@ -12,6 +15,7 @@ import NestedList from '@editorjs/nested-list';
 import { AuthorityService } from 'src/app/core/auth/authority.service';
 import { CommentAndOwner } from 'src/app/core/models/comment';
 import CodeBlock, { CodeBlockConfig } from 'src/app/core/tools/code-block';
+import { CodeModel } from 'src/app/core/tools/code-model';
 
 @Component({
   selector: 'app-post-page',
@@ -23,42 +27,45 @@ export class PostPageComponent implements OnInit {
   pa!: PostAndAuthor;
   editor!: EditorJS;
 
-  mockComments:CommentAndOwner[] = [
+  code: CodeModel | null = null;
+  isShowCodePage: boolean = true;
+
+  mockComments: CommentAndOwner[] = [
     {
       comment: {
-        _id: "123",
-        commentOwnerId: "123",
-        postId: "123",
+        _id: '123',
+        commentOwnerId: '123',
+        postId: '123',
         data: "I think it's excellent",
-        replyToId: "123",
+        replyToId: '123',
         timestamp: new Date(),
       },
       owner: {
-        id: "123",
-        avatar: "",
+        id: '123',
+        avatar: '',
         isFollower: false,
         isFollowing: false,
-        username: "Jane",
-      }
+        username: 'Jane',
+      },
     },
     {
       comment: {
-        _id: "124",
-        commentOwnerId: "123",
-        postId: "123",
+        _id: '124',
+        commentOwnerId: '123',
+        postId: '123',
         data: "I think it's aggressive",
-        replyToId: "123",
+        replyToId: '123',
         timestamp: new Date(),
       },
       owner: {
-        id: "123",
-        avatar: "",
+        id: '123',
+        avatar: '',
         isFollower: false,
         isFollowing: false,
-        username: "Jane",
-      }
-    }
-  ]
+        username: 'Jane',
+      },
+    },
+  ];
 
   constructor(
     private route: ActivatedRoute,
@@ -91,7 +98,7 @@ export class PostPageComponent implements OnInit {
   initializeEditorJS(): void {
     let codeBlockConfig: CodeBlockConfig = {
       name: 'code-block',
-      event: this.recOutput
+      event: this.getCodeData,
     };
 
     if (this.pa && this.pa.post && this.pa.post.content) {
@@ -109,11 +116,24 @@ export class PostPageComponent implements OnInit {
             config: codeBlockConfig,
           },
         },
-        data: JSON.parse(this.pa.post.content),
+        onReady: () => {
+          if (this.pa.post.content.length)
+            this.editor.render(JSON.parse(this.pa.post.content));
+        },
       });
-
     }
   }
 
-  recOutput = (code: string) => {}
+  getCodeData = (code: CodeModel) => {
+    this.openCodePage();
+    this.code = code;
+  };
+
+  openCodePage() {
+    this.isShowCodePage = true;
+  }
+
+  closeCodePage() {
+    this.isShowCodePage = false;
+  }
 }

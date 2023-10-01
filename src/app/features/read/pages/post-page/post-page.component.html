@@ -48,6 +48,10 @@
   </div>
 </main>
 
+<ng-container *ngIf="isShowCodePage && code">
+  <CodePage [code]="code" (closeCommand)="closeCodePage()" />
+</ng-container>
+
 <ng-template #load>
   <SingleLineSkeleton></SingleLineSkeleton>
 </ng-template>

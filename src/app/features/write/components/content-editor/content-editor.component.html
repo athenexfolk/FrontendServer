@@ -1,6 +1,7 @@
 <div class="">
   <div id="editorjs"></div>
 </div>
-<div class="">
-  output is {{output}}
-</div>
+
+<ng-container *ngIf="isShowCodePage && code">
+  <CodePage [code]="code" (closeCommand)="closeCodePage()" />
+</ng-container>

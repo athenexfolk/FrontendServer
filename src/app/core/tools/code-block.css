@@ -4,7 +4,7 @@
   gap: 4px;
   padding: 8px 16px;
   border-radius: 16px;
-  margin: 8px 0;
+  margin: 16px 0;
   border: 1px solid rgba(0, 0, 0, 0.1);
   background: white;
 }
@@ -14,7 +14,7 @@
   flex-direction: column;
   gap: 16px;
   align-items: flex-start;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .config-wrapper {

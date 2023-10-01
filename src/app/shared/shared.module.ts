@@ -21,6 +21,7 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { OptionsMenuComponent } from './components/post-manager/options-menu/options-menu.component';
 import { SingleLineSkeletonComponent } from './skeleton/single-line-skeleton/single-line-skeleton.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CodePageComponent } from './pages/code-page/code-page.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ClickOutsideDirective,
     OptionsMenuComponent,
     SingleLineSkeletonComponent,
+    CodePageComponent,
   ],
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
   exports: [
@@ -65,6 +67,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ClickOutsideDirective,
     OptionsMenuComponent,
     SingleLineSkeletonComponent,
+    CodePageComponent
   ],
 })
 export class SharedModule {}

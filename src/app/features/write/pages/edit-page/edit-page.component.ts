@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { switchMap, of } from 'rxjs';
 import { Tag } from 'src/app/core/models/tag';
 import { PostService } from 'src/app/core/services/post.service';
+import { CodeModel } from 'src/app/core/tools/code-model';
 
 @Component({
   selector: 'app-edit-page',
@@ -24,7 +25,7 @@ export class EditPageComponent {
     private router: Router,
     private route: ActivatedRoute
   ) {
-    route.paramMap
+    this.route.paramMap
       .pipe(
         switchMap((params) => {
           let id = params.get('editPostId');
@@ -73,4 +74,6 @@ export class EditPageComponent {
         },
       });
   }
+
+  
 }

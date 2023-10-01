@@ -11,9 +11,8 @@ import Delimiter from '@editorjs/delimiter';
 import Table from '@editorjs/table';
 import InlineCode from '@editorjs/inline-code';
 import NestedList from '@editorjs/nested-list';
-import { Subject, filter, map } from 'rxjs';
-import { IO, IOCallback, IOType } from 'src/app/core/models/io';
 import CodeBlock, { CodeBlockConfig } from 'src/app/core/tools/code-block';
+import { CodeModel } from 'src/app/core/tools/code-model';
 
 @Component({
   selector: 'ContentEditor',
@@ -27,11 +26,10 @@ export class ContentEditorComponent implements OnDestroy {
   editor!: EditorJS;
   isEditorInitialized = false;
 
-  autoSave!: any
+  autoSave!: any;
 
-  output = '';
-  IO$!: Subject<IO>;
-  currentSentBlockId = '';
+  code: CodeModel | null = null;
+  isShowCodePage: boolean = true;
 
   constructor() {}
 
@@ -44,14 +42,6 @@ export class ContentEditorComponent implements OnDestroy {
       this.editor.destroy();
     });
   }
-
-  getIO: IOCallback = (io) => {
-    this.IO$ = io;
-    this.IO$.pipe(
-      filter((io) => io.type == IOType.INPUT),
-      map((io) => io.data)
-    ).subscribe(this.onExecuteCode);
-  };
 
   onExecuteCode(data: string) {
     // console.log('receive input : ', data);
@@ -66,7 +56,7 @@ export class ContentEditorComponent implements OnDestroy {
   initEditorJS() {
     let codeBlockConfig: CodeBlockConfig = {
       name: 'code-block',
-      event: this.recOutput
+      event: this.getCodeData,
     };
 
     this.editor = new EditorJS({
@@ -84,7 +74,7 @@ export class ContentEditorComponent implements OnDestroy {
         },
       },
       onChange: () => {
-        clearTimeout(this.autoSave)
+        clearTimeout(this.autoSave);
         this.autoSave = setTimeout(
           () =>
             this.editor.save().then((output) => {
@@ -99,10 +89,17 @@ export class ContentEditorComponent implements OnDestroy {
     });
   }
 
-  recOutput = (data: string) => {
-    console.log('data');
-    console.log(data);
+  getCodeData = (code: CodeModel) => {
+    this.openCodePage();
+    this.code = code;
+  };
 
-    this.output = data;
+  openCodePage() {
+    this.isShowCodePage = true;
   }
+
+  closeCodePage() {
+    this.isShowCodePage = false;
+  }
+
 }
