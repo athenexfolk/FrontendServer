@@ -15,6 +15,7 @@ import CodeBlock, { CodeBlockConfig } from 'src/app/core/tools/code-block';
 import { CodeModel } from 'src/app/core/tools/code-model';
 import { CommentService } from 'src/app/core/services/comment.service';
 import { Observable } from 'rxjs';
+import { TagService } from 'src/app/core/services/tag.service';
 
 @Component({
   selector: 'app-post-page',
@@ -37,7 +38,8 @@ export class PostPageComponent implements OnInit {
     private route: ActivatedRoute,
     private postService: PostService,
     private authService: AuthorityService,
-    private commentService: CommentService
+    private commentService: CommentService,
+    private tagService: TagService
   ) {}
 
   checkImage(imageString: string) {
@@ -108,5 +110,9 @@ export class PostPageComponent implements OnInit {
 
   closeCodePage() {
     this.isShowCodePage = false;
+  }
+
+  getTagColor(tagName: string) {
+    return this.tagService.getColorFromTagName(tagName);
   }
 }

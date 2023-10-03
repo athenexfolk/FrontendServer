@@ -1,4 +1,4 @@
-<article class="flex justify-between items-center gap-4 md:gap-8">
+<article class="flex justify-between items-center gap-4 md:gap-8 mt-4">
   <div class="grow grid grid-cols-1 gap-3">
     <div class="flex justify-between items-center">
       <PostOwner [author]="ppa.author" />
@@ -18,12 +18,11 @@
         </p>
       </div>
     </a>
-    <div class="flex gap-6 items-center text-xs">
-      <TagGroup *ngIf="ppa.postPreview.tags.length">
-        <Tag *ngFor="let tag of ppa.postPreview.tags" [name]="tag" />
-      </TagGroup>
+    <div class="flex flex-col gap-3 text-xs">
       <p>{{ ppa.postPreview.createdTime | date : "fullDate" }}</p>
-      <!-- <p>3 Mins</p> -->
+      <TagGroup *ngIf="ppa.postPreview.tags.length">
+        <Tag *ngFor="let tag of ppa.postPreview.tags" [name]="tag" [color]="getTagColor(tag)" />
+      </TagGroup>
     </div>
   </div>
   <div class="grow-0">

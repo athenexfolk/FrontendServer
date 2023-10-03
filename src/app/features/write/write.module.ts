@@ -9,6 +9,7 @@ import { ContentEditorComponent } from './components/content-editor/content-edit
 import { CoverImageComponent } from './components/cover-image/cover-image.component';
 import { HeadingsComponent } from './components/headings/headings.component';
 import { EditPageComponent } from './pages/edit-page/edit-page.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -23,7 +24,9 @@ import { EditPageComponent } from './pages/edit-page/edit-page.component';
   imports: [
     CommonModule,
     WriteRoutingModule,
-    SharedModule
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class WriteModule { }

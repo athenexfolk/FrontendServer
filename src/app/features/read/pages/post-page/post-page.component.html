@@ -6,12 +6,10 @@
       </h1>
       <h2 class="text-xl font-semibold">{{ pa.post.description }}</h2>
     </div>
-    <BookmarkButton [isBookmarked]="true" />
+    <BookmarkButton [postId]="pa.post.id" [isBookmarked]="true" />
   </header>
   <TagGroup *ngIf="pa; else load">
-    <Tag />
-    <Tag />
-    <Tag />
+    <Tag *ngFor="let tag of pa.post.tags" [name]="tag" [color]="getTagColor(tag)"></Tag>
   </TagGroup>
   <PostDetails
     [createdTime]="pa.post.createdTime"
@@ -34,8 +32,8 @@
     </div>
     <div class="p-4 prose" id="reader"></div>
   </article>
-  <div class="flex gap-8">
-    <LoveButton />
+  <div class="flex gap-8" *ngIf="pa">
+    <LoveButton [postId]="pa.post.id" [isLoved]="!!pa.post.isLiked" [loveCount]="pa.post.likeCount || 0" />
     <ShareButton />
   </div>
   <hr />

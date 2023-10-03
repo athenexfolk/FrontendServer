@@ -83,4 +83,20 @@ export class PostService {
   uploadImage(formData: FormData) {
     return this.imageRepo.uploadImage(formData);
   }
+
+  likePost(id: string) {
+    return this.postRepo.likePost(id).subscribe();
+  }
+
+  unlikePost(id: string) {
+    return this.postRepo.unlikePost(id).subscribe();
+  }
+
+  savePost(id: string) {
+    return this.postRepo.savePost(id).subscribe();
+  }
+
+  unsavePost(id: string) {
+    return this.postRepo.unsavePost(id).subscribe();
+  }
 }

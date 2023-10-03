@@ -6,7 +6,11 @@
     <div class="min-h-screen">
       <router-outlet></router-outlet>
     </div>
-    <div *ngIf="!isLargeScreen" class="sticky bottom-0">
+    <div
+      *ngIf="!isLargeScreen"
+      class="fixed w-full z-10 transition-all duration-500"
+      [ngClass]="isScrollUp ? '-bottom-0' : '-bottom-full'"
+    >
       <BottomBar [userStatus]="isLoggedIn" />
     </div>
   </div>

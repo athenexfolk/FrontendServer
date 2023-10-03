@@ -47,4 +47,20 @@ export class PostRepositoryService {
       post
     );
   }
+
+  likePost(id: string) {
+    return this.http.patch(`${this.#POST_ENDPOINT}/${id}/like`, {})
+  }
+
+  unlikePost(id: string) {
+    return this.http.patch(`${this.#POST_ENDPOINT}/${id}/unlike`, {})
+  }
+
+  savePost(id: string) {
+    return this.http.patch(`${this.#POST_ENDPOINT}/${id}/save`, {})
+  }
+
+  unsavePost(id: string) {
+    return this.http.patch(`${this.#POST_ENDPOINT}/${id}/unsave`, {})
+  }
 }

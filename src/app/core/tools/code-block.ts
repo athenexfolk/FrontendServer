@@ -59,7 +59,7 @@ export default class CodeBlock implements BlockTool {
   }
 
   save() {
-    const lang = this.monacoEditor.getModel()?.getLanguageId()!
+    const lang = this.monacoEditor.getModel()?.getLanguageId()!;
     return {
       language: this.data.language,
       code: this.monacoEditor.getValue(),
@@ -79,6 +79,10 @@ export default class CodeBlock implements BlockTool {
         language: this.data.language || 'c',
         readOnly: this.readOnly,
         theme: this.data.theme || 'vs',
+        automaticLayout: true,
+        minimap: {
+          enabled: false,
+        }
       });
     });
   }
@@ -122,16 +126,14 @@ export default class CodeBlock implements BlockTool {
     this._configWrapper = document.createElement('div');
     this._configWrapper.classList.add('config-wrapper');
 
-    if(!this.readOnly) {
+    if (!this.readOnly) {
       this._configWrapper.appendChild(this._filenameInput);
       this._configWrapper.appendChild(this._languageSelector);
     } else {
       let p = document.createElement('p');
       p.innerText = `${this.data.name} with ${this.data.language}`;
-      this._configWrapper.appendChild(p)
+      this._configWrapper.appendChild(p);
     }
-
-
   }
 
   private structFilenameInput() {
@@ -139,11 +141,11 @@ export default class CodeBlock implements BlockTool {
     this._filenameInput = document.createElement('input');
     this._filenameInput.type = 'text';
     this._filenameInput.placeholder = 'Enter file name';
-    this._filenameInput.value = this.data.name || ''
+    this._filenameInput.value = this.data.name || '';
 
     this._filenameInput.onkeyup = () => {
       this.data.name = this._filenameInput.value;
-    }
+    };
   }
 
   private structLanguageSelector(lang: Language[]) {

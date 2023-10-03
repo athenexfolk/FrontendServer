@@ -1,14 +1,32 @@
 import { Component, Input } from '@angular/core';
+import { PostService } from 'src/app/core/services/post.service';
 
 @Component({
   selector: 'LoveButton',
   templateUrl: './love-button.component.html',
-  styleUrls: ['./love-button.component.scss']
+  styleUrls: ['./love-button.component.scss'],
 })
 export class LoveButtonComponent {
-  @Input() isLoved = false
-  
+  @Input() postId = ''
+  @Input() isLoved = false;
+  @Input({ required: true }) loveCount = 0;
+
+  constructor(private postService: PostService) {}
+
+  love() {
+    this.isLoved = true;
+    this.postService.likePost(this.postId);
+  }
+
+  unlove() {
+    this.isLoved = false;
+  }
+
   toggleLove() {
-    this.isLoved = !this.isLoved
+    if (!this.isLoved) {
+      this.love();
+    } else {
+      this.unlove();
+    }
   }
 }
