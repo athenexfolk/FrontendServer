@@ -11,10 +11,15 @@ export interface Comment {
   commentOwnerId: string;
   data: string;
   timestamp: Date;
-  replyToId: string;
+  replyToId?: string;
 }
 
 export interface CommentAndOwner {
   comment: Comment;
   owner: User;
+}
+
+export interface CommentAndReplies {
+  comment: CommentAndOwner,
+  replies: CommentAndOwner[]
 }

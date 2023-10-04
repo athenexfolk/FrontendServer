@@ -1,9 +1,8 @@
-<ng-container *ngIf="caos.length; else emptyComment">
+<ng-container *ngIf="cars.length; else emptyComment">
   <div class="grid grid-cols-1 gap-3 divide-y">
     <Comment
-      *ngFor="let cao of caos"
-      [comment]="cao.comment"
-      [owner]="cao.owner"
+      *ngFor="let car of cars"
+      [commentAndReplies]="car"
     ></Comment>
   </div>
 </ng-container>

@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CommentRepositoryService } from '../repository/comment-repository.service';
 import { UserService } from './user.service';
-import { map, switchMap } from 'rxjs';
-import { Comment, CommentAndOwner, CommentRequest } from '../models/comment';
+import { map, switchMap, tap } from 'rxjs';
+import {
+  Comment,
+  CommentAndOwner,
+  CommentAndReplies,
+  CommentRequest,
+} from '../models/comment';
 
 @Injectable({
   providedIn: 'root',
@@ -56,6 +61,24 @@ export class CommentService {
       .pipe(
         map((owner) => ({ comment: comment, owner: owner } as CommentAndOwner))
       );
+  }
+
+  getCommentAndReplyInPost(postId: string) {
+    return this.getAllCommentsInPost(postId).pipe(
+      map((caos) => {
+        let mainComments = caos.filter((cao) => !cao.comment.replyToId);
+        let replyComments = caos.filter((cao) => cao.comment.replyToId);
+        return mainComments.map(
+          (comment) =>
+            ({
+              comment: comment,
+              replies: replyComments.filter(
+                (reply) => reply.comment.replyToId === comment.comment._id
+              ),
+            } as CommentAndReplies)
+        );
+      })
+    );
   }
 
   addCommentToPost(postId: string, comment: CommentRequest) {

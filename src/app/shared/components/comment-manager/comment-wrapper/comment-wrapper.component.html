@@ -1,6 +1,6 @@
 <div class="grid grid-cols-1 gap-8">
   <h3 class="text-xl font-bold">ความคิดเห็น</h3>
-  <CommentGroup [caos]="comments"></CommentGroup>
+  <CommentGroup [cars]="comments"></CommentGroup>
   <ng-container *ngIf="loginStatus; else goLogin">
     <CommentBox [postId]="postId" (addCommentEvent)="addComment($event)" />
   </ng-container>

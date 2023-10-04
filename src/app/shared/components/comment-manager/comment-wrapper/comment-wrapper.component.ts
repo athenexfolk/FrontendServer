@@ -1,6 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AuthorityService } from 'src/app/core/auth/authority.service';
-import { Comment, CommentAndOwner } from 'src/app/core/models/comment';
+import {
+  Comment,
+  CommentAndOwner,
+  CommentAndReplies,
+} from 'src/app/core/models/comment';
 
 @Component({
   selector: 'CommentWrapper',
@@ -8,8 +12,8 @@ import { Comment, CommentAndOwner } from 'src/app/core/models/comment';
   styleUrls: ['./comment-wrapper.component.scss'],
 })
 export class CommentWrapperComponent {
-  @Input() comments: CommentAndOwner[] = [];
-  @Input() postId: string = ''
+  @Input() comments: CommentAndReplies[] = [];
+  @Input() postId: string = '';
 
   loginStatus = false;
 
@@ -20,6 +24,6 @@ export class CommentWrapperComponent {
   }
 
   addComment(comment: CommentAndOwner) {
-    this.comments.push(comment);
+    this.comments.push({ comment: comment, replies: [] });
   }
 }

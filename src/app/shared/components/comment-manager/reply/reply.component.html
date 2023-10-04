@@ -1,10 +1,9 @@
 <div class="p-4">
-  <PostOwner [author]="owner" />
+  <PostOwner [author]="reply.owner" />
   <p class="my-3">
-    {{ comment.data }}
+    {{ reply.comment.data }}
   </p>
   <div class="flex items-center gap-4 text-xs">
-    <p>{{ comment.timestamp | date : "fullDate" }}</p>
-    <button class="font-semibold hover:text-zinc-800">ตอบกลับ</button>
+    <p>{{ reply.comment.timestamp | date : "fullDate" }}</p>
   </div>
 </div>

@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { Comment } from 'src/app/core/models/comment';
-import { User } from 'src/app/core/models/user';
+import {
+  Comment,
+  CommentAndOwner,
+  CommentAndReplies,
+} from 'src/app/core/models/comment';
 
 @Component({
   selector: 'Comment',
@@ -8,6 +11,20 @@ import { User } from 'src/app/core/models/user';
   styleUrls: ['./comment.component.scss'],
 })
 export class CommentComponent {
-  @Input() comment!: Comment;
-  @Input() owner!: User;
+  @Input() commentAndReplies!: CommentAndReplies;
+
+  isReplying = false;
+
+  openReply() {
+    this.isReplying = true;
+  }
+
+  closeReply() {
+    this.isReplying = false;
+  }
+
+  addReply(cao: CommentAndOwner) {
+    this.commentAndReplies.replies.push(cao);
+    this.closeReply();
+  }
 }

@@ -1,14 +1,28 @@
 <div class="p-4">
-  <PostOwner [author]="owner" />
+  <PostOwner [author]="commentAndReplies.comment.owner" />
   <p class="my-3">
-    {{ comment.data }}
+    {{ commentAndReplies.comment.comment.data }}
   </p>
   <div class="flex items-center gap-4 text-xs">
-    <p>{{ comment.timestamp | date : "fullDate" }}</p>
-    <button class="font-semibold hover:text-zinc-800">ตอบกลับ</button>
+    <p>{{ commentAndReplies.comment.comment.timestamp | date : "fullDate" }}</p>
+    <button (click)="openReply()" class="font-semibold hover:text-zinc-800">
+      ตอบกลับ
+    </button>
   </div>
 </div>
 
-<!-- <div class="ms-8">
-  <input class="px-4 py-2 rounded-lg outline-0 w-full shadow-inner shadow-zinc-200">
-</div> -->
+<div class="ms-8">
+  <div *ngFor="let reply of commentAndReplies.replies" class="flex gap-2">
+    <div
+      class="border-s-2 border-b-2 border-zinc-300 rounded-es-md w-6 h-6"
+    ></div>
+    <Reply [reply]="reply" class="grow" />
+  </div>
+</div>
+
+<div *ngIf="isReplying" class="ms-8 flex gap-2">
+  <div
+    class="border-s-2 border-b-2 border-zinc-300 rounded-es-md w-6 h-6"
+  ></div>
+  <ReplyBox [postId]="commentAndReplies.comment.comment.postId" [commentId]="commentAndReplies.comment.comment._id" (addCommentEvent)="addReply($event)" class="grow" />
+</div>
