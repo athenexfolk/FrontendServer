@@ -4,8 +4,16 @@
     {{ commentAndReplies.comment.comment.data }}
   </p>
   <div class="flex items-center gap-4 text-xs">
-    <p>{{ commentAndReplies.comment.comment.timestamp | date : "fullDate" }}</p>
-    <button (click)="openReply()" class="font-semibold hover:text-zinc-800">
+    <p>
+      {{
+        commentAndReplies.comment.comment.timestamp | date : "dd/MM/yyyy, HH:mm"
+      }}
+    </p>
+    <button
+      *ngIf="isLoggedIn"
+      (click)="openReply()"
+      class="font-semibold hover:text-zinc-800"
+    >
       ตอบกลับ
     </button>
   </div>
@@ -24,5 +32,10 @@
   <div
     class="border-s-2 border-b-2 border-zinc-300 rounded-es-md w-6 h-6"
   ></div>
-  <ReplyBox [postId]="commentAndReplies.comment.comment.postId" [commentId]="commentAndReplies.comment.comment._id" (addCommentEvent)="addReply($event)" class="grow" />
+  <ReplyBox
+    [postId]="commentAndReplies.comment.comment.postId"
+    [commentId]="commentAndReplies.comment.comment._id"
+    (addCommentEvent)="addReply($event)"
+    class="grow"
+  />
 </div>

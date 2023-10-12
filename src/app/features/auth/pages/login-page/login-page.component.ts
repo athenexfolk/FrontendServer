@@ -15,6 +15,7 @@ export class LoginPageComponent {
   });
 
   isShowMsg = false;
+  isLoginFailed = false;
 
   constructor(
     private loginService: LoginService,
@@ -23,17 +24,31 @@ export class LoginPageComponent {
   ) {}
 
   onSubmit(): void {
-    this.loginService.passwordFlow(this.loginForm.value.username!, this.loginForm.value.password!)
+    this.loginService
+      .passwordFlow(
+        this.loginForm.value.username!,
+        this.loginForm.value.password!
+      )
       .subscribe({
-        error: () => this.isShowMsg = true,
+        error: () => {
+          this.isShowMsg = true;
+          this.isLoginFailed = true;
+        },
         complete: () => {
           this.loginForm.reset();
-          this.router.navigate(['/'])
-        }
+          this.router.navigate(['/']);
+        },
       });
   }
 
-  github(){
+  github() {
     this.loginService.githubFlow();
+  }
+
+  resetState() {
+    if (this.isLoginFailed) {
+      this.isShowMsg = false;
+      this.isLoginFailed = false;
+    }
   }
 }

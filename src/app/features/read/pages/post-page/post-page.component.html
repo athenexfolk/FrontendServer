@@ -9,7 +9,11 @@
     <BookmarkButton [postId]="pa.post.id" [isBookmarked]="true" />
   </header>
   <TagGroup *ngIf="pa; else load">
-    <Tag *ngFor="let tag of pa.post.tags" [name]="tag" [color]="getTagColor(tag)"></Tag>
+    <Tag
+      *ngFor="let tag of pa.post.tags"
+      [name]="tag"
+      [color]="getTagColor(tag)"
+    ></Tag>
   </TagGroup>
   <PostDetails
     [createdTime]="pa.post.createdTime"
@@ -33,7 +37,11 @@
     <div class="p-4 prose" id="reader"></div>
   </article>
   <div class="flex gap-8" *ngIf="pa">
-    <LoveButton [postId]="pa.post.id" [isLoved]="!!pa.post.isLiked" [loveCount]="pa.post.likeCount || 0" />
+    <LoveButton
+      [postId]="pa.post.id"
+      [isLoved]="!!pa.post.isLiked"
+      [loveCount]="pa.post.likeCount || 0"
+    />
     <ShareButton />
   </div>
   <hr />
@@ -54,4 +62,3 @@
 <ng-template #imageload>
   <SingleLineSkeleton></SingleLineSkeleton>
 </ng-template>
-

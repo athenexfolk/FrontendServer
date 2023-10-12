@@ -5,12 +5,15 @@ import { AuthorityService } from 'src/app/core/auth/authority.service';
 @Component({
   selector: 'Account',
   templateUrl: './account.component.html',
-  styleUrls: ['./account.component.scss']
+  styleUrls: ['./account.component.scss'],
 })
 export class AccountComponent {
+  myId = '';
   isPanelOpened = false;
 
-  constructor(private auth: AuthorityService, private router: Router) {}
+  constructor(private auth: AuthorityService, private router: Router) {
+    this.myId = this.auth.user_id || '';
+  }
 
   openPanel() {
     this.isPanelOpened = true;
@@ -21,7 +24,7 @@ export class AccountComponent {
 
   logout() {
     this.auth.logout();
-    this.router.navigate(['/auth','login']);
+    this.router.navigate(['/auth', 'login']);
   }
 
   getProfileImage() {

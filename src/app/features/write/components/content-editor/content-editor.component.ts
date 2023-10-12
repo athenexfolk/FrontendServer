@@ -13,6 +13,9 @@ import InlineCode from '@editorjs/inline-code';
 import NestedList from '@editorjs/nested-list';
 import CodeBlock, { CodeBlockConfig } from 'src/app/core/tools/code-block';
 import { CodeModel } from 'src/app/core/tools/code-model';
+import ImageBlock, { ImageBlockConfig } from 'src/app/core/tools/image-block';
+import { ImageRepositoryService } from 'src/app/core/repository/image-repository.service';
+import { TokenService } from 'src/app/core/auth/token.service';
 
 @Component({
   selector: 'ContentEditor',
@@ -31,7 +34,7 @@ export class ContentEditorComponent implements OnDestroy {
   code: CodeModel | null = null;
   isShowCodePage: boolean = true;
 
-  constructor() {}
+  constructor(private tokenService: TokenService) {}
 
   ngOnInit(): void {
     this.initEditorJS();
@@ -59,6 +62,10 @@ export class ContentEditorComponent implements OnDestroy {
       event: this.getCodeData,
     };
 
+    let imageBlockConfig: ImageBlockConfig = {
+      token: this.tokenService.token
+    };
+
     this.editor = new EditorJS({
       holder: 'editorjs',
       placeholder: 'สร้างสรรค์ไอเดียสุดบรรเจิด...',
@@ -71,6 +78,10 @@ export class ContentEditorComponent implements OnDestroy {
         codeBlock: {
           class: CodeBlock as any,
           config: codeBlockConfig,
+        },
+        image: {
+          class: ImageBlock as any,
+          config: imageBlockConfig,
         },
       },
       onChange: () => {
@@ -101,5 +112,4 @@ export class ContentEditorComponent implements OnDestroy {
   closeCodePage() {
     this.isShowCodePage = false;
   }
-
 }

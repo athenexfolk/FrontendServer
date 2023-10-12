@@ -36,8 +36,24 @@ export class TagFactoryComponent {
   }
 
   addCustomTag() {
-    if (this.tags.find((vtag) => vtag.name === this.searchText)) return;
-    this.tags.push({ name: this.searchText, color: '3f3f46' });
+    if (
+      this.tags.length >= this.maxTag ||
+      this.tags.find((vtag) => vtag.name === this.searchText)
+    )
+      return;
+    if (
+      this.validTags.find(
+        (vtag) => vtag.name.toLowerCase() === this.searchText.toLowerCase()
+      )
+    ) {
+      this.addTag(
+        this.validTags.find(
+          (vtag) => vtag.name.toLowerCase() === this.searchText.toLowerCase()
+        )!
+      );
+    } else {
+      this.tags.push({ name: this.searchText, color: '3f3f46' });
+    }
   }
 
   removeTag(id: number) {

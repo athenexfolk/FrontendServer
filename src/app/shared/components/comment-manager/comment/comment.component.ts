@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { AuthorityService } from 'src/app/core/auth/authority.service';
 import {
   Comment,
   CommentAndOwner,
@@ -14,6 +15,13 @@ export class CommentComponent {
   @Input() commentAndReplies!: CommentAndReplies;
 
   isReplying = false;
+  isLoggedIn = false;
+
+  constructor(private auth: AuthorityService) {}
+
+  ngOnInit() {
+    this.isLoggedIn = this.auth.isLoggedin
+  }
 
   openReply() {
     this.isReplying = true;

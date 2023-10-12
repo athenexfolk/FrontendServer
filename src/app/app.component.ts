@@ -23,7 +23,6 @@ export class AppComponent implements OnInit {
 
     this.auth.isLoggedin$.subscribe((res) => {
       this.isLoggedIn = res;
-      console.log(this.isLoggedIn);
     });
   }
 

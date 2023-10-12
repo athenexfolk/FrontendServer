@@ -30,6 +30,8 @@ export default class CodeBlock implements BlockTool {
     code: '',
   };
 
+  previousValue = '';
+
   _wrapper!: HTMLDivElement;
   _option!: HTMLDivElement;
   _editor!: HTMLDivElement;
@@ -61,7 +63,7 @@ export default class CodeBlock implements BlockTool {
   save() {
     const lang = this.monacoEditor.getModel()?.getLanguageId()!;
     return {
-      language: this.data.language,
+      language: lang,
       code: this.monacoEditor.getValue(),
       name: this.data.name || 'untitled',
     } as CodeModel;
@@ -82,7 +84,7 @@ export default class CodeBlock implements BlockTool {
         automaticLayout: true,
         minimap: {
           enabled: false,
-        }
+        },
       });
     });
   }
@@ -137,15 +139,22 @@ export default class CodeBlock implements BlockTool {
   }
 
   private structFilenameInput() {
-    // const filenamePattern = /^[a-zA-Z0-9_-]+$/;
+    const filenamePattern = /^[a-zA-Z0-9_-]+$/;
     this._filenameInput = document.createElement('input');
     this._filenameInput.type = 'text';
+    this._filenameInput.required = true;
     this._filenameInput.placeholder = 'Enter file name';
     this._filenameInput.value = this.data.name || '';
 
-    this._filenameInput.onkeyup = () => {
+    this._filenameInput.addEventListener('keyup', () => {
+      let currentValue = this._filenameInput.value;
+      if (!currentValue.match(filenamePattern)) {
+        this._filenameInput.value = this.previousValue
+      }
+
       this.data.name = this._filenameInput.value;
-    };
+      this.previousValue = this.data.name
+    });
   }
 
   private structLanguageSelector(lang: Language[]) {

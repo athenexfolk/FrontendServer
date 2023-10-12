@@ -10,12 +10,16 @@ import Table from '@editorjs/table';
 import InlineCode from '@editorjs/inline-code';
 import NestedList from '@editorjs/nested-list';
 import { AuthorityService } from 'src/app/core/auth/authority.service';
-import { CommentAndOwner, CommentAndReplies } from 'src/app/core/models/comment';
+import {
+  CommentAndOwner,
+  CommentAndReplies,
+} from 'src/app/core/models/comment';
 import CodeBlock, { CodeBlockConfig } from 'src/app/core/tools/code-block';
 import { CodeModel } from 'src/app/core/tools/code-model';
 import { CommentService } from 'src/app/core/services/comment.service';
 import { Observable } from 'rxjs';
 import { TagService } from 'src/app/core/services/tag.service';
+import ImageBlock from 'src/app/core/tools/image-block';
 
 @Component({
   selector: 'app-post-page',
@@ -52,7 +56,7 @@ export class PostPageComponent implements OnInit {
       switchMap((params) => {
         this.postId = params.get('postId') || '';
 
-        if (this.authService.isLoggedin && this.postId.length) {
+        if (this.postId.length) {
           this.comments$ = this.commentService.getCommentAndReplyInPost(
             this.postId
           );
@@ -90,6 +94,7 @@ export class PostPageComponent implements OnInit {
             class: CodeBlock as any,
             config: codeBlockConfig,
           },
+          image: ImageBlock,
         },
         onReady: () => {
           if (this.pa.post.content.length)

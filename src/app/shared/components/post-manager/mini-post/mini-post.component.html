@@ -19,7 +19,7 @@
       </div>
     </a>
     <div class="flex flex-col gap-3 text-xs">
-      <p>{{ ppa.postPreview.createdTime | date : "fullDate" }}</p>
+      <p>{{ ppa.postPreview.createdTime | date : "dd/MM/yyyy, HH:mm" }}</p>
       <TagGroup *ngIf="ppa.postPreview.tags.length">
         <Tag *ngFor="let tag of ppa.postPreview.tags" [name]="tag" [color]="getTagColor(tag)" />
       </TagGroup>

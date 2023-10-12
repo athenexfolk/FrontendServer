@@ -8,7 +8,10 @@
       [formGroup]="loginForm"
       (ngSubmit)="onSubmit()"
     >
-      <div class="flex items-center gap-4 rounded-lg border px-4 py-2">
+      <div
+        class="flex items-center gap-4 rounded-lg border px-4 py-2 transition-all"
+        [ngClass]="{ 'border-red-400 text-red-400': isLoginFailed }"
+      >
         <UserIcon />
         <input
           type="text"
@@ -16,9 +19,13 @@
           class="focus:outline-0"
           placeholder="ชื่อผู้ใช้"
           required="true"
+          (keyup)="resetState()"
         />
       </div>
-      <div class="flex items-center gap-4 rounded-lg border px-4 py-2">
+      <div
+        class="flex items-center gap-4 rounded-lg border px-4 py-2 transition-all"
+        [ngClass]="{ 'border-red-400 text-red-400': isLoginFailed }"
+      >
         <KeyIcon />
         <input
           type="password"
@@ -26,6 +33,7 @@
           class="focus:outline-0"
           placeholder="รหัสผ่าน"
           required="true"
+          (keyup)="resetState()"
         />
       </div>
       <div class="text-red-500 text-sm" *ngIf="isShowMsg">
