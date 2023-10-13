@@ -10,7 +10,8 @@ import {
 } from '@angular/core';
 import loader from '@monaco-editor/loader';
 import { CodeModel } from 'src/app/core/tools/code-model';
-import type * as monaco from 'monaco-editor'
+import type * as monaco from 'monaco-editor';
+import { Terminal } from 'xterm';
 
 @Component({
   selector: 'CodePage',
@@ -22,22 +23,43 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
   @Output() closeCommand = new EventEmitter();
 
   @ViewChild('codeEditor') codeEditorRef!: ElementRef<HTMLElement>;
+  @ViewChild('terminal') terminalRef!: ElementRef<HTMLElement>;
 
   monacoEditor!: monaco.editor.IStandaloneCodeEditor;
+  terminal!: Terminal;
 
   isExecuting = false;
 
-  ngAfterViewInit(): void {
+  prompt = '$ ';
+  output = 'Waiting for code...';
+
+  ngAfterViewInit() {
     loader.init().then((monaco) => {
-      this.monacoEditor = monaco.editor.create(this.codeEditorRef.nativeElement, {
-        value: this.code.code,
-        language: this.code.language,
-        readOnly: true
-      });
+      this.monacoEditor = monaco.editor.create(
+        this.codeEditorRef.nativeElement,
+        {
+          value: this.code.code,
+          language: this.code.language,
+          readOnly: true,
+        }
+      );
+    });
+
+    this.terminal = new Terminal();
+    this.terminal.open(this.terminalRef.nativeElement);
+    this.terminal.write(this.prompt);
+    this.terminal.onData((input) => {
+      if (input === '\r') {
+        this.terminal.writeln('');
+        this.terminal.write(this.prompt);
+      } else if (input === '\u007f') {
+        if (this.terminal.buffer.active.cursorX > 2)
+          this.terminal.write('\b \b');
+      } else {
+        this.terminal.write(input);
+      }
     });
   }
-
-  output = 'Waiting for code...';
 
   ngOnDestroy(): void {
     if (this.monacoEditor) {
@@ -48,16 +70,35 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
   execute() {
     this.isExecuting = true;
     this.output = 'Executing...';
-
   }
 
   abort() {
     this.isExecuting = false;
-    this.output = 'Clearing...'
+    this.output = 'Clearing...';
   }
 
   closePage() {
-    this.abort()
+    this.abort();
     this.closeCommand.emit();
+  }
+
+  onReceiveStdIn() {
+
+  }
+
+  onReceiveStdOut() {
+    
+  }
+
+  onReceiveStdErr() {
+
+  }
+
+  onReceiveError() {
+
+  }
+
+  onReceiveExit() {
+
   }
 }
