@@ -8,6 +8,7 @@ import { CoreModule } from './core/core.module';
 import { AppLayoutModule } from './app-layout/app-layout.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './core/interceptor/token.interceptor';
+import { Runner } from './sockets/runner';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,6 +24,10 @@ import { TokenInterceptor } from './core/interceptor/token.interceptor';
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
+    },
+    {
+      provide: Runner,
+      useValue: Runner.getInstance()
     }
   ],
   bootstrap: [AppComponent],
