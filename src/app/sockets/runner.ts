@@ -39,7 +39,7 @@ export class Runner {
   private _error = new Subject<string>();
 
   private constructor(){
-    Runner.io = io("http://localhost/", {
+    Runner.io = io("http://localhost:4200/", {
       path: "/api/runner/v1/socket.io",
       autoConnect: false
     });
