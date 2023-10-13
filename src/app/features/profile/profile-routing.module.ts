@@ -1,10 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
+import { SettingPageComponent } from './pages/setting-page/setting-page.component';
+import { authGuard } from 'src/app/core/guard/auth.guard';
 
 const routes: Routes = [
   {
-    path: ":id",
+    path: 'settings',
+    component: SettingPageComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: ":authorId",
     component: ProfilePageComponent
   }
 ];

@@ -1,6 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { Author } from 'src/app/core/models/author';
-import { Comment } from 'src/app/core/models/comment';
+import { AuthorityService } from 'src/app/core/auth/authority.service';
+import {
+  Comment,
+  CommentAndOwner,
+  CommentAndReplies,
+} from 'src/app/core/models/comment';
 
 @Component({
   selector: 'Comment',
@@ -8,6 +12,27 @@ import { Comment } from 'src/app/core/models/comment';
   styleUrls: ['./comment.component.scss'],
 })
 export class CommentComponent {
-  @Input() comment!: Comment;
-  @Input() owner!: Author;
+  @Input() commentAndReplies!: CommentAndReplies;
+
+  isReplying = false;
+  isLoggedIn = false;
+
+  constructor(private auth: AuthorityService) {}
+
+  ngOnInit() {
+    this.isLoggedIn = this.auth.isLoggedin
+  }
+
+  openReply() {
+    this.isReplying = true;
+  }
+
+  closeReply() {
+    this.isReplying = false;
+  }
+
+  addReply(cao: CommentAndOwner) {
+    this.commentAndReplies.replies.push(cao);
+    this.closeReply();
+  }
 }

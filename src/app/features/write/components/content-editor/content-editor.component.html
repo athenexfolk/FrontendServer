@@ -1,3 +1,7 @@
-<div class="">
+<div class="prose">
   <div id="editorjs"></div>
 </div>
+
+<ng-container *ngIf="isShowCodePage && code">
+  <CodePage [code]="code" (closeCommand)="closeCodePage()" />
+</ng-container>

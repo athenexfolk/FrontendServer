@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CommentAndOwner } from 'src/app/core/models/comment';
+import { CommentAndOwner, CommentAndReplies } from 'src/app/core/models/comment';
 
 @Component({
   selector: 'CommentGroup',
@@ -7,5 +7,5 @@ import { CommentAndOwner } from 'src/app/core/models/comment';
   styleUrls: ['./comment-group.component.scss']
 })
 export class CommentGroupComponent {
-  @Input() caos: CommentAndOwner[] = [];
+  @Input() cars: CommentAndReplies[] = [];
 }

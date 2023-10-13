@@ -16,4 +16,8 @@ export class ImageRepositoryService {
   getImage(formData: FormData) {
     return this.uploadImage(formData).pipe(map((response) => response.img));
   }
+
+  updateAvatar(formData: FormData) {
+    return this.http.post(`/api/img/v1/avatar/`, formData);
+  }
 }

@@ -15,14 +15,13 @@ export class TokenInterceptor implements HttpInterceptor {
   intercept(
     request: HttpRequest<unknown>,
     next: HttpHandler
-  ): Observable<HttpEvent<unknown>>
-  {
+  ): Observable<HttpEvent<unknown>> {
     if (!this.tokenService.token) return next.handle(request);
     let authRequest = request.clone({
       setHeaders: {
         Authorization: `${this.tokenService.token.token_type} ${this.tokenService.token.access_token}`,
       },
     });
-    return next.handle(authRequest)
+    return next.handle(authRequest);
   }
 }

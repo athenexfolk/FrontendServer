@@ -1,0 +1,14 @@
+<div class="grid grid-cols-1 gap-8">
+  <h3 class="text-xl font-bold">ความคิดเห็น</h3>
+  <CommentGroup [cars]="comments"></CommentGroup>
+  <ng-container *ngIf="loginStatus; else goLogin">
+    <CommentBox [postId]="postId" (addCommentEvent)="addComment($event)" />
+  </ng-container>
+</div>
+
+<ng-template #goLogin>
+  <p>
+    <a routerLink="/auth/login" class="underline font-semibold">เข้าสู่ระบบ</a>
+    เพื่อเข้าแสดงความคิดเห็น
+  </p>
+</ng-template>

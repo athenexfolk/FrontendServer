@@ -18,14 +18,14 @@ import { CommentGroupComponent } from './components/comment-manager/comment-grou
 import { CommentBoxComponent } from './components/comment-manager/comment-box/comment-box.component';
 import { ClickInsideDirective } from './directives/click-inside.directive';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
-import { AccountComponent } from './components/account/account.component';
-import { BrandComponent } from './components/brand/brand.component';
-import { NavigationBarComponent } from './components/navigation-manager/navigation-bar/navigation-bar.component';
-import { NavigationItemComponent } from './components/navigation-manager/navigation-item/navigation-item.component';
-import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { OptionsMenuComponent } from './components/post-manager/options-menu/options-menu.component';
 import { SingleLineSkeletonComponent } from './skeleton/single-line-skeleton/single-line-skeleton.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CodePageComponent } from './pages/code-page/code-page.component';
+import { CommentWrapperComponent } from './components/comment-manager/comment-wrapper/comment-wrapper.component';
+import { ReplyComponent } from './components/comment-manager/reply/reply.component';
+import { ReplyGroupComponent } from './components/comment-manager/reply-group/reply-group.component';
+import { ReplyBoxComponent } from './components/comment-manager/reply-box/reply-box.component';
 
 @NgModule({
   declarations: [
@@ -46,13 +46,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommentBoxComponent,
     ClickInsideDirective,
     ClickOutsideDirective,
-    AccountComponent,
-    BrandComponent,
-    NavigationBarComponent,
-    NavigationItemComponent,
-    SearchBarComponent,
     OptionsMenuComponent,
     SingleLineSkeletonComponent,
+    CodePageComponent,
+    CommentWrapperComponent,
+    ReplyComponent,
+    ReplyGroupComponent,
+    ReplyBoxComponent,
   ],
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
   exports: [
@@ -73,13 +73,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommentBoxComponent,
     ClickInsideDirective,
     ClickOutsideDirective,
-    AccountComponent,
-    BrandComponent,
-    NavigationBarComponent,
-    NavigationItemComponent,
-    SearchBarComponent,
     OptionsMenuComponent,
     SingleLineSkeletonComponent,
+    CodePageComponent,
+    CommentWrapperComponent
   ],
 })
 export class SharedModule {}

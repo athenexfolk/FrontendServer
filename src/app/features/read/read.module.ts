@@ -10,7 +10,7 @@ import { PostPageComponent } from './pages/post-page/post-page.component';
 @NgModule({
   declarations: [
     HomePageComponent,
-    PostPageComponent
+    PostPageComponent,
   ],
   imports: [
     CommonModule,

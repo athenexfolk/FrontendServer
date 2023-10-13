@@ -1,4 +1,9 @@
-import { Author } from "./author";
+import { User } from './user';
+
+export interface CommentRequest {
+  data: string;
+  replyToId?: string;
+}
 
 export interface Comment {
   _id: string;
@@ -6,10 +11,15 @@ export interface Comment {
   commentOwnerId: string;
   data: string;
   timestamp: Date;
-  replyToId: string;
+  replyToId?: string;
 }
 
 export interface CommentAndOwner {
   comment: Comment;
-  owner: Author
+  owner: User;
+}
+
+export interface CommentAndReplies {
+  comment: CommentAndOwner,
+  replies: CommentAndOwner[]
 }

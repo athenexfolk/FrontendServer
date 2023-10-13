@@ -4,7 +4,7 @@
   (clickInside)="openPanel()"
   (clickOutside)="closePanel()"
 >
-  <div class="w-10 h-10 md:w-12 md:h-12 bg-zinc-400 rounded-full hover:cursor-pointer overflow-hidden relative">
+  <div class="w-10 h-10 md:w-12 md:h-12 rounded-full hover:cursor-pointer overflow-hidden relative">
     <img [src]="getProfileImage()" class="w-full h-full object-cover"
       onError='{
             this.src = "assets/images/default-avatar.svg"
@@ -17,7 +17,7 @@
   >
     <div class="relative">
       <button
-        [routerLink]="['/profile', '1']"
+        [routerLink]="['/profile', myId]"
         class="w-full flex items-center gap-4 px-4 md:px-6 py-2 border-l-4 border-white hover:border-zinc-400 hover:bg-zinc-100 hover:cursor-pointer"
       >
         <svg

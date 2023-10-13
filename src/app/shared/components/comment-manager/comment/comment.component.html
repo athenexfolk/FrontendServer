@@ -1,6 +1,41 @@
-<div class="p-3">
-  <PostOwner [author]="owner" />
-  <p class="mt-2">
-    {{comment.data}}
+<div class="p-4">
+  <PostOwner [author]="commentAndReplies.comment.owner" />
+  <p class="my-3">
+    {{ commentAndReplies.comment.comment.data }}
   </p>
+  <div class="flex items-center gap-4 text-xs">
+    <p>
+      {{
+        commentAndReplies.comment.comment.timestamp | date : "dd/MM/yyyy, HH:mm"
+      }}
+    </p>
+    <button
+      *ngIf="isLoggedIn"
+      (click)="openReply()"
+      class="font-semibold hover:text-zinc-800"
+    >
+      ตอบกลับ
+    </button>
+  </div>
+</div>
+
+<div class="ms-8">
+  <div *ngFor="let reply of commentAndReplies.replies" class="flex gap-2">
+    <div
+      class="border-s-2 border-b-2 border-zinc-300 rounded-es-md w-6 h-6"
+    ></div>
+    <Reply [reply]="reply" class="grow" />
+  </div>
+</div>
+
+<div *ngIf="isReplying" class="ms-8 flex gap-2">
+  <div
+    class="border-s-2 border-b-2 border-zinc-300 rounded-es-md w-6 h-6"
+  ></div>
+  <ReplyBox
+    [postId]="commentAndReplies.comment.comment.postId"
+    [commentId]="commentAndReplies.comment.comment._id"
+    (addCommentEvent)="addReply($event)"
+    class="grow"
+  />
 </div>

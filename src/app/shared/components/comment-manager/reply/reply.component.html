@@ -1,0 +1,9 @@
+<div class="p-4">
+  <PostOwner [author]="reply.owner" />
+  <p class="my-3">
+    {{ reply.comment.data }}
+  </p>
+  <div class="flex items-center gap-4 text-xs">
+    <p>{{ reply.comment.timestamp | date : "dd/MM/yyyy, HH:mm" }}</p>
+  </div>
+</div>

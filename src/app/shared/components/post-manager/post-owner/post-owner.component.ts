@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Author } from 'src/app/core/models/author';
+import { User } from 'src/app/core/models/user';
 
 @Component({
   selector: 'PostOwner',
@@ -7,7 +7,7 @@ import { Author } from 'src/app/core/models/author';
   styleUrls: ['./post-owner.component.scss'],
 })
 export class PostOwnerComponent {
-  @Input() author: Author = {
+  @Input() author: User = {
     id: '0',
     username: 'username',
     avatar: '',

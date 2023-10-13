@@ -1,5 +1,6 @@
 export interface Pageable<T> {
-  data?: T;
+  collections?: T;
+  pivot: string | null;
   hasNext: boolean;
   hasPrevious: boolean;
   countAll: number;

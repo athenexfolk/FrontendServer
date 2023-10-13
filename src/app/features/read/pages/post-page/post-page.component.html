@@ -6,12 +6,14 @@
       </h1>
       <h2 class="text-xl font-semibold">{{ pa.post.description }}</h2>
     </div>
-    <BookmarkButton [isBookmarked]="true" />
+    <BookmarkButton [postId]="pa.post.id" [isBookmarked]="true" />
   </header>
   <TagGroup *ngIf="pa; else load">
-    <Tag />
-    <Tag />
-    <Tag />
+    <Tag
+      *ngFor="let tag of pa.post.tags"
+      [name]="tag"
+      [color]="getTagColor(tag)"
+    ></Tag>
   </TagGroup>
   <PostDetails
     [createdTime]="pa.post.createdTime"
@@ -32,21 +34,26 @@
         class="object-cover w-full h-full"
       />
     </div>
-    <div class="p-4" id="reader"></div>
+    <div class="p-4 prose" id="reader"></div>
   </article>
-  <div class="flex gap-8">
-    <LoveButton />
+  <div class="flex gap-8" *ngIf="pa">
+    <LoveButton
+      [postId]="pa.post.id"
+      [isLoved]="!!pa.post.isLiked"
+      [loveCount]="pa.post.likeCount || 0"
+    />
     <ShareButton />
   </div>
   <hr />
-  <div class="grid grid-cols-1 gap-8">
-    <h3 class="text-xl font-bold">Comments</h3>
-    <CommentGroup [caos]="mockComments"></CommentGroup>
-    <ng-container *ngIf="loginStatus; else goLogin">
-      <CommentBox />
-    </ng-container>
-  </div>
+
+  <ng-container *ngIf="comments$ | async as comments">
+    <CommentWrapper [comments]="comments" [postId]="postId" />
+  </ng-container>
 </main>
+
+<ng-container *ngIf="isShowCodePage && code">
+  <CodePage [code]="code" (closeCommand)="closeCodePage()" />
+</ng-container>
 
 <ng-template #load>
   <SingleLineSkeleton></SingleLineSkeleton>
@@ -54,11 +61,4 @@
 
 <ng-template #imageload>
   <SingleLineSkeleton></SingleLineSkeleton>
-</ng-template>
-
-<ng-template #goLogin>
-  <p>
-    <a routerLink="/auth/login" class="underline font-semibold">เข้าสู่ระบบ</a>
-    เพื่อเข้าแสดงความคิดเห็น
-  </p>
 </ng-template>

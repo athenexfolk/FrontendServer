@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { switchMap, of } from 'rxjs';
 import { Tag } from 'src/app/core/models/tag';
 import { PostService } from 'src/app/core/services/post.service';
+import { TagService } from 'src/app/core/services/tag.service';
+import { CodeModel } from 'src/app/core/tools/code-model';
 
 @Component({
   selector: 'app-edit-page',
@@ -22,9 +24,10 @@ export class EditPageComponent {
   constructor(
     private postService: PostService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private tagService: TagService
   ) {
-    route.paramMap
+    this.route.paramMap
       .pipe(
         switchMap((params) => {
           let id = params.get('editPostId');
@@ -40,7 +43,7 @@ export class EditPageComponent {
             let p = pa.post;
             this.postTitle = p.title;
             this.postDescription = p.description;
-            // this.postTags = p.tags
+            this.postTags = this.tagService.mapAllTags(p.tags);
             this.postCoverImage = p.coverImage;
             this.postContent = p.content;
           }
@@ -73,4 +76,6 @@ export class EditPageComponent {
         },
       });
   }
+
+
 }

@@ -3,14 +3,23 @@ import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { PostAndAuthor } from 'src/app/core/models/post-and-author';
 import { PostService } from 'src/app/core/services/post.service';
-import EditorJS, { OutputData } from '@editorjs/editorjs';
+import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import Delimiter from '@editorjs/delimiter';
 import Table from '@editorjs/table';
 import InlineCode from '@editorjs/inline-code';
 import NestedList from '@editorjs/nested-list';
 import { AuthorityService } from 'src/app/core/auth/authority.service';
-import { CommentAndOwner } from 'src/app/core/models/comment';
+import {
+  CommentAndOwner,
+  CommentAndReplies,
+} from 'src/app/core/models/comment';
+import CodeBlock, { CodeBlockConfig } from 'src/app/core/tools/code-block';
+import { CodeModel } from 'src/app/core/tools/code-model';
+import { CommentService } from 'src/app/core/services/comment.service';
+import { Observable } from 'rxjs';
+import { TagService } from 'src/app/core/services/tag.service';
+import ImageBlock from 'src/app/core/tools/image-block';
 
 @Component({
   selector: 'app-post-page',
@@ -22,47 +31,19 @@ export class PostPageComponent implements OnInit {
   pa!: PostAndAuthor;
   editor!: EditorJS;
 
-  mockComments:CommentAndOwner[] = [
-    {
-      comment: {
-        _id: "123",
-        commentOwnerId: "123",
-        postId: "123",
-        data: "I think it's excellent",
-        replyToId: "123",
-        timestamp: new Date(),
-      },
-      owner: {
-        id: "123",
-        avatar: "",
-        isFollower: false,
-        isFollowing: false,
-        username: "Jane",
-      }
-    },
-    {
-      comment: {
-        _id: "124",
-        commentOwnerId: "123",
-        postId: "123",
-        data: "I think it's aggressive",
-        replyToId: "123",
-        timestamp: new Date(),
-      },
-      owner: {
-        id: "123",
-        avatar: "",
-        isFollower: false,
-        isFollowing: false,
-        username: "Jane",
-      }
-    }
-  ]
+  code: CodeModel | null = null;
+  isShowCodePage: boolean = true;
+
+  comments$!: Observable<CommentAndReplies[]>;
+
+  postId = '';
 
   constructor(
     private route: ActivatedRoute,
     private postService: PostService,
-    private authService: AuthorityService
+    private authService: AuthorityService,
+    private commentService: CommentService,
+    private tagService: TagService
   ) {}
 
   checkImage(imageString: string) {
@@ -71,10 +52,16 @@ export class PostPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let obsv$ = this.route.params.pipe(
+    let obsv$ = this.route.paramMap.pipe(
       switchMap((params) => {
-        const id = params['postId'];
-        return this.postService.getSinglePostById(id);
+        this.postId = params.get('postId') || '';
+
+        if (this.postId.length) {
+          this.comments$ = this.commentService.getCommentAndReplyInPost(
+            this.postId
+          );
+        }
+        return this.postService.getSinglePostById(this.postId);
       })
     );
     obsv$.subscribe({
@@ -88,6 +75,11 @@ export class PostPageComponent implements OnInit {
   }
 
   initializeEditorJS(): void {
+    let codeBlockConfig: CodeBlockConfig = {
+      name: 'code-block',
+      event: this.getCodeData,
+    };
+
     if (this.pa && this.pa.post && this.pa.post.content) {
       this.editor = new EditorJS({
         holder: 'reader',
@@ -98,9 +90,34 @@ export class PostPageComponent implements OnInit {
           table: Table,
           inlineCode: InlineCode,
           nestedList: NestedList,
+          codeBlock: {
+            class: CodeBlock as any,
+            config: codeBlockConfig,
+          },
+          image: ImageBlock,
         },
-        data: JSON.parse(this.pa.post.content),
+        onReady: () => {
+          if (this.pa.post.content.length)
+            this.editor.render(JSON.parse(this.pa.post.content));
+        },
       });
     }
+  }
+
+  getCodeData = (code: CodeModel) => {
+    this.openCodePage();
+    this.code = code;
+  };
+
+  openCodePage() {
+    this.isShowCodePage = true;
+  }
+
+  closeCodePage() {
+    this.isShowCodePage = false;
+  }
+
+  getTagColor(tagName: string) {
+    return this.tagService.getColorFromTagName(tagName);
   }
 }

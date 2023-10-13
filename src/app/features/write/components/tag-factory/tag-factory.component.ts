@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Tags } from 'src/app/core/constant/tags';
 import { Tag } from 'src/app/core/models/tag';
 
 @Component({
@@ -7,14 +8,10 @@ import { Tag } from 'src/app/core/models/tag';
   styleUrls: ['./tag-factory.component.scss'],
 })
 export class TagFactoryComponent {
-  validTags: Tag[] = [
-    { name: 'HTML', color: 'e34c26' },
-    { name: 'CSS', color: '264de4' },
-    { name: 'JS', color: 'F0DB4F' },
-    { name: 'NodeJS', color: '68A063' },
-  ];
-
+  validTags = Tags;
   maxTag = 5;
+
+  searchText = '';
 
   @Input() tags: Tag[] = [];
   @Output() tagsChange = new EventEmitter<Tag[]>();
@@ -30,11 +27,46 @@ export class TagFactoryComponent {
   }
 
   addTag(tag: Tag) {
-    if (this.tags.length >= this.maxTag) return;
+    if (
+      this.tags.length >= this.maxTag ||
+      this.tags.find((vtag) => vtag.name === tag.name)
+    )
+      return;
     this.tags.push(tag);
+  }
+
+  addCustomTag() {
+    if (
+      this.tags.length >= this.maxTag ||
+      this.tags.find((vtag) => vtag.name === this.searchText)
+    )
+      return;
+    if (
+      this.validTags.find(
+        (vtag) => vtag.name.toLowerCase() === this.searchText.toLowerCase()
+      )
+    ) {
+      this.addTag(
+        this.validTags.find(
+          (vtag) => vtag.name.toLowerCase() === this.searchText.toLowerCase()
+        )!
+      );
+    } else {
+      this.tags.push({ name: this.searchText, color: '3f3f46' });
+    }
   }
 
   removeTag(id: number) {
     this.tags.splice(id, 1);
+  }
+
+  filterTag() {
+    if (this.searchText.length >= 12) {
+      this.searchText = this.searchText.slice(0, 12);
+      return;
+    }
+    this.validTags = Tags.filter((tag) =>
+      tag.name.toLowerCase().startsWith(this.searchText.toLowerCase())
+    );
   }
 }

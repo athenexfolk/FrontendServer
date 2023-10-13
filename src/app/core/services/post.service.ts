@@ -1,50 +1,47 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, filter, map, switchMap, tap } from 'rxjs';
-import { Author } from '../models/author';
+import { filter, map, switchMap } from 'rxjs';
 import { PostAndAuthor, PostPreviewAndAuthor } from '../models/post-and-author';
 import { PostAddDto, PostUpdateDto } from '../models/post-request';
 import { PostRepositoryService } from '../repository/post-repository.service';
 import { ImageRepositoryService } from '../repository/image-repository.service';
+import { UserService } from './user.service';
+import { Post, PostPreview } from '../models/post-response';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PostService {
   constructor(
-    private http: HttpClient,
     private postRepo: PostRepositoryService,
-    private imageRepo: ImageRepositoryService
+    private imageRepo: ImageRepositoryService,
+    private userService: UserService
   ) {}
 
-  private getAuthors(userIds: string[]) {
-    let params = new HttpParams();
-    for (let id of userIds) {
-      params = params.append('uid', id.toString());
-    }
-    return this.http.get<Author[]>('/api/auth/v1/profiles', { params });
-  }
-
-  getAllPosts() {
-    return this.postRepo.getPosts().pipe(
+  getAllPosts(size: number, pivot: string | null) {
+    return this.postRepo.getPosts(size, pivot).pipe(
       switchMap((response) => {
-        const postPreviews = response.data?.data || [];
+        const postPreviews = response.data?.collections || [];
         const authorIds = postPreviews.map(
           (postPreview) => postPreview.authorId
         );
-        return this.getAuthors(authorIds).pipe(
-          map((authors) =>
-            postPreviews.map((postPreview) => {
-              return {
-                postPreview: postPreview,
-                author: authors.find(
-                  (author) => author.id === postPreview.authorId
-                )!,
-              } as PostPreviewAndAuthor;
-            })
-          )
-        );
+        return this.mapPostPreviewsAndAuthors(postPreviews, authorIds);
       })
+    );
+  }
+
+  mapPostPreviewsAndAuthors(postPreviews: PostPreview[], authorIds: string[]) {
+    return this.userService.getUsers(authorIds).pipe(
+      map((authors) =>
+        postPreviews.map(
+          (postPreview) =>
+            ({
+              postPreview: postPreview,
+              author: authors.find(
+                (author) => author.id === postPreview.authorId
+              ),
+            } as PostPreviewAndAuthor)
+        )
+      )
     );
   }
 
@@ -53,17 +50,21 @@ export class PostService {
       filter((response) => response.isSuccess),
       switchMap((response) => {
         const post = response.data!;
-        const authorIds = [post.authorId];
-
-        return this.getAuthors(authorIds).pipe(
-          map((authors) => {
-            return {
-              post: post,
-              author: authors.find((author) => author.id === post.authorId)!,
-            } as PostAndAuthor;
-          })
-        );
+        const authorId = post.authorId;
+        return this.mapPostAndAuthor(post, authorId);
       })
+    );
+  }
+
+  mapPostAndAuthor(post: Post, authorId: string) {
+    return this.userService.getUser(authorId).pipe(
+      map(
+        (author) =>
+          ({
+            post: post,
+            author: author,
+          } as PostAndAuthor)
+      )
     );
   }
 
@@ -81,5 +82,21 @@ export class PostService {
 
   uploadImage(formData: FormData) {
     return this.imageRepo.uploadImage(formData);
+  }
+
+  likePost(id: string) {
+    return this.postRepo.likePost(id).subscribe();
+  }
+
+  unlikePost(id: string) {
+    return this.postRepo.unlikePost(id).subscribe();
+  }
+
+  savePost(id: string) {
+    return this.postRepo.savePost(id).subscribe();
+  }
+
+  unsavePost(id: string) {
+    return this.postRepo.unsavePost(id).subscribe();
   }
 }

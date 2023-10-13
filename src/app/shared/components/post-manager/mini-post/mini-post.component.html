@@ -1,8 +1,12 @@
-<article class="flex justify-between items-center gap-4 md:gap-8">
+<article class="flex justify-between items-center gap-4 md:gap-8 mt-4">
   <div class="grow grid grid-cols-1 gap-3">
     <div class="flex justify-between items-center">
       <PostOwner [author]="ppa.author" />
-      <OptionsMenu *ngIf="isOwned" [postId]="ppa.postPreview.id" (deleteEmitter)="sendDeleteEvent()" />
+      <OptionsMenu
+        *ngIf="isOwned"
+        [postId]="ppa.postPreview.id"
+        (deleteEmitter)="sendDeleteEvent()"
+      />
     </div>
     <a role="link" [routerLink]="['/post', ppa.postPreview.id]">
       <div class="group line-clamp-3 hover:cursor-pointer">
@@ -14,12 +18,11 @@
         </p>
       </div>
     </a>
-    <div class="flex gap-6 items-center text-xs">
+    <div class="flex flex-col gap-3 text-xs">
+      <p>{{ ppa.postPreview.createdTime | date : "dd/MM/yyyy, HH:mm" }}</p>
       <TagGroup *ngIf="ppa.postPreview.tags.length">
-        <Tag *ngFor="let tag of ppa.postPreview.tags" [name]="tag" />
+        <Tag *ngFor="let tag of ppa.postPreview.tags" [name]="tag" [color]="getTagColor(tag)" />
       </TagGroup>
-      <p>{{ ppa.postPreview.createdTime | date }}</p>
-      <!-- <p>3 Mins</p> -->
     </div>
   </div>
   <div class="grow-0">

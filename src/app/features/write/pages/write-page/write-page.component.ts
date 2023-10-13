@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Tag } from 'src/app/core/models/tag';
 import { PostService } from 'src/app/core/services/post.service';
+import { CodeModel } from 'src/app/core/tools/code-model';
 
 @Component({
   selector: 'app-write-page',
@@ -17,6 +18,9 @@ export class WritePageComponent {
 
   isReadyToPublish = false;
 
+  code: CodeModel | null = null;
+  isShowCodePage: boolean = true;
+
   constructor(private postService: PostService, private router: Router) {}
 
   openOverlay() {
@@ -27,7 +31,7 @@ export class WritePageComponent {
     this.isReadyToPublish = false;
   }
 
-  publish() {    
+  publish() {
     this.postService
       .addPost({
         title: this.postTitle,
@@ -41,5 +45,18 @@ export class WritePageComponent {
         next: (r) => this.router.navigate(['/','post',r.data]),
         complete: () => sessionStorage.clear()
       });
+  }
+
+  getCodeData = (code: CodeModel) => {
+    this.openCodePage();
+    this.code = code;
+  };
+
+  openCodePage() {
+    this.isShowCodePage = true;
+  }
+
+  closeCodePage() {
+    this.isShowCodePage = false;
   }
 }
