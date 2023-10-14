@@ -12,6 +12,8 @@ import loader from '@monaco-editor/loader';
 import { CodeModel } from 'src/app/core/tools/code-model';
 import type * as monaco from 'monaco-editor';
 import { Terminal } from 'xterm';
+import { Runner } from 'src/app/sockets/runner';
+import { FitAddon } from 'xterm-addon-fit';
 
 @Component({
   selector: 'CodePage',
@@ -28,10 +30,38 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
   monacoEditor!: monaco.editor.IStandaloneCodeEditor;
   terminal!: Terminal;
 
+  isServerReady = false;
   isExecuting = false;
+  executeState: 'loading' | 'ready' = 'ready';
 
-  prompt = '$ ';
-  output = 'Waiting for code...';
+  prompt = '';
+  inputBuffer = '';
+
+  constructor(private runner: Runner) {}
+
+  ngOnInit() {
+    this.runner.connect();
+    this.runner.isConnected$.subscribe(
+      (status) => (this.isServerReady = status)
+    );
+
+    this.runner.output$.subscribe((stdout) => {
+      console.log(stdout);
+
+      if (stdout.data && stdout.type !== 'exit') {
+        this.terminal.write(stdout.data, () => {
+          this.executeState = 'ready';
+        });
+      }
+      if (stdout.type === 'exit') {
+        this.terminal.write('Exit with status code ' + stdout.data);
+        this.terminal.writeln(this.prompt);
+        this.abort();
+      }
+      this.terminal.write(this.prompt);
+    });
+    this.runner.error$.subscribe(console.error);
+  }
 
   ngAfterViewInit() {
     loader.init().then((monaco) => {
@@ -40,23 +70,37 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
         {
           value: this.code.code,
           language: this.code.language,
-          readOnly: true,
         }
       );
     });
 
-    this.terminal = new Terminal();
+    const fitAddon = new FitAddon();
+    this.terminal = new Terminal({
+      convertEol: true,
+      cursorBlink: true,
+    });
+
+    this.terminal.loadAddon(fitAddon);
     this.terminal.open(this.terminalRef.nativeElement);
+    fitAddon.fit();
+
     this.terminal.write(this.prompt);
+
     this.terminal.onData((input) => {
       if (input === '\r') {
         this.terminal.writeln('');
+        //Waiting for input event
+        this.useInputBuffer();
         this.terminal.write(this.prompt);
       } else if (input === '\u007f') {
-        if (this.terminal.buffer.active.cursorX > 2)
+        if (this.terminal.buffer.active.cursorX > 0) {
           this.terminal.write('\b \b');
+          this.inputBuffer = this.inputBuffer.slice(0, -1);
+        }
       } else {
         this.terminal.write(input);
+        //store buffer
+        this.inputBuffer += input;
       }
     });
   }
@@ -69,12 +113,16 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
 
   execute() {
     this.isExecuting = true;
-    this.output = 'Executing...';
+    this.executeState = 'loading';
+    this.terminal.clear();
+    this.runner.run({
+      language: 'python3',
+      sourcecode: this.monacoEditor.getValue(),
+    });
   }
 
   abort() {
     this.isExecuting = false;
-    this.output = 'Clearing...';
   }
 
   closePage() {
@@ -82,23 +130,9 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
     this.closeCommand.emit();
   }
 
-  onReceiveStdIn() {
-
-  }
-
-  onReceiveStdOut() {
-    
-  }
-
-  onReceiveStdErr() {
-
-  }
-
-  onReceiveError() {
-
-  }
-
-  onReceiveExit() {
-
+  useInputBuffer() {
+    console.log(this.inputBuffer);
+    this.runner.input(this.inputBuffer)
+    this.inputBuffer = '';
   }
 }
