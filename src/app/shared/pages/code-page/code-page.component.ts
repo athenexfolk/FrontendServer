@@ -14,6 +14,7 @@ import type * as monaco from 'monaco-editor';
 import { Terminal } from 'xterm';
 import { Runner } from 'src/app/sockets/runner';
 import { FitAddon } from 'xterm-addon-fit';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'CodePage',
@@ -34,6 +35,8 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
   isExecuting = false;
   executeState: 'loading' | 'ready' = 'ready';
 
+  subscriptions = new Subscription();
+
   prompt = '';
   inputBuffer = '';
 
@@ -41,26 +44,7 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.runner.connect();
-    this.runner.isConnected$.subscribe(
-      (status) => (this.isServerReady = status)
-    );
-
-    this.runner.output$.subscribe((stdout) => {
-      console.log(stdout);
-
-      if (stdout.data && stdout.type !== 'exit') {
-        this.terminal.write(stdout.data, () => {
-          this.executeState = 'ready';
-        });
-      }
-      if (stdout.type === 'exit') {
-        this.terminal.write('Exit with status code ' + stdout.data);
-        this.terminal.writeln(this.prompt);
-        this.abort();
-      }
-      this.terminal.write(this.prompt);
-    });
-    this.runner.error$.subscribe(console.error);
+    this.listenServerStatus();
   }
 
   ngAfterViewInit() {
@@ -72,6 +56,14 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
           language: this.code.language,
         }
       );
+
+      this.monacoEditor.addAction({
+        id: 'run',
+        label: 'Run Code',
+        keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter],
+        contextMenuGroupId: 'navigation',
+        run: ()=> this.execute()
+      });
     });
 
     const fitAddon = new FitAddon();
@@ -103,11 +95,69 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
         this.inputBuffer += input;
       }
     });
+
+    this.checkServerStatus();
+    this.listenError();
+    this.listenOutput();
   }
 
   ngOnDestroy(): void {
     if (this.monacoEditor) {
       this.monacoEditor.dispose();
+    }
+
+    // this.runner.disconnect();
+
+    this.subscriptions.unsubscribe();
+  }
+
+  private listenServerStatus() {
+    const connectStatus = this.runner.isConnected$.subscribe((status) => {
+      this.isServerReady = status;
+      console.log(this.isServerReady);
+    });
+    this.subscriptions.add(connectStatus);
+  }
+
+  private checkServerStatus() {
+    const connectStatus = this.runner.isConnected$.subscribe((status) => {
+      if (this.isServerReady) {
+        this.terminal.clear();
+        this.terminal.writeln('Server is ready');
+      } else this.terminal.writeln('Connecting to server...');
+    });
+    this.subscriptions.add(connectStatus);
+  }
+
+  private listenOutput() {
+    const output = this.runner.output$.subscribe((stdout) => {
+      console.log(stdout);
+
+      this.executeState = 'ready';
+
+      if (stdout.data && stdout.type !== 'exit') {
+        this.terminal.write(stdout.data);
+      }
+      if (stdout.type === 'exit') {
+        this.terminal.write('Exit with status code ' + stdout.data);
+        this.terminal.writeln(this.prompt);
+        this.abort();
+      }
+      this.terminal.write(this.prompt);
+    });
+    this.subscriptions.add(output);
+  }
+
+  private listenError() {
+    const error = this.runner.error$.subscribe(console.error);
+    this.subscriptions.add(error);
+  }
+
+  private mapSupportedLanguages(lang:string) {
+    switch (lang){
+      case "python": return "python3";
+      case "java": return "java17";
+      default: throw new Error("Unsupported language");
     }
   }
 
@@ -116,7 +166,7 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
     this.executeState = 'loading';
     this.terminal.clear();
     this.runner.run({
-      language: 'python3',
+      language: this.mapSupportedLanguages(this.code.language),
       sourcecode: this.monacoEditor.getValue(),
     });
   }
@@ -131,8 +181,8 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
   }
 
   useInputBuffer() {
-    console.log(this.inputBuffer);
-    this.runner.input(this.inputBuffer)
+    console.log(this.inputBuffer.concat('\n'));
+    this.runner.input(this.inputBuffer.concat('\n'));
     this.inputBuffer = '';
   }
 }
