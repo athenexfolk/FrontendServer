@@ -139,7 +139,7 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
         this.terminal.write(stdout.data);
       }
       if (stdout.type === 'exit') {
-        this.terminal.write('Exit with status code ' + stdout.data);
+        this.terminal.write('\nExit with status code ' + stdout.data);
         this.terminal.writeln(this.prompt);
         this.abort();
       }
@@ -173,6 +173,7 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
 
   abort() {
     this.isExecuting = false;
+    this.runner.kill();
   }
 
   closePage() {
