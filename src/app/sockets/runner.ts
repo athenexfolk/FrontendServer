@@ -5,9 +5,9 @@ type SUPPORTED_LANGUAGES =
   | 'java17'
   | 'python3'
 
-interface CodeDto{
-  sourcecode :string;
-  language : SUPPORTED_LANGUAGES;
+interface CodeDto {
+  sourcecode: string;
+  language: SUPPORTED_LANGUAGES;
 }
 
 interface ServerToClientEvents {
@@ -20,6 +20,7 @@ interface ServerToClientEvents {
 interface ClientToServerEvents {
   "run": (code: CodeDto) => void;
   "stdin": (input: string) => void;
+  "kill": (sigkill: number | null) => void;
 }
 
 export type IO =
@@ -28,11 +29,11 @@ export type IO =
   | { type: 'stderr'; data: string }
   | { type: 'exit'; data: number | null };
 
-type SocketType = Socket<ServerToClientEvents,ClientToServerEvents>;
+type SocketType = Socket<ServerToClientEvents, ClientToServerEvents>;
 
 export class Runner {
-  private static _instance :Runner;
-  private static io :SocketType;
+  private static _instance: Runner;
+  private static io: SocketType;
 
   private _isConnected = new BehaviorSubject<boolean>(false);
   private _output = new Subject<IO>();
@@ -44,69 +45,78 @@ export class Runner {
       autoConnect: false
     });
 
-    Runner.io.on("connect",()=>{
+    Runner.io.on("connect", () => {
       this._isConnected.next(true);
       console.log("Connection established")
     });
-    Runner.io.on("disconnect",()=>{
+    Runner.io.on("disconnect", () => {
       this._isConnected.next(false);
       console.log("Connection down")
     });
-    Runner.io.on("connect_error",(err)=>{
+    Runner.io.on("connect_error", (err) => {
       this._isConnected.next(false);
       this._error.next("Connection error : " + err.message);
       console.log("Connection error: " + err.message);
     });
 
-    Runner.io.on("stdout", data => this._output.next({type:"stdout", data: data}));
-    Runner.io.on("stderr", data => this._output.next({type:"stderr", data: data}));
-    Runner.io.on("exit", data => this._output.next({type:"exit", data: data}));
+    Runner.io.on("stdout", data => this._output.next({ type: "stdout", data: data }));
+    Runner.io.on("stderr", data => this._output.next({ type: "stderr", data: data }));
+    Runner.io.on("exit", data => this._output.next({ type: "exit", data: data }));
     Runner.io.on("error", data => this._error.next(data));
   }
 
-  public get isConnected$(){
+  public get isConnected$() {
     return this._isConnected.asObservable();
   }
 
-  public get isConnected(){
+  public get isConnected() {
     return this._isConnected.value;
   }
 
-  public get output$(){
+  public get output$() {
     return this._output
       .asObservable()
-      .pipe(filter(i=>i.type!='stdin'));
+      .pipe(filter(i => i.type != 'stdin'));
   }
 
-  public get error$(){
+  public get error$() {
     return this._error.asObservable()
   }
 
-  public static getInstance() :Runner {
-    if(!this._instance)
+  public static getInstance(): Runner {
+    if (!this._instance)
       this._instance = new Runner();
 
     return this._instance;
   }
 
-  public connect(){
+  public connect() {
     Runner.io.connect();
   }
 
-  public disconnect(){
+  public disconnect() {
     Runner.io.disconnect();
   }
 
-  public run(code: CodeDto){
-    console.log("Running code : ", code);
-    if (this.isConnected)
+  public run(code: CodeDto) {
+    if (this.isConnected) {
+      console.log("Running code : ", code);
       Runner.io.emit("run", code);
+    }
   }
 
-  public input(data:string){
-    console.log("Input : ", {data});
-    if (this.isConnected)
+  public input(data: string) {
+    if (this.isConnected) {
+      console.log("Input : ", { data });
       Runner.io.emit("stdin", data);
+    }
+  }
+
+  public kill(sigkill: number | null = null) {
+    if (this.isConnected) {
+      console.log("Kill : ", { sigkill });
+      Runner.io.emit("kill", sigkill);
+    }
   }
 
 }
