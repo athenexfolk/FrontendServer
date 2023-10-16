@@ -2,14 +2,16 @@ export interface Language {
   id: string;
   name: string;
 }
+
+export interface LanguageLogo {
+  id: string;
+  logo: string;
+}
+
 export const availableLanguages: Language[] = [
   {
     id: 'c',
     name: 'C',
-  },
-  {
-    id: 'cpp',
-    name: 'C++',
   },
   {
     id: 'java',
@@ -18,21 +20,5 @@ export const availableLanguages: Language[] = [
   {
     id: 'python',
     name: 'Python',
-  },
-  {
-    id: 'javascript',
-    name: 'JavaScript',
-  },
-  {
-    id: 'css',
-    name: 'CSS',
-  },
-  {
-    id: 'sql',
-    name: 'SQL',
-  },
-  {
-    id: 'html',
-    name: 'HTML',
   },
 ];
