@@ -9,6 +9,7 @@ import { AppLayoutModule } from './app-layout/app-layout.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './core/interceptor/token.interceptor';
 import { Runner } from './sockets/runner';
+import { PublicEndpointSwitcherInterceptor } from './core/interceptor/public-endpoint-switcher.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,6 +24,11 @@ import { Runner } from './sockets/runner';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: PublicEndpointSwitcherInterceptor,
       multi: true
     },
     {
