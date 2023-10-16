@@ -9,6 +9,7 @@ import { AppLayoutModule } from './app-layout/app-layout.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './core/interceptor/token.interceptor';
 import { Runner } from './sockets/runner';
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,7 +18,8 @@ import { Runner } from './sockets/runner';
     AppRoutingModule,
     CoreModule,
     LayoutModule,
-    AppLayoutModule
+    AppLayoutModule,
+    LoadingBarHttpClientModule
   ],
   providers: [
     {
