@@ -4,6 +4,8 @@ import { io, Socket } from "socket.io-client";
 type SUPPORTED_LANGUAGES =
   | 'java17'
   | 'python3'
+  | 'c12'
+  | 'unsupported'
 
 interface CodeDto {
   sourcecode: string;
@@ -40,8 +42,8 @@ export class Runner {
   private _error = new Subject<string>();
 
   private constructor(){
-    Runner.io = io("http://localhost:4200/", {
-      path: "/api/runner/v1/socket.io",
+    Runner.io = io("http://localhost:3000/", {
+      // path: "/api/runner/v1/socket.io",
       autoConnect: false
     });
 
