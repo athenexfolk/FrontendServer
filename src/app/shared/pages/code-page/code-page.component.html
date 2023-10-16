@@ -5,15 +5,13 @@
     <div class="gap-2 p-4 flex justify-start flex-auto">
       <div class="p-2 flex justify-start">
         <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Python_logo_01.svg/800px-Python_logo_01.svg.png"
-          alt=""
+          [src]="'assets/images/lang-logo/' + code.language + '.svg'"
+          alt="code logo"
           class="w-6 me-6"
         />
-        <p>
-          Python 3
-        </p>
+        <p>{{ code.language }}</p>
       </div>
-      <div class="p-2 flex-auto text-center">Name.py</div>
+      <div class="p-2 flex-auto text-center">{{ code.name }}</div>
     </div>
     <div class="gap-2 p-4">
       <button
