@@ -21,7 +21,7 @@ export class LazyPostService {
     zeroLengthHandler: () => void = () => {}
   ) {
     this.postService
-      .getAllPosts(20, this.pivot$.value, author)
+      .getAllPosts(10, this.pivot$.value, author)
       .pipe(
         tap((posts) => {
           if (posts.length > 0) {

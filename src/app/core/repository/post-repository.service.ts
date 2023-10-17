@@ -4,6 +4,7 @@ import { Response } from '../models/response';
 import { Pageable } from '../models/pageable';
 import { Post, PostPreview } from '../models/post-response';
 import { PostAddDto, PostUpdateDto } from '../models/post-request';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class PostRepositoryService {
     let endpoint = new URL(this.#POST_ENDPOINT);
     endpoint.searchParams.set('take', size.toString());
     if (pivot) {
-      endpoint.searchParams.set('from', '>' + pivot);
+      endpoint.searchParams.set('from', '<' + pivot);
     }
     if (author) {
       endpoint.searchParams.set('of', author);
