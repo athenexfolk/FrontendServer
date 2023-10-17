@@ -2,8 +2,10 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
@@ -22,7 +24,7 @@ import { TokenService } from 'src/app/core/auth/token.service';
   templateUrl: './content-editor.component.html',
   styleUrls: ['./content-editor.component.scss'],
 })
-export class ContentEditorComponent implements OnDestroy {
+export class ContentEditorComponent implements OnDestroy, OnChanges {
   @Input() content = '';
   @Output() contentChange = new EventEmitter<string>();
 
@@ -35,6 +37,10 @@ export class ContentEditorComponent implements OnDestroy {
   isShowCodePage: boolean = true;
 
   constructor(private tokenService: TokenService) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.renderFirstValidContent(changes);
+  }
 
   ngOnInit(): void {
     this.initEditorJS();
@@ -94,9 +100,6 @@ export class ContentEditorComponent implements OnDestroy {
           1000
         );
       },
-      onReady: () => {
-        if (this.content.length) this.editor.render(JSON.parse(this.content));
-      },
     });
   }
 
@@ -111,5 +114,34 @@ export class ContentEditorComponent implements OnDestroy {
 
   closeCodePage() {
     this.isShowCodePage = false;
+  }
+
+  private tryRender() {
+    try {
+      console.log("rendering");
+      this.editor?.isReady.then(()=>{
+        console.log("rendered");
+        this.editor.render(JSON.parse(this.content));
+      });
+    } catch (error) {
+      if (error instanceof Error)
+        console.error(error.message);
+      console.error(error);
+    }
+  }
+
+  private renderFirstValidContent(changes:SimpleChanges){
+    const content = changes['content'];
+
+    const isPreviousValid = !!content.previousValue && content.previousValue?.length !== 0;
+    const isCurrentValid = !!content.currentValue && content.currentValue?.length !== 0;
+
+    console.debug(content);
+    console.debug("isPreviousValid : ", isPreviousValid);
+    console.debug("isCurrentValid : ", isCurrentValid);
+
+    if (!isPreviousValid && isCurrentValid){
+      this.tryRender();
+    }
   }
 }
