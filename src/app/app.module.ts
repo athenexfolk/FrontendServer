@@ -9,6 +9,7 @@ import { AppLayoutModule } from './app-layout/app-layout.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './core/interceptor/token.interceptor';
 import { Runner } from './sockets/runner';
+import { PublicEndpointSwitcherInterceptor } from './core/interceptor/public-endpoint-switcher.interceptor';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 
 @NgModule({
@@ -25,6 +26,11 @@ import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: PublicEndpointSwitcherInterceptor,
       multi: true
     },
     {
