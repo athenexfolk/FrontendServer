@@ -85,11 +85,11 @@ export class PostService {
   }
 
   likePost(id: string) {
-    return this.postRepo.likePost(id).subscribe();
+    return this.postRepo.likePost(id);
   }
 
   unlikePost(id: string) {
-    return this.postRepo.unlikePost(id).subscribe();
+    return this.postRepo.unlikePost(id);
   }
 
   savePost(id: string) {
