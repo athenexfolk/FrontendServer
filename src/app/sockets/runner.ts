@@ -4,6 +4,8 @@ import { io, Socket } from "socket.io-client";
 type SUPPORTED_LANGUAGES =
   | 'java17'
   | 'python3'
+  | 'c12'
+  | 'unsupported'
 
 interface CodeDto {
   sourcecode: string;
