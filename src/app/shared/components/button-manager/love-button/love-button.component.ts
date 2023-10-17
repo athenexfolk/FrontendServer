@@ -15,11 +15,16 @@ export class LoveButtonComponent {
 
   love() {
     this.isLoved = true;
-    this.postService.likePost(this.postId);
+    this.inclementCount();
+    this.postService.likePost(this.postId)
+      .subscribe({error:this.declementCount});
   }
 
   unlove() {
     this.isLoved = false;
+    this.declementCount();
+    this.postService.unlikePost(this.postId)
+      .subscribe({error:this.inclementCount});
   }
 
   toggleLove() {
@@ -29,4 +34,7 @@ export class LoveButtonComponent {
       this.unlove();
     }
   }
+
+  private inclementCount = () =>  this.loveCount++
+  private declementCount = () =>  this.loveCount--
 }
