@@ -85,7 +85,9 @@ export default class CodeBlock implements BlockTool {
         minimap: {
           enabled: false,
         },
+        scrollBeyondLastLine: false
       });
+      this.listenContentChangeAndUpdateElHeight();
     });
   }
 
@@ -106,12 +108,27 @@ export default class CodeBlock implements BlockTool {
     this._editor.classList.add(this.api.styles.block);
     this._wrapper.classList.add(this.api.styles.block, 'code-wrapper');
 
-    this._editor.style.height = '200px';
+    this._editor.style.height = `${this.calEleHeight()}rem`;
+    this._editor.style.maxHeight = '70vh'
+    this._editor.style.minHeight = '10rem'
 
     this.loadEditor();
     this.structOption();
 
     return this._wrapper;
+  }
+
+  private calEleHeight(){
+    const lines = this.data?.code?.split(/\n/)?.length ?? 10;
+    const lineHigh = 1.2;
+    return lineHigh * lines;
+  }
+
+  private listenContentChangeAndUpdateElHeight(){
+    this.monacoEditor.getModel()?.onDidChangeContent(e=>{
+      console.log(e);
+      this._editor.style.height = `${this.monacoEditor.getModel()!.getLineCount() * 1.22}rem`;
+    })
   }
 
   private structOption() {
