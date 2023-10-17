@@ -157,7 +157,8 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
     switch (lang){
       case "python": return "python3";
       case "java": return "java17";
-      default: throw new Error("Unsupported language");
+      case "c": return "c12";
+      default: return "unsupported"
     }
   }
 
