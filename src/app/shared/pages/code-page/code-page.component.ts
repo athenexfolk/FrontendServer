@@ -15,6 +15,7 @@ import { Terminal } from 'xterm';
 import { Runner } from 'src/app/sockets/runner';
 import { FitAddon } from 'xterm-addon-fit';
 import { Subscription } from 'rxjs';
+import { State } from 'src/app/core/constant/state';
 
 @Component({
   selector: 'CodePage',
@@ -31,9 +32,13 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
   monacoEditor!: monaco.editor.IStandaloneCodeEditor;
   terminal!: Terminal;
 
-  isServerReady = false;
-  isExecuting = false;
-  executeState: 'loading' | 'ready' = 'ready';
+  serverStatus: State.LOADING | State.READY = State.LOADING;
+  executeStatus: State.READY | State.LOADING | State.RUNNING = State.READY;
+  exitStatus: State.LOADING | State.ABORTED = State.ABORTED;
+
+  get state() {
+    return State;
+  }
 
   subscriptions = new Subscription();
 
@@ -62,7 +67,7 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
         label: 'Run Code',
         keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter],
         contextMenuGroupId: 'navigation',
-        run: ()=> this.execute()
+        run: () => this.execute(),
       });
     });
 
@@ -105,23 +110,19 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
     if (this.monacoEditor) {
       this.monacoEditor.dispose();
     }
-
-    // this.runner.disconnect();
-
     this.subscriptions.unsubscribe();
   }
 
   private listenServerStatus() {
     const connectStatus = this.runner.isConnected$.subscribe((status) => {
-      this.isServerReady = status;
-      console.log(this.isServerReady);
+      this.serverStatus = status ? State.READY : State.LOADING;
     });
     this.subscriptions.add(connectStatus);
   }
 
   private checkServerStatus() {
-    const connectStatus = this.runner.isConnected$.subscribe((status) => {
-      if (this.isServerReady) {
+    const connectStatus = this.runner.isConnected$.subscribe(() => {
+      if (this.serverStatus === State.READY) {
         this.terminal.clear();
         this.terminal.writeln('Server is ready');
       } else this.terminal.writeln('Connecting to server...');
@@ -131,9 +132,7 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
 
   private listenOutput() {
     const output = this.runner.output$.subscribe((stdout) => {
-      console.log(stdout);
-
-      this.executeState = 'ready';
+      this.executeStatus = State.RUNNING;
 
       if (stdout.data && stdout.type !== 'exit') {
         this.terminal.write(stdout.data);
@@ -141,7 +140,9 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
       if (stdout.type === 'exit') {
         this.terminal.write('\nExit with status code ' + stdout.data);
         this.terminal.writeln(this.prompt);
-        this.abort();
+        this.runner.kill()
+        this.executeStatus = this.state.READY
+        this.exitStatus = this.state.ABORTED
       }
       this.terminal.write(this.prompt);
     });
@@ -153,18 +154,21 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
     this.subscriptions.add(error);
   }
 
-  private mapSupportedLanguages(lang:string) {
-    switch (lang){
-      case "python": return "python3";
-      case "java": return "java17";
-      case "c": return "c12";
-      default: return "unsupported"
+  private mapSupportedLanguages(lang: string) {
+    switch (lang) {
+      case 'python':
+        return 'python3';
+      case 'java':
+        return 'java17';
+      case 'c':
+        return 'c12';
+      default:
+        return 'unsupported';
     }
   }
 
   execute() {
-    this.isExecuting = true;
-    this.executeState = 'loading';
+    this.executeStatus = State.LOADING;
     this.terminal.clear();
     this.runner.run({
       language: this.mapSupportedLanguages(this.code.language),
@@ -173,7 +177,7 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
   }
 
   abort() {
-    this.isExecuting = false;
+    this.exitStatus = State.LOADING
     this.runner.kill();
   }
 
