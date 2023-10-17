@@ -15,11 +15,23 @@
     </div>
     <div class="gap-2 p-4">
       <button
-        *ngIf="executeState === 'ready' && isServerReady; else executeLoading"
+        *ngIf="
+          serverStatus !== state.LOADING && executeStatus !== state.LOADING;
+          else loading
+        "
         (click)="execute()"
         class="rounded-full p-2 hover:bg-zinc-100"
-        [ngClass]="{ 'text-zinc-300 cursor-not-allowed': isExecuting }"
-        [disabled]="isExecuting"
+        [ngClass]="{
+          'text-zinc-300 cursor-not-allowed':
+            serverStatus === state.READY &&
+            executeStatus === state.RUNNING &&
+            exitStatus === state.ABORTED
+        }"
+        [disabled]="
+          serverStatus === state.READY &&
+          executeStatus === state.RUNNING &&
+          exitStatus === state.ABORTED
+        "
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -37,10 +49,16 @@
         </svg>
       </button>
       <button
+        *ngIf="exitStatus !== state.LOADING; else loading"
         (click)="abort()"
         class="rounded-full p-2 hover:bg-zinc-100"
-        [ngClass]="{ 'text-zinc-300 cursor-not-allowed': !isExecuting }"
-        [disabled]="!isExecuting"
+        [ngClass]="{
+          'text-zinc-300 cursor-not-allowed':
+            executeStatus === state.READY && exitStatus === state.ABORTED
+        }"
+        [disabled]="
+          executeStatus === state.READY && exitStatus === state.ABORTED
+        "
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -89,7 +107,7 @@
   </div>
 </div>
 
-<ng-template #executeLoading>
+<ng-template #loading>
   <button class="rounded-full p-2 animate-spin cursor-not-allowed" disabled>
     <svg
       xmlns="http://www.w3.org/2000/svg"
