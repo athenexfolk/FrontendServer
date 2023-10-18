@@ -79,13 +79,15 @@ export default class CodeBlock implements BlockTool {
       this.monacoEditor = this.ieditor.create(this._editor, {
         value: this.data.code || '',
         language: this.data.language || 'c',
-        readOnly: this.readOnly,
         theme: this.data.theme || 'vs',
         automaticLayout: true,
         minimap: {
           enabled: false,
         },
-        scrollBeyondLastLine: false
+        scrollBeyondLastLine: false,
+        scrollbar:{
+          alwaysConsumeMouseWheel: false,
+        }
       });
       this.listenContentChangeAndUpdateElHeight();
     });
