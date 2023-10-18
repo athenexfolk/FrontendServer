@@ -7,6 +7,7 @@ import {
   SanitizerConfig,
 } from '@editorjs/editorjs';
 import { Token } from '../models/token';
+import { HttpClient } from '@angular/common/http';
 
 interface ImageBlockData extends BlockToolData {
   name: string;
@@ -14,6 +15,9 @@ interface ImageBlockData extends BlockToolData {
 
 export interface ImageBlockConfig {
   token: Token | null;
+  httpClient?: (cb:(http:HttpClient)=>void)=>void;
+  onUploadFailure?: (e:any) => void;
+  onUploadCompleate?: () => void;
 }
 
 export default class ImageBlock implements BlockTool {
@@ -105,7 +109,7 @@ export default class ImageBlock implements BlockTool {
 
     if (this.data && this.data.name) {
       this._image.src =
-        'https://p.villsource.tk/api/img/v1/img/' + this.data.name;
+        '/api/img/v1/img/' + this.data.name;
     }
   }
 
@@ -122,20 +126,37 @@ export default class ImageBlock implements BlockTool {
       formData.append('img', file);
 
       if (this.config && this.config.token) {
-        let res = await fetch('/api/img/v1/img', {
-          method: 'POST',
-          body: formData,
-          headers: {
-            Authorization: `${this.config.token.token_type} ${this.config.token.access_token}`,
-          },
-        });
+        const appendImage = (json:any) =>{
+          this.data.name = json.img;
+          this._image.src = '/api/img/v1/img/' + this.data.name;
+          this._wrapper.innerHTML = '';
+          this._wrapper.appendChild(this._image);
+        }
 
-        let json = await res.json();
-        this.data.name = json.img;
-        this._image.src =
-          'https://p.villsource.tk/api/img/v1/img/' + this.data.name;
-        this._wrapper.innerHTML = '';
-        this._wrapper.appendChild(this._image);
+        if (!this.config.httpClient){
+          let res = await fetch('/api/img/v1/img', {
+            method: 'POST',
+            body: formData,
+            headers: {
+              Authorization: `${this.config.token.token_type} ${this.config.token.access_token}`,
+            },
+          })
+
+          let json = await res.json();
+          appendImage(json);
+
+        }else{
+          this.config.httpClient(http=>{
+            console.log(http);
+
+            http?.post('/api/img/v1/img',formData)
+            .subscribe({
+              next:appendImage ,
+              error: this.config?.onUploadFailure,
+              complete:this.config?.onUploadCompleate
+            });
+          })
+        }
       }
     });
   }
