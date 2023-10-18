@@ -168,6 +168,9 @@ export class CodePageComponent implements AfterViewInit, OnDestroy {
   }
 
   execute() {
+    if (this.executeStatus == this.state.RUNNING){
+      this.abort();
+    }
     this.executeStatus = State.LOADING;
     this.terminal.clear();
     this.runner.run({
