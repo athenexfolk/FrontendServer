@@ -9,7 +9,7 @@ import { PostService } from 'src/app/core/services/post.service';
 export class CoverImageComponent implements OnChanges {
   @Input() image!: string;
   @Output() imageChange = new EventEmitter<string>();
-  
+
   isCoverImageValid = false;
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -30,7 +30,7 @@ export class CoverImageComponent implements OnChanges {
     this.postService.uploadImage(formData).subscribe({
       next: (data) =>
         this.imageChange.emit(
-          'https://p.villsource.tk/api/img/v1/img/' + data.img
+          '/api/img/v1/img/' + data.img
         ),
       complete: () => (this.isCoverImageValid = true),
     });

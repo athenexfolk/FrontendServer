@@ -48,7 +48,7 @@ export class PostPageComponent implements OnInit {
 
   checkImage(imageString: string) {
     if (!imageString.length) return 'assets/images/default-image.svg';
-    return imageString;
+    return imageString.replace(/^https\:\/\/p\.villsource\.tk/g, "");
   }
 
   ngOnInit(): void {
