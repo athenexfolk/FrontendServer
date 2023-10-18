@@ -18,6 +18,7 @@ import { CodeModel } from 'src/app/core/tools/code-model';
 import ImageBlock, { ImageBlockConfig } from 'src/app/core/tools/image-block';
 import { ImageRepositoryService } from 'src/app/core/repository/image-repository.service';
 import { TokenService } from 'src/app/core/auth/token.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'ContentEditor',
@@ -36,7 +37,7 @@ export class ContentEditorComponent implements OnDestroy, OnChanges {
   code: CodeModel | null = null;
   isShowCodePage: boolean = true;
 
-  constructor(private tokenService: TokenService) {}
+  constructor(private tokenService: TokenService, private http: HttpClient) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     this.renderFirstValidContent(changes);
@@ -69,7 +70,10 @@ export class ContentEditorComponent implements OnDestroy, OnChanges {
     };
 
     let imageBlockConfig: ImageBlockConfig = {
-      token: this.tokenService.token
+      token: this.tokenService.token,
+      httpClient: (cb:(http:HttpClient)=>void)=>{cb(this.http)},
+      onUploadCompleate : ()=>{ console.log("Upload image compleate.") },
+      onUploadFailure : e =>{ console.error("Upload image fail : ", e.mess) },
     };
 
     this.editor = new EditorJS({

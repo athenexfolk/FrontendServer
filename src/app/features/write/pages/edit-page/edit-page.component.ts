@@ -44,7 +44,7 @@ export class EditPageComponent {
             this.postTitle = p.title;
             this.postDescription = p.description;
             this.postTags = this.tagService.mapAllTags(p.tags);
-            this.postCoverImage = p.coverImage;
+            this.postCoverImage = p.coverImage.replace(/^https\:\/\/p\.villsource\.tk/g, "");
             this.postContent = p.content;
           }
         },
