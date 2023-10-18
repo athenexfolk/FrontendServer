@@ -73,8 +73,13 @@
 
 @media (min-width: 651px) {
   .code-wrapper{
-    /* shift for editor margin right 50px */
-    transform: translateX(33px);
+    transform: translateX(10px);
+  }
+  .codex-editor--narrow .codex-editor__redactor{
+    margin-right: 0 !important;
+  }
+  .codex-editor--narrow .ce-toolbar__actions{
+    right: -60px !important;
   }
 }
 
@@ -91,9 +96,7 @@
     /* padding: 8px 16px; */
   }
   .code-wrapper{
-    /* @apply max-w-screen-md */
     width: 768px;
-    /* margin-left: calc( -1 * (768px/2) + 50% ); */
     margin-left: calc( -1 * (768px/2) + 50% );
   }
 }
