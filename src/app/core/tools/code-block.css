@@ -16,8 +16,9 @@
 .option-wrapper {
   display: flex;
   padding: 16px;
-  flex-direction: column;
+  /* flex-direction: column; */
   gap: 8px;
+  justify-content: space-between;
   align-items: center;
   font-size: 14px;
 }
@@ -66,6 +67,8 @@
 
 @media (max-width: 768px) {
   .code-wrapper{
+    border-radius: 0;
+    border: none;
     margin-left: calc( -1 * ( 100vw - 100%) / 2 );
     margin-right: calc( -1 * ( 100vw - 100%) / 2);
   }

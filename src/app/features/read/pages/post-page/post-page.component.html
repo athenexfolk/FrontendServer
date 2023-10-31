@@ -1,20 +1,22 @@
 <main class="max-w-screen-sm mx-auto p-4 grid grid-cols-1 gap-4">
-  <header class="flex gap-4 items-start" *ngIf="pa; else load">
-    <div class="grid grid-cols-1 gap-4">
-      <h1 class="grow text-4xl font-black leading-tight">
+  <header *ngIf="pa; else load">
+    <div class="flex gap-4 items-start justify-between mb-2">
+      <h1 class="grow text-2xl font-black leading-tight">
         {{ pa.post.title }}
       </h1>
-      <h2 class="text-xl font-semibold">{{ pa.post.description }}</h2>
+      <BookmarkButton [postId]="pa.post.id" [isBookmarked]="true" />
     </div>
-    <BookmarkButton [postId]="pa.post.id" [isBookmarked]="true" />
+    <h2>{{ pa.post.description }}</h2>
   </header>
-  <TagGroup *ngIf="pa; else load">
-    <Tag
-      *ngFor="let tag of pa.post.tags"
-      [name]="tag"
-      [color]="getTagColor(tag)"
-    ></Tag>
-  </TagGroup>
+  <ng-container *ngIf="pa; else load">
+    <TagGroup *ngIf="pa.post.tags.length">
+      <Tag
+        *ngFor="let tag of pa.post.tags"
+        [name]="tag"
+        [color]="getTagColor(tag)"
+      ></Tag>
+    </TagGroup>
+  </ng-container>
   <PostDetails
     [createdTime]="pa.post.createdTime"
     [lastUpdatedTime]="pa.post.lastUpdatedTime"
@@ -27,11 +29,12 @@
     </div>
     <div
       *ngIf="pa; else load"
-      class="rounded-lg overflow-hidden object-cover h-72 lg:h-96 justify-self-center"
+      class="rounded-lg overflow-hidden object-cover max-h-72 lg:max-h-96 justify-self-center"
     >
       <img
         [src]="checkImage(pa.post.coverImage)"
         class="object-cover w-full h-full"
+        alt="cover image"
       />
     </div>
     <div class="p-4 prose" id="reader"></div>

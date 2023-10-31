@@ -1,13 +1,16 @@
 <div
-  class="rounded-lg overflow-hidden min-w-[18rem] h-72 lg:min-w-[24rem] lg:h-96 justify-self-center flex justify-center items-center relative"
+  class="rounded-lg overflow-hidden min-w-[18rem] lg:min-w-[24rem] justify-self-center flex justify-center items-center relative"
+  [ngClass]="{ 'h-72 lg:h-96': !isCoverImageValid }"
 >
-  <input
+  <form>
+    <input
     class="hidden"
     type="file"
     (change)="onFileUpload($event)"
-    accept="image/png, image/gif, image/jpeg"
+    accept="image/*"
     #selectFile
-  />
+    />
+  </form>
   <div
     class="absolute w-full h-full bg-white/50 backdrop-blur flex justify-evenly items-center opacity-0 hover:opacity-100 transition"
   >
@@ -28,7 +31,7 @@
       </svg>
     </button>
     <button
-      *ngIf="isCoverImageValid"
+      *ngIf="isCoverImageValid && image.length"
       (click)="removeImage()"
       class="p-2 text-red-500"
     >
@@ -71,11 +74,10 @@
         d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z"
       />
     </svg>
-    Look prettier with square photo
   </div>
   <img
-    *ngIf="isCoverImageValid"
-    class="h-full w-full object-cover"
+    *ngIf="isCoverImageValid && image.length"
+    class="h-full w-full object-contain"
     [src]="image"
   />
 </div>

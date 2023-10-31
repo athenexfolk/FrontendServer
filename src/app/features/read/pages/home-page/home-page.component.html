@@ -1,8 +1,17 @@
-<p class="text-3xl text-center font-bold lg:hidden p-4">เบต้าบล็อก</p>
+<p
+  class="text-3xl text-center font-bold md:hidden p-4 flex gap-2 items-center justify-center text-zinc-900"
+>
+  <img
+    src="assets/images/logo-transparent-variant.svg"
+    alt="logo"
+    class="w-10 h-10"
+  />เบต้าบล็อก
+</p>
 <div *ngIf="!userStatus" class="px-4 w-full">
   <div class="p-8 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-0 items-center">
     <img
       src="assets/images/logo-main.svg"
+      alt="logo"
       class="w-64 h-64 lg:w-72 lg:h-72 mx-auto"
     />
     <div class="grid grid-cols-1 gap-4">
@@ -12,7 +21,7 @@
       <p>{{ description }}</p>
       <button
         class="bg-zinc-600 text-zinc-100 font-bold text-lg px-4 py-2 rounded-full text-center hover:bg-zinc-700"
-        [routerLink]='["auth","register"]'
+        [routerLink]="['/auth', 'register']"
       >
         เริ่มต้นใช้งาน
       </button>
@@ -21,7 +30,7 @@
 </div>
 <div class="flex flex-col lg:flex-row">
   <main class="grow p-4 lg:p-8" #postgroup>
-    <h2 class="text-3xl font-bold mb-8">โพสต์ทั้งหมด</h2>
+    <h2 class="text-2xl font-bold mb-8">โพสต์ทั้งหมด</h2>
     <ng-container *ngIf="ppas; else skeleton">
       <MiniPostGroup *ngIf="ppas.length; else emptyPost">
         <MiniPost
@@ -48,16 +57,19 @@
         />
       </svg>
     </div>
-    <div *ngIf="endLoad && ppas.length" class="flex justify-center items-center gap-2 my-8">
+    <div
+      *ngIf="endLoad && ppas.length"
+      class="flex justify-center items-center gap-2 my-8"
+    >
       <div class="border border-zinc-500 grow"></div>
-      <p class="font-semibold text-zinc-500">There are no more posts.</p>
+      <p class="font-semibold text-zinc-500">ไม่มีโพสต์แล้ว</p>
       <div class="border border-zinc-500 grow"></div>
     </div>
   </main>
   <aside
     class="grow-0 shrink-0 lg:w-96 lg:h-screen sticky top-0 p-4 lg:p-8 bg-zinc-50 z-10 border-b"
   >
-    <h2 class="text-3xl font-bold mb-8 hidden lg:block">แท็ก</h2>
+    <h2 class="text-2xl font-bold mb-8 hidden lg:block">แท็ก</h2>
     <TagGroup>
       <Tag [name]="'HTML'" />
       <Tag [name]="'CSS'" />
@@ -89,7 +101,5 @@
 </ng-template>
 
 <ng-template #emptyPost>
-  <div class="flex justify-center items-center p-4">
-    No post found
-  </div>
+  <div class="flex justify-center items-center p-4">ไม่มีโพสต์</div>
 </ng-template>

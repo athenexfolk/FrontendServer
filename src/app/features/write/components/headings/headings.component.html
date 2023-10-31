@@ -1,18 +1,16 @@
-<header class="flex gap-4 items-start">
-  <div class="grid grid-cols-1 gap-4">
-    <div
-      class="grow text-4xl font-black focus:outline-0 leading-tight cursor-text"
-      [contentEditable]="true"
-      data-placeholder="ชื่อเรื่อง..."
-      [textContent]="postTitle"
-      (input)="onTitleInput($event)"
-    ></div>
-    <div
-      class="text-xl font-semibold focus:outline-0 cursor-text"
-      [contentEditable]="true"
-      data-placeholder="คำอธิบาย..."
-      [textContent]="postDescription"
-      (input)="onSubtitleInput($event)"
-    ></div>
-  </div>
+<header>
+  <input
+    type="text"
+    class="py-2 bg-transparent block w-full text-3xl font-black focus:outline-0 leading-tight cursor-text"
+    placeholder="ชื่อเรื่อง"
+    [textContent]="postTitle"
+    (input)="onTitleInput($event)"
+  />
+  <input
+    type="text"
+    class="py-2 bg-transparent block w-full focus:outline-0 cursor-text"
+    placeholder="คำอธิบาย..."
+    [textContent]="postDescription"
+    (input)="onSubtitleInput($event)"
+  />
 </header>

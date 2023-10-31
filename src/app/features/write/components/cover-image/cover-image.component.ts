@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { PostService } from 'src/app/core/services/post.service';
 
 @Component({
@@ -13,9 +20,11 @@ export class CoverImageComponent implements OnChanges {
   isCoverImageValid = false;
 
   ngOnChanges(changes: SimpleChanges): void {
-      if(changes['image'] && !changes['image'].firstChange) {
-        this.isCoverImageValid = true
-      }
+    console.log(changes['image']);
+
+    if (changes['image'] && !changes['image'].firstChange) {
+      this.isCoverImageValid = changes['image'].currentValue !== '';
+    }
   }
 
   constructor(private postService: PostService) {}
@@ -28,16 +37,16 @@ export class CoverImageComponent implements OnChanges {
     formData.append('img', file);
 
     this.postService.uploadImage(formData).subscribe({
-      next: (data) =>
-        this.imageChange.emit(
-          '/api/img/v1/img/' + data.img
-        ),
-      complete: () => (this.isCoverImageValid = true),
+      next: (data) => {
+        this.imageChange.emit('/api/img/v1/img/' + data.img);
+        const form =input.parentNode as HTMLFormElement
+        form.reset();
+      }
     });
   }
+
   removeImage() {
     this.image = '';
     this.imageChange.emit(this.image);
-    this.isCoverImageValid = false;
   }
 }

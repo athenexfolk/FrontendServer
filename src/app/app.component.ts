@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:scroll', ['$event'])
   toggleBottomBar() {
-    if (scrollY < this.lastScrollPosition) {
+    if (scrollY + 1 < this.lastScrollPosition) {
       this.isScrollUp = true;
     } else {
       this.isScrollUp = false;

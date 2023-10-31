@@ -1,42 +1,53 @@
-<article class="flex justify-between items-center gap-4 md:gap-8 mt-4">
-  <div class="grow grid grid-cols-1 gap-3">
-    <div class="flex justify-between items-center">
-      <PostOwner *ngIf="!hideProfile; else title" [author]="ppa.author" />
-      <OptionsMenu
-        *ngIf="isOwned"
-        [postId]="ppa.postPreview.id"
-        (deleteEmitter)="sendDeleteEvent()"
-      />
-    </div>
-    <a role="link" [routerLink]="['/post', ppa.postPreview.id]">
-      <div class="group line-clamp-3 hover:cursor-pointer">
-        <div class="" *ngIf="hideProfile; else title"></div>
-        <p>
-          {{ ppa.postPreview.description }}
-        </p>
-      </div>
-    </a>
-    <div class="flex flex-col gap-3 text-xs">
-      <p>{{ ppa.postPreview.createdTime | date : "dd/MM/yyyy, HH:mm" }}</p>
-      <TagGroup *ngIf="ppa.postPreview.tags.length">
-        <Tag *ngFor="let tag of ppa.postPreview.tags" [name]="tag" [color]="getTagColor(tag)" />
-      </TagGroup>
-    </div>
+<article class="mt-4">
+  <div class="flex justify-between items-center mb-2">
+    <PostOwner *ngIf="!hideProfile; else title" [author]="ppa.author" />
+    <OptionsMenu
+      *ngIf="isOwned"
+      [postId]="ppa.postPreview.id"
+      (deleteEmitter)="sendDeleteEvent()"
+    />
   </div>
-  <div class="grow-0">
-    <div class="w-12 h-12 md:w-24 md:h-24 relative rounded-lg overflow-hidden">
-      <img
-        [src]="checkImage(ppa.postPreview.coverImage)"
-        class="w-full h-full object-cover"
-      />
+  <div class="flex gap-4">
+    <div>
+      <a role="link" class="block mb-3" [routerLink]="['/post', ppa.postPreview.id]">
+        <div class="group hover:cursor-pointer">
+          <div class="line-clamp-1 mb-2">
+            <div *ngIf="hideProfile; else title"></div>
+          </div>
+          <div class="line-clamp-2">
+            <p>
+              {{ ppa.postPreview.description }}
+            </p>
+          </div>
+        </div>
+      </a>
+      <div class="flex flex-col gap-3 text-xs">
+        <p>{{ ppa.postPreview.createdTime | date : "dd/MM/yyyy, HH:mm" }}</p>
+        <TagGroup *ngIf="ppa.postPreview.tags.length">
+          <Tag
+            *ngFor="let tag of ppa.postPreview.tags"
+            [name]="tag"
+            [color]="getTagColor(tag)"
+          />
+        </TagGroup>
+      </div>
+    </div>
+    <div class="grow-0">
+      <div
+        class="w-16 h-16 md:w-24 md:h-24 relative rounded-lg overflow-hidden"
+      >
+        <img
+          [src]="checkImage(ppa.postPreview.coverImage)"
+          class="w-full h-full object-cover"
+        />
+      </div>
     </div>
   </div>
 </article>
 
-
 <ng-template #title>
   <a role="link" [routerLink]="['/post', ppa.postPreview.id]">
-    <h3 class="text-xl font-bold mb-2 group-hover:underline">
+    <h3 class="text-lg md:text-xl font-bold mb-2 group-hover:underline">
       {{ ppa.postPreview.title }}
     </h3>
   </a>
