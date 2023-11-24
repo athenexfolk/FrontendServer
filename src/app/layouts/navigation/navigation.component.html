@@ -1,0 +1,36 @@
+<nav class="grid grid-cols-2 md:flex md:gap-2 md:items-center">
+  <button
+    [routerLink]="['/']"
+    [routerLinkActive]="[
+      'bg-zinc-600',
+      'text-zinc-50',
+      'md:border-zinc-600/100',
+      'md:bg-transparent',
+      'md:text-zinc-600'
+    ]"
+    class="flex justify-center items-center md:border-b-4 md:border-zinc-600/0 md:hover:border-zinc-950 md:font-semibold md:hover:text-zinc-950 p-4 md:p-2 transition-all"
+  >
+    <span *ngIf="isLargeScreen; else homeIcon">หน้าหลัก</span>
+  </button>
+  <button
+    [routerLink]="['/write']"
+    [routerLinkActive]="[
+      'bg-zinc-600',
+      'text-zinc-50',
+      'md:border-zinc-600/100',
+      'md:bg-transparent',
+      'md:text-zinc-600'
+    ]"
+    class="flex justify-center items-center md:border-b-4 md:border-zinc-600/0 md:hover:border-zinc-950 md:font-semibold md:hover:text-zinc-950 p-4 md:p-2 transition-all"
+  >
+    <span *ngIf="isLargeScreen; else writeIcon">เขียนโพสต์</span>
+  </button>
+</nav>
+
+<ng-template #homeIcon>
+  <span class="material-symbols-rounded">home</span>
+</ng-template>
+
+<ng-template #writeIcon>
+  <span class="material-symbols-rounded">edit</span>
+</ng-template>

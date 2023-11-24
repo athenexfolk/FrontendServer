@@ -1,0 +1,141 @@
+<main class="flex flex-col justify-center items-center" #main>
+  <div class="max-w-sm mx-auto p-8 flex flex-col gap-8">
+    <h1 class="text-2xl font-bold text-center">ลงทะเบียน</h1>
+    <form
+      class="flex flex-col gap-4"
+      [formGroup]="registerForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="flex items-center gap-4 rounded-lg border px-4 py-2">
+        <input
+          type="text"
+          formControlName="username"
+          class="focus:outline-0"
+          placeholder="ชื่อผู้ใช้"
+          required="true"
+        />
+      </div>
+      <div class="flex items-center gap-4 rounded-lg border px-4 py-2">
+        <input
+          type="password"
+          formControlName="password"
+          class="focus:outline-0"
+          placeholder="รหัสผ่าน"
+          required="true"
+          (keyup)="checkValidation()"
+        />
+      </div>
+      <div class="flex items-center gap-4 rounded-lg border px-4 py-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-6 h-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+          />
+        </svg>
+        <input
+          type="password"
+          formControlName="confirmPassword"
+          class="focus:outline-0"
+          placeholder="ยืนยันรหัสผ่าน"
+          required="true"
+          (keyup)="checkValidation()"
+        />
+      </div>
+      <div class="text-sm">
+        <div
+          class="flex items-center gap-2 transition-all"
+          [ngClass]="{ 'text-green-500': isPasswordLengthValid }"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-4 h-4"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4.5 12.75l6 6 9-13.5"
+            />
+          </svg>
+          <p>รหัสผ่านมีอย่างน้อย 8 อักขระ</p>
+        </div>
+        <div
+          class="flex items-center gap-2"
+          [ngClass]="{ 'text-green-500': isPasswordRequiresNonAlphanumeric }"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-4 h-4"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4.5 12.75l6 6 9-13.5"
+            />
+          </svg>
+          <p>รหัสผ่านมีอักขระพิเศษอย่างน้อย 1 ตัว</p>
+        </div>
+        <div
+          class="flex items-center gap-2"
+          [ngClass]="{ 'text-green-500': isPasswordMatched }"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-4 h-4"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4.5 12.75l6 6 9-13.5"
+            />
+          </svg>
+          <p>รหัสผ่านตรงกัน</p>
+        </div>
+      </div>
+      <input
+        class="bg-green-700 text-white rounded-lg p-2 cursor-pointer"
+        [ngClass]="{
+          'bg-zinc-400': !(
+            this.isPasswordLengthValid &&
+            this.isPasswordRequiresNonAlphanumeric &&
+            this.isPasswordMatched
+          )
+        }"
+        type="submit"
+        value="ต่อไป"
+        [disabled]="
+          !(
+            this.isPasswordLengthValid &&
+            this.isPasswordRequiresNonAlphanumeric &&
+            this.isPasswordMatched
+          )
+        "
+      />
+    </form>
+    <p>
+      มีบัญชีแล้ว ? เข้าสู่ระบบ
+      <a [routerLink]="['..', 'signin']" class="underline text-blue-500"
+        >ที่นี่</a
+      >
+    </p>
+  </div>
+</main>

@@ -1,0 +1,23 @@
+<div class="flex justify-between items-center gap-8 p-4 md:px-8 md:py-4">
+  <app-brand [text]="'เบต้าบล็อก'" />
+  <div class="flex gap-8 items-center">
+    <app-navigation
+      *ngIf="isLargeScreen"
+      [isLargeScreen]="isLargeScreen"
+    ></app-navigation>
+    <button
+      *ngIf="!isLoggedIn; else account"
+      [routerLink]="['/', 'auth']"
+      class="p-2 md:px-4 rounded-lg bg-zinc-600 text-zinc-50 font-semibold hover:bg-zinc-800 flex gap-2 items-center"
+    >
+      <span class="material-symbols-rounded">login</span>
+      <span class="hidden md:block">เข้าสู่ระบบ</span>
+    </button>
+  </div>
+</div>
+
+<app-bottom-navigation *ngIf="!isLargeScreen"></app-bottom-navigation>
+
+<ng-template #account>
+  <app-account></app-account>
+</ng-template>
