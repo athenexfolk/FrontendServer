@@ -1,0 +1,13 @@
+h1[contenteditable="true"]:empty::before,
+h3[contenteditable="true"]:empty::before {
+  content: attr(data-placeholder);
+  @apply text-zinc-400;
+}
+h1[contenteditable="true"]:not(:empty)::before,
+h3[contenteditable="true"]:not(:empty)::before {
+  content: none;
+}
+
+.h-layout {
+  min-height: calc(100% - 144px);
+}

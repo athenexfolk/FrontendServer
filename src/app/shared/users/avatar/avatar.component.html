@@ -1,0 +1,6 @@
+<img
+  class="object-cover object-center rounded-full"
+  [ngClass]="['w-' + size, 'h-' + size]"
+  [src]="src"
+  (error)="onAvatarError($event)"
+/>

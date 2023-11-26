@@ -1,10 +1,6 @@
 <div class="relative flex items-center">
   <button class="w-10 h-10 rounded-full" (click)="openPanel()">
-    <img
-      [src]="'kk'"
-      class="w-10 h-10 object-cover object-center rounded-full"
-      (error)="onProfileError($event)"
-    />
+    <app-avatar></app-avatar>
   </button>
   <div
     *ngIf="isPanelOpened"
@@ -13,11 +9,8 @@
     <div class="relative space-y-4">
       <div class="flex items-start gap-8 justify-between">
         <div class="flex flex-col md:flex-row md:items-center gap-4">
-          <img
-            [src]="'kk'"
-            class="w-10 h-10 object-cover object-center rounded-full"
-            (error)="onProfileError($event)"
-          /><span class="font-bold max-w-[200px] text-ellipsis overflow-hidden">
+          <app-avatar></app-avatar>
+          <span class="font-bold max-w-[200px] text-ellipsis overflow-hidden">
             Anirut Chaogla
           </span>
         </div>

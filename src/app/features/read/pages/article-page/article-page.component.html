@@ -1,1 +1,49 @@
-<p>article-page works!</p>
+<main class="max-w-screen-sm mx-auto p-4 grid grid-cols-1 gap-4">
+  <app-post></app-post>
+  <div class="flex gap-4 items-center">
+    <button
+      class="p-2 rounded-full flex justify-center items-center hover:text-zinc-800"
+    >
+      <span class="material-symbols-rounded"> thumb_up </span>
+    </button>
+    <button
+      class="p-2 rounded-full flex justify-center items-center hover:text-zinc-800"
+    >
+      <span class="material-symbols-rounded"> share </span>
+    </button>
+    <button
+      class="p-2 rounded-full flex justify-center items-center hover:text-zinc-800"
+    >
+      <span class="material-symbols-rounded"> bookmark </span>
+    </button>
+  </div>
+  <hr />
+
+  @defer (when isLoadComment) {
+  <app-comment-section></app-comment-section>
+  }@placeholder {
+  <button
+    (click)="loadCommentSection()"
+    class="px-4 py-2 rounded-lg bg-zinc-600 hover:bg-zinc-800 text-white font-semibold"
+  >
+    อ่านและแสดงความคิดเห็น
+  </button>
+  } @loading {
+  <div class="text-center">
+    <p>กำลังโหลด...</p>
+  </div>
+  }
+</main>
+
+<!--
+<ng-container *ngIf="isShowCodePage && code">
+  <CodePage [code]="code" (closeCommand)="closeCodePage()" />
+</ng-container>
+
+<ng-template #load>
+  <SingleLineSkeleton></SingleLineSkeleton>
+</ng-template>
+
+<ng-template #imageload>
+  <SingleLineSkeleton></SingleLineSkeleton>
+</ng-template> -->

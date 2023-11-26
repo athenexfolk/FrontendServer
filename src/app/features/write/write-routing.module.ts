@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NewPostPageComponent } from './pages/new-post-page/new-post-page.component';
 
 const routes: Routes = [
   {
@@ -8,6 +9,9 @@ const routes: Routes = [
       import('./pages/new-post-page/new-post-page.component').then(
         (m) => m.NewPostPageComponent
       ),
+    canDeactivate: [
+      (componet: NewPostPageComponent) => componet.canDeactivate(),
+    ],
   },
   {
     path: 'edit/:postId',

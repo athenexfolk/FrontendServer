@@ -23,7 +23,7 @@ import { RouterLink } from '@angular/router';
 })
 export class TopNavigationComponent {
   isLargeScreen = false;
-  isLoggedIn = false;
+  isLoggedIn = true;
 
   constructor(private bpo: BreakpointObserver) {}
 

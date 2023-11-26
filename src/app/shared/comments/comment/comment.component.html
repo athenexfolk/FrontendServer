@@ -1,0 +1,23 @@
+<div class="p-2">
+  <app-profile-header></app-profile-header>
+  <p class="my-3">
+    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cupiditate sunt
+    modi rem illo vero reiciendis eum in doloribus quam, hic saepe quo ab,
+    exercitationem accusantium blanditiis! Neque necessitatibus molestias iure.
+  </p>
+  <div class="flex items-center gap-4 text-xs">
+    <p>
+      {{ "12-12-2001" | date : "dd/MM/yyyy, HH:mm" }}
+    </p>
+    <button
+      *ngIf="isLoggedIn"
+      (click)="openReply()"
+      class="font-semibold hover:text-zinc-800"
+    >
+      ตอบกลับ
+    </button>
+  </div>
+</div>
+
+<app-reply></app-reply>
+<app-reply-input *ngIf="isReplyOpen"></app-reply-input>
