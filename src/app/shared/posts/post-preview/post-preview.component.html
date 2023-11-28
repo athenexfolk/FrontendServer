@@ -18,7 +18,7 @@
     </div>
   </div>
   <div class="flex items-center justify-between gap-3 pe-28">
-    <p>{{ "12-12-2001" | date : "dd/MM/yyyy, HH:mm" }}</p>
+    <p>{{ date | relativeTime }}</p>
     <!-- <TagGroup *ngIf="ppa.postPreview.tags.length">
           <Tag *ngFor="let tag of ppa.postPreview.tags" [name]="tag" [color]="getTagColor(tag)" />
         </TagGroup> -->

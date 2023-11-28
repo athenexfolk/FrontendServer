@@ -7,7 +7,7 @@
   </p>
   <div class="flex items-center gap-4 text-xs">
     <p>
-      {{ "12-12-2001" | date : "dd/MM/yyyy, HH:mm" }}
+      {{ date | relativeTime }}
     </p>
     <button
       *ngIf="isLoggedIn"
