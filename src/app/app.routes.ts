@@ -17,6 +17,13 @@ export const routes: Routes = [
         path: 'post/:postId',
         component: ArticlePageComponent,
       },
+      {
+        path: 'profile',
+        loadChildren: () =>
+          import('./features/profile/profile.module').then(
+            (m) => m.ProfileModule
+          ),
+      },
     ],
   },
   {

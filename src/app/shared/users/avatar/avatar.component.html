@@ -1,6 +1,7 @@
 <img
   class="object-cover object-center rounded-full"
-  [ngClass]="['w-' + size, 'h-' + size]"
+  [style.width.px]="size*4"
+  [style.height.px]="size*4"
   [src]="src"
   (error)="onAvatarError($event)"
 />
