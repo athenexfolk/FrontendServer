@@ -10,7 +10,8 @@ import { RouterLink } from '@angular/router';
   styleUrl: './post-options.component.scss',
 })
 export class PostOptionsComponent {
-  @Input({ required: true }) ofId: string = '';
+  @Input({ required: true }) ofPostId: string = '';
+  @Input({ required: true }) ofAuthorId: string = '';
 
   isPanelOpen = false;
 

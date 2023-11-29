@@ -1,5 +1,7 @@
 <main class="max-w-screen-sm mx-auto p-4 grid grid-cols-1 gap-4">
-  <app-post></app-post>
+  <ng-container *ngIf="post$ | async as post; else loading">
+    <app-post [pa]="post"></app-post>
+  </ng-container>
   <div class="flex gap-4 items-center">
     <button
       class="p-2 rounded-full flex justify-center items-center hover:text-zinc-800"
@@ -38,12 +40,10 @@
 <!--
 <ng-container *ngIf="isShowCodePage && code">
   <CodePage [code]="code" (closeCommand)="closeCodePage()" />
-</ng-container>
+</ng-container> -->
 
-<ng-template #load>
-  <SingleLineSkeleton></SingleLineSkeleton>
-</ng-template>
+<ng-template #loading> loading... </ng-template>
 
-<ng-template #imageload>
+<!--<ng-template #imageload>
   <SingleLineSkeleton></SingleLineSkeleton>
 </ng-template> -->

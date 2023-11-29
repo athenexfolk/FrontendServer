@@ -4,12 +4,12 @@
       <h1
         type="text"
         class="text-2xl md:text-4xl font-black leading-normal outline-0 bg-transparent py-2"
-        [textContent]="title"
+        [textContent]="pa.post.title"
       ></h1>
       <h3
         type="text"
         class="text-xl font-semibold outline-0 bg-transparent py-2"
-        [textContent]="description"
+        [textContent]="pa.post.description"
       ></h3>
     </div>
   </header>
@@ -20,9 +20,12 @@
       HTML
     </button>
   </div>
-  <app-profile-header></app-profile-header>
-  <ng-container *ngIf="coverImageSrc">
-    <app-cover type="full"></app-cover>
+  <app-profile-header
+    [src]="pa.author.avatar"
+    [name]="pa.author.username"
+  ></app-profile-header>
+  <ng-container *ngIf="pa.post.coverImage">
+    <app-cover type="full" [src]="pa.post.coverImage"></app-cover>
   </ng-container>
   <div [id]="editorId"></div>
 </main>

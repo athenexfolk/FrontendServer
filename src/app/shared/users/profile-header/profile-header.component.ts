@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AvatarComponent } from '../avatar/avatar.component';
@@ -11,5 +11,7 @@ import { AvatarComponent } from '../avatar/avatar.component';
   styleUrl: './profile-header.component.scss'
 })
 export class ProfileHeaderComponent {
-
+  @Input() src: string = ''
+  @Input() name: string = ''
+  @Input() authorId: string = ''
 }

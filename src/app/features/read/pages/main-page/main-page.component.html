@@ -1,4 +1,4 @@
-<div *ngIf="!userStatus" class="px-4 w-full">
+<div *ngIf="!isLoggedIn" class="px-4 w-full">
   <div class="p-8 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-0 items-center">
     <img
       src="assets/images/logo-main.svg"
@@ -11,7 +11,7 @@
       <p>{{ description }}</p>
       <button
         class="bg-zinc-600 text-zinc-100 font-bold text-lg px-4 py-2 rounded-full text-center hover:bg-zinc-700"
-        [routerLink]="['auth', 'register']"
+        [routerLink]="['auth', 'signup']"
       >
         เริ่มต้นใช้งาน
       </button>
@@ -44,7 +44,7 @@
   </div>
 </div>
 
-<div class="flex flex-col lg:flex-row h-screen">
+<div class="flex flex-col lg:flex-row">
   <main class="grow p-4 lg:p-8" #postgroup>
     <h2 class="text-3xl font-bold mb-8">โพสต์ทั้งหมด</h2>
     <!-- <ng-container *ngIf="ppas; else skeleton">
@@ -56,12 +56,19 @@
         />
       </MiniPostGroup>
     </ng-container> -->
-    <div class="grid grid-cols-1 divide-y">
-      <app-post-preview></app-post-preview>
-      <app-post-preview></app-post-preview>
-    </div>
+    <ng-container *ngIf="ppas">
+      <ng-container *ngIf="ppas.length">
+        <div class="grid grid-cols-1 divide-y">
+          <app-post-preview
+            *ngFor="let ppa of ppas; trackBy: postTrackBy"
+            [ppa]="ppa"
+            [userId]="userId"
+          ></app-post-preview>
+        </div>
+      </ng-container>
+    </ng-container>
 
-    <!-- <div *ngIf="!readyStatus && ppas.length" class="flex justify-center">
+    <div *ngIf="!readyStatus && ppas.length" class="flex justify-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -76,12 +83,15 @@
           d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
         />
       </svg>
-    </div> -->
+    </div>
 
-    <!-- <div *ngIf="endLoad && ppas.length" class="flex justify-center items-center gap-2 my-8">
+    <div
+      *ngIf="endLoad && ppas.length"
+      class="flex justify-center items-center gap-2 my-8"
+    >
       <div class="border border-zinc-500 grow"></div>
       <p class="font-semibold text-zinc-500">There are no more posts.</p>
       <div class="border border-zinc-500 grow"></div>
-    </div> -->
+    </div>
   </main>
 </div>

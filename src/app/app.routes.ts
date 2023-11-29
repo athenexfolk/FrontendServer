@@ -3,6 +3,8 @@ import { MainPageComponent } from './features/read/pages/main-page/main-page.com
 import { ArticlePageComponent } from './features/read/pages/article-page/article-page.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { PlainLayoutComponent } from './layouts/plain-layout/plain-layout.component';
+import { reverseAuthGuard } from './core/guards/reverse-auth.guard';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -29,12 +31,14 @@ export const routes: Routes = [
   {
     path: 'auth',
     component: PlainLayoutComponent,
+    canActivate: [reverseAuthGuard],
     loadChildren: () =>
       import('./features/auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: 'write',
     component: PlainLayoutComponent,
+    canActivate: [authGuard],
     loadChildren: () =>
       import('./features/write/write.module').then((m) => m.WriteModule),
   },

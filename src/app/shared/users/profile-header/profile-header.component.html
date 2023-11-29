@@ -1,9 +1,9 @@
 <div class="flex gap-4 items-center">
-  <app-avatar></app-avatar>
+  <app-avatar [src]="src"></app-avatar>
   <a
     role="link"
-    [routerLink]="['/', 'profile','john']"
+    [routerLink]="['/', 'profile', authorId]"
     class="font-bold hover:underline"
-    >{{ "Anirut Chaogla" }}</a
+    >{{ name }}</a
   >
 </div>

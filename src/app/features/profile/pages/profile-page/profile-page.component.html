@@ -2,21 +2,69 @@
   <div
     class="md:w-[300px] shrink-0 md:sticky md:top-0 md:h-screen flex flex-col gap-4 p-4"
   >
-    <app-avatar [size]="32"></app-avatar>
-    <p class="text-xl font-bold">Anirut Chaogla</p>
-    <p>KKU</p>
-    <p>Bio</p>
-    <button
-      class="px-4 py-2 rounded-full bg-zinc-600 hover:bg-zinc-800 text-white font-semibold flex gap-2 justify-center items-center"
-    >
-      <span class="material-symbols-rounded"> settings </span>ตั้งค่าโปรไฟล์
-    </button>
+    <ng-container *ngIf="user; else loading">
+      <app-avatar [size]="32" [src]="user.avatar"></app-avatar>
+      <p class="text-xl font-bold">Anirut Chaogla</p>
+      <p>KKU</p>
+      <p>Bio</p>
+      <button
+        class="px-4 py-2 rounded-full bg-zinc-600 hover:bg-zinc-800 text-white font-semibold flex gap-2 justify-center items-center"
+      >
+        <span class="material-symbols-rounded"> settings </span>ตั้งค่าโปรไฟล์
+      </button>
+    </ng-container>
   </div>
   <div class="grow min-h-screen p-4">
-    <h3 class="text-2xl font-bold">โพสต์</h3>
-    <div class="grid grid-cols-1 divide-y">
-      <app-post-preview></app-post-preview>
-      <app-post-preview></app-post-preview>
-    </div>
+    <main class="grow p-4 lg:p-8" #postgroup>
+      <h2 class="text-3xl font-bold mb-8">โพสต์ทั้งหมด</h2>
+      <!-- <ng-container *ngIf="ppas; else skeleton">
+        <MiniPostGroup *ngIf="ppas.length; else emptyPost">
+          <MiniPost
+            *ngFor="let ppa of ppas; trackBy: postTrackBy"
+            [ppa]="ppa"
+            (deleteEmitter)="removeFromId(ppa.postPreview.id)"
+          />
+        </MiniPostGroup>
+      </ng-container> -->
+      <ng-container *ngIf="ppas">
+        <ng-container *ngIf="ppas.length">
+          <div class="grid grid-cols-1 divide-y">
+            <app-post-preview
+              *ngFor="let ppa of ppas; trackBy: postTrackBy"
+              [ppa]="ppa"
+              [userId]="myId"
+            ></app-post-preview>
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <div *ngIf="!readyStatus && ppas.length" class="flex justify-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="animate-spin w-6 h-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+          />
+        </svg>
+      </div>
+
+      <div
+        *ngIf="endLoad && ppas.length"
+        class="flex justify-center items-center gap-2 my-8"
+      >
+        <div class="border border-zinc-500 grow"></div>
+        <p class="font-semibold text-zinc-500">There are no more posts.</p>
+        <div class="border border-zinc-500 grow"></div>
+      </div>
+    </main>
   </div>
 </div>
+
+<ng-template #loading> loading... </ng-template>

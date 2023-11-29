@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NewPostPageComponent } from './pages/new-post-page/new-post-page.component';
+import { EditPostPageComponent } from './pages/edit-post-page/edit-post-page.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,9 @@ const routes: Routes = [
       import('./pages/edit-post-page/edit-post-page.component').then(
         (m) => m.EditPostPageComponent
       ),
+    canDeactivate: [
+      (componet: EditPostPageComponent) => componet.canDeactivate(),
+    ],
   },
 ];
 

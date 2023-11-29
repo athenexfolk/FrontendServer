@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ProfileHeaderComponent } from '../../users/profile-header/profile-header.component';
 import { PostOptionsComponent } from '../post-options/post-options.component';
 import { CoverComponent } from '../cover/cover.component';
 import { RelativeTimePipe } from '../../pipes/relative-time.pipe';
+import { PostPreviewAndAuthor } from '../../../core/models/post-and-author';
 
 @Component({
   selector: 'app-post-preview',
@@ -21,5 +22,6 @@ import { RelativeTimePipe } from '../../pipes/relative-time.pipe';
   styleUrl: './post-preview.component.scss',
 })
 export class PostPreviewComponent {
-  date = new Date("12-12-2001");
+  @Input() userId: string | null = null
+  @Input() ppa!: PostPreviewAndAuthor
 }

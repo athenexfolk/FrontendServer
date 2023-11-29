@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileHeaderComponent } from '../../users/profile-header/profile-header.component';
 import EditorJS from '@editorjs/editorjs';
 import { CoverComponent } from '../cover/cover.component';
+import { PostAndAuthor } from '../../../core/models/post-and-author';
 
 @Component({
   selector: 'app-post',
@@ -19,6 +20,8 @@ import { CoverComponent } from '../cover/cover.component';
   styleUrl: './post.component.scss',
 })
 export class PostComponent implements OnInit, OnDestroy {
+  @Input() pa!: PostAndAuthor
+  
   title = 'การสร้างโพสต์ในเว็บเบต้าบล็อก';
   description = 'ทดสอบทำอะไรสักอย่างในนี้ดู';
   coverImageSrc?: string = 'kk';

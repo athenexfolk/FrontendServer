@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { PasswordService } from '../../../../core/auth/password.service';
 
 @Component({
   selector: 'app-signin-page',
@@ -20,27 +21,24 @@ export class SigninPageComponent {
   isLoginFailed = false;
 
   constructor(
-    // private loginService: LoginService,
+    private passwordLogin: PasswordService,
     private router: Router,
     private fb: FormBuilder
   ) {}
 
   onSubmit(): void {
-    // this.loginService
-    //   .passwordFlow(
-    //     this.loginForm.value.username!,
-    //     this.loginForm.value.password!
-    //   )
-    //   .subscribe({
-    //     error: () => {
-    //       this.isShowMsg = true;
-    //       this.isLoginFailed = true;
-    //     },
-    //     complete: () => {
-    //       this.loginForm.reset();
-    //       this.router.navigate(['/']);
-    //     },
-    //   });
+    this.passwordLogin
+      .login(this.loginForm.value.username!, this.loginForm.value.password!)
+      .subscribe({
+        error: () => {
+          this.isShowMsg = true;
+          this.isLoginFailed = true;
+        },
+        complete: () => {
+          this.loginForm.reset();
+          this.router.navigate(['/']);
+        },
+      });
   }
 
   // github() {

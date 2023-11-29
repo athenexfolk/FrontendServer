@@ -35,7 +35,7 @@
         </button>
       </div>
     </div>
-    <ng-container *ngIf="coverImage && coverImageSrc; else addCoverImage">
+    <ng-container *ngIf="coverImageSrc; else addCoverImage">
       <div class="h-72 w-full relative flex justify-center items-center">
         <app-cover [type]="'full'" [src]="coverImageSrc"></app-cover>
         <button

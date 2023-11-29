@@ -1,7 +1,7 @@
 <img
   class="object-cover object-center rounded-full"
-  [style.width.px]="size*4"
-  [style.height.px]="size*4"
-  [src]="src"
+  [style.width.px]="size * 4"
+  [style.height.px]="size * 4"
+  [src]="'/api/img/v1' + src"
   (error)="onAvatarError($event)"
 />

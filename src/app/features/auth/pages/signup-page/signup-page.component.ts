@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PasswordService } from '../../../../core/auth/password.service';
 
 @Component({
   selector: 'app-signup-page',
@@ -23,7 +24,7 @@ export class SignupPageComponent {
   isPasswordMatched = false;
 
   constructor(
-    // private registerService: RegisterService,
+    private passwordRegister: PasswordService,
     private router: Router,
     private fb: FormBuilder
   ) {}
@@ -38,25 +39,25 @@ export class SignupPageComponent {
     )
       return;
 
-    // this.registerService
-    //   .passwordFlow(
-    //     this.registerForm.value.username!,
-    //     this.registerForm.value.password!
-    //   )
-    //   .subscribe({
-    //     error: (err) => {
-    //       console.log(err.error[0].description);
-    //       if (err.error[0].code === 'PasswordRequiresNonAlphanumeric') {
-    //         this.isPasswordRequiresNonAlphanumeric = false;
-    //       } else if (err.error[0].code === '') {
-    //       } else {
-    //       }
-    //     },
-    //     complete: () => {
-    //       this.registerForm.reset();
-    //       this.router.navigate(['/auth/login']);
-    //     },
-    //   });
+    this.passwordRegister
+      .register(
+        this.registerForm.value.username!,
+        this.registerForm.value.password!
+      )
+      .subscribe({
+        error: (err) => {
+          console.log(err.error[0].description);
+          if (err.error[0].code === 'PasswordRequiresNonAlphanumeric') {
+            this.isPasswordRequiresNonAlphanumeric = false;
+          } else if (err.error[0].code === '') {
+          } else {
+          }
+        },
+        complete: () => {
+          this.registerForm.reset();
+          this.router.navigate(['/auth/signin']);
+        },
+      });
   }
 
   checkValidation() {
