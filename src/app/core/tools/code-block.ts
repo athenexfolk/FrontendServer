@@ -85,9 +85,9 @@ export default class CodeBlock implements BlockTool {
           enabled: false,
         },
         scrollBeyondLastLine: false,
-        scrollbar:{
+        scrollbar: {
           alwaysConsumeMouseWheel: false,
-        }
+        },
       });
       this.listenContentChangeAndUpdateElHeight();
     });
@@ -106,13 +106,13 @@ export default class CodeBlock implements BlockTool {
     this._wrapper.appendChild(this._option);
     this._wrapper.appendChild(this._editor);
 
-    this._option.classList.add(this.api.styles.block, 'option-wrapper');
-    this._editor.classList.add(this.api.styles.block);
-    this._wrapper.classList.add(this.api.styles.block, 'code-wrapper');
+    this._option.classList.add('option-wrapper');
+    // this._editor.classList.add(this.api.styles.block);
+    this._wrapper.classList.add('code-wrapper');
 
     this._editor.style.height = `${this.calEleHeight()}rem`;
-    this._editor.style.maxHeight = '70vh'
-    this._editor.style.minHeight = '10rem'
+    this._editor.style.maxHeight = '70vh';
+    this._editor.style.minHeight = '10rem';
 
     this.loadEditor();
     this.structOption();
@@ -120,17 +120,18 @@ export default class CodeBlock implements BlockTool {
     return this._wrapper;
   }
 
-  private calEleHeight(){
+  private calEleHeight() {
     const lines = this.data?.code?.split(/\n/)?.length ?? 10;
     const lineHigh = 1.2;
     return lineHigh * lines;
   }
 
-  private listenContentChangeAndUpdateElHeight(){
-    this.monacoEditor.getModel()?.onDidChangeContent(e=>{
-      console.log(e);
-      this._editor.style.height = `${this.monacoEditor.getModel()!.getLineCount() * 1.22}rem`;
-    })
+  private listenContentChangeAndUpdateElHeight() {
+    this.monacoEditor.getModel()?.onDidChangeContent((e) => {
+      this._editor.style.height = `${
+        this.monacoEditor.getModel()!.getLineCount() * 1.22
+      }rem`;
+    });
   }
 
   private structOption() {
@@ -168,11 +169,11 @@ export default class CodeBlock implements BlockTool {
     this._filenameInput.addEventListener('keyup', () => {
       let currentValue = this._filenameInput.value;
       if (!currentValue.match(filenamePattern)) {
-        this._filenameInput.value = this.previousValue
+        this._filenameInput.value = this.previousValue;
       }
 
       this.data.name = this._filenameInput.value;
-      this.previousValue = this.data.name
+      this.previousValue = this.data.name;
     });
   }
 
@@ -201,7 +202,7 @@ export default class CodeBlock implements BlockTool {
   private structRunButton() {
     this._runButton = document.createElement('button');
     this._runButton.classList.add('run-button');
-    this._runButton.textContent = 'Run';
+    this._runButton.textContent = 'ไปหน้ารันโค้ด';
 
     this._runButton.addEventListener('click', () => {
       this.runCode();

@@ -6,7 +6,7 @@ import { Response } from "./response";
 export interface PostPreview extends Traceable, Identifiable {
   title: string;
   description: string;
-  coverImage: string;
+  coverImage?: string;
 
   tags: string[];
   tagsDetails?: Map<string, string>[];

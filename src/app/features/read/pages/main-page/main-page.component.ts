@@ -83,4 +83,8 @@ export class MainPageComponent implements OnInit {
       1000
     );
   }
+
+  deleteId(id: string) {
+    this.ppas = this.ppas.filter((p) => p.postPreview.id !== id);
+  }
 }

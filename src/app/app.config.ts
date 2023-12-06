@@ -5,6 +5,7 @@ import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { publicEndpointInterceptor } from './core/interceptors/public-endpoint.interceptor';
 import { tokenInterceptor } from './core/interceptors/token.interceptor';
+import { Runner } from './socket/runner';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,5 +16,9 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptors([publicEndpointInterceptor, tokenInterceptor])
     ),
+    {
+      provide: Runner,
+      useValue: Runner.getInstance(),
+    },
   ],
 };

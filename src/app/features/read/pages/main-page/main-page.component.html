@@ -63,6 +63,7 @@
             *ngFor="let ppa of ppas; trackBy: postTrackBy"
             [ppa]="ppa"
             [userId]="userId"
+            (deleteEmitter)="deleteId($event)"
           ></app-post-preview>
         </div>
       </ng-container>

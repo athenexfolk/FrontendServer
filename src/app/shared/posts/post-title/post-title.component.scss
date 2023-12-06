@@ -1,0 +1,7 @@
+h1[contenteditable="true"]:empty::before {
+  content: attr(data-placeholder);
+  @apply text-zinc-400 cursor-text;
+}
+h1[contenteditable="true"]:not(:empty)::before {
+  content: none;
+}

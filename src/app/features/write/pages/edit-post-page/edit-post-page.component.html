@@ -1,122 +1,44 @@
-<main class="max-w-screen-sm mx-auto p-4 grid grid-cols-1 gap-4">
-    <header class="flex gap-4 items-start">
-      <div class="grid grid-cols-1">
-        <h1
-          type="text"
-          class="text-2xl md:text-4xl font-black leading-normal outline-0 bg-transparent py-2"
-          data-placeholder="ชื่อเรื่อง..."
-          [textContent]="title"
-          contenteditable="true"
-        ></h1>
-        <h3
-          type="text"
-          class="text-xl font-semibold outline-0 bg-transparent py-2"
-          data-placeholder="คำอธิบาย..."
-          [textContent]="description"
-          contenteditable="true"
-        ></h3>
-      </div>
-    </header>
-    <div class="space-y-4">
-      <div class="flex gap-4 items-center">
-        <button
-          class="flex gap-2 items-center font-semibold text-sm bg-zinc-100 hover:bg-zinc-200 rounded-lg px-3 py-1.5"
+<main class="max-w-screen-md mx-auto p-4 grid grid-cols-1 gap-4">
+  <app-post [pa]="pa" [isEditable]="true"></app-post>
+</main>
+
+<button
+  (click)="openPublishingView()"
+  type="button"
+  class="fixed top-4 right-4 w-12 h-12 shadow-lg bg-zinc-600 hover:bg-zinc-800 text-white rounded-full flex justify-center items-center group z-10"
+>
+  <span class="material-symbols-rounded"> publish </span>
+</button>
+
+<ng-container *ngIf="isPublishingViewOpen">
+  <app-overlay>
+    <div class="bg-white max-w-screen-md rounded-xl relative overflow-hidden">
+      <div class="relative overflow-auto">
+        <div
+          class="flex items-center justify-between gap-4 p-4 bg-white/75 backdrop-blur sticky top-0"
         >
-          <span class="material-symbols-rounded"> new_label </span> เพิ่มแท็ก
-        </button>
-        <span class="text-xs">สามารถใส่แท็กได้สูงสุด 5 แท็ก</span>
-      </div>
-  
-      <div>
-        <button
-          class="px-3 py-1.5 text-xs font-semibold bg-orange-500 text-white rounded-full"
+          <span class="text-xl font-semibold">ต้องการที่จะเผยแพร่ ?</span>
+        </div>
+        <div class="px-4 text-sm">
+          โพสต์จะถูกบันทึก และแสดงอยู่ที่หน้าโปรไฟล์ของคุณ
+        </div>
+        <div
+          class="flex justify-end gap-4 p-4 sticky bottom-0 bg-white/75 backdrop-blur"
         >
-          HTML
-        </button>
-      </div>
-    </div>
-    <ng-container *ngIf="coverImageSrc; else addCoverImage">
-      <div class="h-72 w-full relative flex justify-center items-center">
-        <app-cover [type]="'full'" [src]="coverImageSrc"></app-cover>
-        <button
-          (click)="clearCoverImage()"
-          class="absolute bottom-3 right-3 p-2 rounded-full flex items-center bg-red-50 hover:bg-red-100 hover:scale-125 transition-all text-red-700 shadow-md"
-        >
-          <span class="material-symbols-rounded">delete</span>
-        </button>
-      </div>
-    </ng-container>
-    <div [id]="editorId"></div>
-  </main>
-  
-  <ng-template #addCoverImage>
-    <input
-      type="file"
-      accept="image/*"
-      (input)="onCoverImageChange($event)"
-      class="hidden"
-      #coverInput
-    />
-    <div
-      class="h-72 w-full rounded-lg bg-zinc-100 relative flex justify-center items-center"
-    >
-      <button
-        (click)="coverInput.click()"
-        class="p-4 rounded-lg bg-zinc-200 flex items-center gap-2 font-semibold hover:bg-zinc-300"
-      >
-        <span class="material-symbols-rounded"> image </span>
-        <span>เพิ่มปกบทความ</span>
-      </button>
-    </div>
-  </ng-template>
-  
-  <button
-    (click)="openPublishingView()"
-    type="button"
-    class="fixed top-4 right-4 w-12 h-12 shadow-lg bg-zinc-600 hover:bg-zinc-800 text-white rounded-full flex justify-center items-center group z-10"
-  >
-    <span class="material-symbols-rounded"> publish </span>
-  </button>
-  
-  <ng-container *ngIf="isPublishingViewOpen">
-    <app-overlay>
-      <div class="bg-white w-full h-full max-w-screen-md rounded-xl relative overflow-hidden">
-        <div class="relative h-full w-full overflow-auto">
-          <div
-            class="flex items-center justify-between gap-4 p-4 md:ps-8 bg-white/75 backdrop-blur sticky top-0"
+          <button
+            (click)="closePublishingView()"
+            class="px-4 py-2 rounded-lg font-semibold"
           >
-            <span class="text-xl font-semibold">คุณกำลังจะเผยแพร่โพสต์นี้</span>
-            <button
-              (click)="closePublishingView()"
-              class="p-2 flex justify-center items-center rounded-lg bg-zinc-50 hover:bg-zinc-100"
-            >
-              <span class="material-symbols-rounded">close</span>
-            </button>
-          </div>
-          <div class="p-4 h-layout">
-            <app-post></app-post>
-          </div>
-          <div
-            class="flex justify-end gap-4 p-4 sticky bottom-0 bg-white/75 backdrop-blur"
+            ยกเลิก
+          </button>
+          <button
+            (click)="publish()"
+            class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-800 text-white font-semibold"
           >
-            <button
-              (click)="closePublishingView()"
-              class="px-4 py-2 rounded-lg font-semibold"
-            >
-              ยกเลิก
-            </button>
-            <button
-              class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-800 text-white font-semibold"
-            >
-              เผยแพร่
-            </button>
-          </div>
+            เผยแพร่
+          </button>
         </div>
       </div>
-    </app-overlay>
-  </ng-container>
-  
-  <!-- <ng-container *ngIf="isShowCodePage && code">
-    <CodePage [code]="code" (closeCommand)="closeCodePage()" />
-  </ng-container> -->
-  
+    </div>
+  </app-overlay>
+</ng-container>

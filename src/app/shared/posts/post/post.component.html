@@ -1,31 +1,31 @@
-<main class="max-w-screen-sm mx-auto grid grid-cols-1 gap-4">
-  <header class="flex gap-4 items-start">
-    <div class="grid grid-cols-1">
-      <h1
-        type="text"
-        class="text-2xl md:text-4xl font-black leading-normal outline-0 bg-transparent py-2"
-        [textContent]="pa.post.title"
-      ></h1>
-      <h3
-        type="text"
-        class="text-xl font-semibold outline-0 bg-transparent py-2"
-        [textContent]="pa.post.description"
-      ></h3>
-    </div>
-  </header>
-  <div class="py-2">
-    <button
-      class="px-3 py-1.5 text-xs font-semibold bg-orange-500 text-white rounded-full"
-    >
-      HTML
-    </button>
-  </div>
-  <app-profile-header
-    [src]="pa.author.avatar"
-    [name]="pa.author.username"
-  ></app-profile-header>
-  <ng-container *ngIf="pa.post.coverImage">
-    <app-cover type="full" [src]="pa.post.coverImage"></app-cover>
-  </ng-container>
-  <div [id]="editorId"></div>
+<main class="max-w-screen-md mx-auto p-4 grid grid-cols-1 gap-8">
+  <ng-container *ngIf="pa">
+    <header>
+      <app-post-title
+        [(title)]="pa.post.title"
+        [isEditable]="isEditable"
+      ></app-post-title>
+      <app-post-description
+        [(description)]="pa.post.description"
+        [isEditable]="isEditable"
+      ></app-post-description>
+    </header>
+    <app-tag-factory
+      [(tags)]="pa.post.tags"
+      [isEditable]="isEditable"
+    ></app-tag-factory>
+    <app-profile-header
+      [authorId]="pa.author.id"
+      [name]="pa.author.username"
+      [src]="pa.author.avatar"
+    ></app-profile-header>
+    <app-post-cover
+      [(coverImageSrc)]="pa.post.coverImage"
+      [isEditable]="isEditable"
+    ></app-post-cover>
+    <app-post-content
+      [content]="pa.post.content"
+      [isEditable]="isEditable"
+    ></app-post-content
+  ></ng-container>
 </main>

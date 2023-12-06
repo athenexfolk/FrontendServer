@@ -1,0 +1,13 @@
+<div class="relative group">
+  <app-tag [tag]="tag"></app-tag>
+  <div class="absolute -top-2 -right-2 invisible group-hover:visible">
+    <button
+      (click)="removeTag()"
+      class="flex justify-center items-center p-1 rounded-full bg-red-500 hover:bg-red-700 text-white"
+    >
+      <span class="material-symbols-rounded" style="font-size: 14px"
+        >close</span
+      >
+    </button>
+  </div>
+</div>

@@ -16,18 +16,23 @@
       </div>
     </a>
     <div class="shrink-0 grow-0">
-      <app-cover [src]="ppa.postPreview.coverImage"></app-cover>
+      <app-cover [src]="ppa.postPreview.coverImage!"></app-cover>
     </div>
   </div>
   <div class="flex items-center justify-between gap-3 pe-28">
-    <p class="text-xs">{{ ppa.postPreview.lastUpdatedTime | relativeTime }}</p>
-    <!-- <TagGroup *ngIf="ppa.postPreview.tags.length">
-          <Tag *ngFor="let tag of ppa.postPreview.tags" [name]="tag" [color]="getTagColor(tag)" />
-        </TagGroup> -->
+    <div class="flex items-center gap-2">
+      <app-tag-group *ngIf="ppa.postPreview.tags.length" class="hidden md:block">
+        <app-tag *ngFor="let tag of tags" [tag]="tag" />
+      </app-tag-group>
+      <p class="text-xs">
+        {{ ppa.postPreview.lastUpdatedTime | relativeTime }}
+      </p>
+    </div>
     <app-post-options
       *ngIf="userId === ppa.author.id"
       [ofPostId]="ppa.postPreview.id"
       [ofAuthorId]="ppa.author.id"
+      (deleteEmitter)="deleteFromPosts($event)"
     ></app-post-options>
   </div>
 </article>

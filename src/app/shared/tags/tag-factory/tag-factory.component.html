@@ -1,0 +1,47 @@
+<div class="flex gap-4 items-start text-sm">
+  <div *ngIf="isEditable" class="relative">
+    <input
+      (focus)="openTagPanel()"
+      [(ngModel)]="searchText"
+      (input)="filterTags()"
+      [maxlength]="maxSearchTextLength"
+      type="text"
+      class="px-4 py-2 w-40 h-9 rounded-lg bg-white border focus:rounded-b-none outline-0"
+      placeholder="ค้นหาแท็ก..."
+    />
+    <div
+      *ngIf="isTagPanelOpen"
+      class="absolute top-full w-40 rounded-lg rounded-t-none overflow-hidden z-20 shadow"
+    >
+      <div class="bg-white/90 h-40 overflow-auto">
+        <ng-container *ngFor="let tag of filteredSearchTags">
+          <button
+            (click)="addTag(tag)"
+            class="w-full flex gap-4 items-center px-3 py-1.5 text-sm border-s-4 border-zinc-500/0 hover:border-zinc-500/100 hover:bg-zinc-100"
+          >
+            <div
+              class="p-1.5 rounded-full"
+              [style.backgroundColor]="'#' + tag.color"
+            ></div>
+            <span>{{ tag.name }}</span>
+          </button>
+        </ng-container>
+        <button
+          (click)="closeTagPanel()"
+          class="sticky bottom-0 bg-white px-4 py-2 w-full font-semibold text-xs shadow"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="">
+    <div class="flex items-center gap-2 flex-wrap">
+      <app-tag-remover
+        *ngFor="let tag of selectedTags"
+        [tag]="tag"
+        (remove)="removeTag($event)"
+      ></app-tag-remover>
+    </div>
+  </div>
+</div>
