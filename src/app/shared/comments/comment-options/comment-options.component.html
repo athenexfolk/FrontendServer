@@ -19,13 +19,14 @@
       </button>
     </div>
     <hr />
-    <button
-      [routerLink]="['/write', 'edit', ofPostId]"
+    <!-- <button
+      (click)="editComment()"
       class="flex items-center gap-2 hover:bg-yellow-50 hover:text-yellow-700 rounded-lg px-2 py-1"
     >
       <span class="material-symbols-rounded"> edit </span>แก้ไข
-    </button>
-    <button (click)="openDeletePanel()"
+    </button> -->
+    <button
+      (click)="openDeletePanel()"
       class="flex items-center gap-2 hover:bg-red-50 hover:text-red-700 rounded-lg px-2 py-1"
     >
       <span class="material-symbols-rounded"> delete </span>ลบ
@@ -43,7 +44,8 @@
           <span class="text-xl font-semibold">ต้องการที่จะลบ ?</span>
         </div>
         <div class="px-4 text-sm">
-          โพสต์จะถูกลบอย่างถาวร คุณจะไม่ได้เห็นโพสต์นี้อีก
+          ความคิดเห็นและการตอบกลับทั้งหมดจะถูกลบอย่างถาวร คุณและคนอื่น ๆ
+          จะไม่ได้เห็นมันอีก
         </div>
         <div
           class="flex justify-end gap-4 p-4 sticky bottom-0 bg-white/75 backdrop-blur"
@@ -55,7 +57,7 @@
             ยกเลิก
           </button>
           <button
-            (click)="deletePost()"
+            (click)="deleteComment()"
             class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-800 text-white font-semibold"
           >
             ลบ

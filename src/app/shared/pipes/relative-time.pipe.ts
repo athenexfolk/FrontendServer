@@ -36,6 +36,6 @@ export class RelativeTimePipe implements PipeTransform {
     if (interval >= 1) {
       return interval + ' นาทีที่แล้ว';
     }
-    return Math.floor(seconds) + ' วินาทีที่แล้ว';
+    return 'เมื่อสักครู่';
   }
 }

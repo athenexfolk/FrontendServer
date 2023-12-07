@@ -1,13 +1,15 @@
-<div class="p-2">
-  <app-profile-header></app-profile-header>
-  <p class="my-3">
-    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cupiditate sunt
-    modi rem illo vero reiciendis eum in doloribus quam, hic saepe quo ab,
-    exercitationem accusantium blanditiis! Neque necessitatibus molestias iure.
+<div class="py-4">
+  <app-profile-header
+    [authorId]="commentAndReplies.comment.owner.id"
+    [name]="commentAndReplies.comment.owner.username"
+    [src]="commentAndReplies.comment.owner.avatar"
+  ></app-profile-header>
+  <p class="py-3">
+    {{ commentAndReplies.comment.comment.data }}
   </p>
   <div class="flex items-center gap-4 text-xs">
     <p>
-      {{ date | relativeTime }}
+      {{ commentAndReplies.comment.comment.timestamp | relativeTime }}
     </p>
     <button
       *ngIf="isLoggedIn"
@@ -16,8 +18,23 @@
     >
       ตอบกลับ
     </button>
+    <app-comment-options
+      (onDeleteComment)="deleteComment()"
+      *ngIf="myId === commentAndReplies.comment.comment.commentOwnerId"
+    ></app-comment-options>
   </div>
 </div>
 
-<app-reply></app-reply>
-<app-reply-input *ngIf="isReplyOpen"></app-reply-input>
+<ng-container *ngFor="let reply of commentAndReplies.replies">
+  <app-reply
+    [reply]="reply"
+    (onDeleteReplySuccess)="deleteReplyFromComment($event)"
+  ></app-reply>
+</ng-container>
+
+<app-reply-input
+  [forPostId]="commentAndReplies.comment.comment.postId"
+  [forCommentId]="commentAndReplies.comment.comment._id"
+  (addReply)="addReplyToComment($event)"
+  *ngIf="isReplyOpen"
+></app-reply-input>

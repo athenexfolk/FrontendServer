@@ -1,19 +1,26 @@
 <div class="flex gap-2">
-  <div class="shrink-0 w-10 h-14 flex justify-center items-center">
+  <div
+    class="shrink-0 w-10 h-14 flex justify-center items-center text-zinc-300"
+  >
     <span class="material-symbols-rounded"> subdirectory_arrow_right </span>
   </div>
   <div class="p-2">
-    <app-profile-header></app-profile-header>
+    <app-profile-header
+      [authorId]="reply.owner.id"
+      [name]="reply.owner.username"
+      [src]="reply.owner.avatar"
+    ></app-profile-header>
     <p class="my-3">
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cupiditate sunt
-      modi rem illo vero reiciendis eum in doloribus quam, hic saepe quo ab,
-      exercitationem accusantium blanditiis! Neque necessitatibus molestias
-      iure.
+      {{ reply.comment.data }}
     </p>
     <div class="flex items-center gap-4 text-xs">
       <p>
-        {{ date | relativeTime }}
+        {{ reply.comment.timestamp | relativeTime }}
       </p>
+      <app-comment-options
+        *ngIf="myId === reply.comment.commentOwnerId"
+        (onDeleteComment)="deleteReply()"
+      ></app-comment-options>
     </div>
   </div>
 </div>
