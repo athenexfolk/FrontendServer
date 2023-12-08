@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { PasswordService } from '../../../../core/auth/password.service';
@@ -23,6 +23,7 @@ export class SigninPageComponent {
   constructor(
     private passwordLogin: PasswordService,
     private router: Router,
+    private location: Location,
     private fb: FormBuilder
   ) {}
 
@@ -30,13 +31,15 @@ export class SigninPageComponent {
     this.passwordLogin
       .login(this.loginForm.value.username!, this.loginForm.value.password!)
       .subscribe({
+        next: () => {
+          this.location.back();
+        },
         error: () => {
           this.isShowMsg = true;
           this.isLoginFailed = true;
         },
         complete: () => {
           this.loginForm.reset();
-          this.router.navigate(['/']);
         },
       });
   }

@@ -28,12 +28,20 @@
     >
       อ่านและแสดงความคิดเห็น
     </button>
-    } @loading {
-    <div class="text-center">
-      <p>กำลังโหลด...</p>
+    } @loading(minimum 500ms) {
+    <div class="flex justify-center items-center gap-4">
+      <span class="material-symbols-rounded animate-spin">
+        progress_activity </span
+      >กำลังโหลดความคิดเห็น...
     </div>
     }
   </ng-container>
 </main>
 
-<ng-template #loading> loading... </ng-template>
+<ng-template #loading>
+  <div class="flex justify-center items-center gap-4">
+    <span class="material-symbols-rounded animate-spin">
+      progress_activity </span
+    >กำลังโหลดบทความ...
+  </div>
+</ng-template>

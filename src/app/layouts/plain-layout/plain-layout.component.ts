@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
@@ -11,4 +11,9 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 })
 export class PlainLayoutComponent {
 
+  constructor(private location: Location) {}
+
+  goBack() {
+    this.location.back()
+  }
 }
