@@ -1,0 +1,13 @@
+<div class="flex gap-2 items-center text-xs">
+  <button
+    (click)="debouncedToggleLove()"
+    class="flex justify-center items-center p-2 rounded-full transition-all"
+    [ngClass]="
+      isSaved ? 'text-yellow-500 hover:bg-yellow-100' : 'hover:bg-zinc-100'
+    "
+  >
+    <span class="material-symbols-rounded" [ngClass]="{ fill: isSaved }"
+      >bookmark</span
+    >
+  </button>
+</div>

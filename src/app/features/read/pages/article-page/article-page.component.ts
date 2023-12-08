@@ -6,11 +6,19 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, map, switchMap } from 'rxjs';
 import { PostService } from '../../../../core/services/post.service';
 import { PostAndAuthor } from '../../../../core/models/post-and-author';
+import { LoveButtonComponent } from '../../../../shared/posts/post-action/love-button/love-button.component';
+import { SaveButtonComponent } from '../../../../shared/posts/post-action/save-button/save-button.component';
 
 @Component({
   selector: 'app-article-page',
   standalone: true,
-  imports: [CommonModule, PostComponent, CommentSectionComponent],
+  imports: [
+    CommonModule,
+    PostComponent,
+    CommentSectionComponent,
+    LoveButtonComponent,
+    SaveButtonComponent,
+  ],
   templateUrl: './article-page.component.html',
   styleUrl: './article-page.component.scss',
 })

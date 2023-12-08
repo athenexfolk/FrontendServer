@@ -2,21 +2,20 @@
   <ng-container *ngIf="post$ | async as post; else loading">
     <app-post [pa]="post"></app-post>
     <div class="flex gap-4 items-center">
-      <button
-        class="p-2 rounded-full flex justify-center items-center hover:text-zinc-800"
-      >
-        <span class="material-symbols-rounded"> thumb_up </span>
-      </button>
+      <app-love-button
+        [isLoved]="post.post.isLiked!"
+        [loveCount]="post.post.likeCount!"
+        [ofPostId]="post.post.id"
+      ></app-love-button>
       <button
         class="p-2 rounded-full flex justify-center items-center hover:text-zinc-800"
       >
         <span class="material-symbols-rounded"> share </span>
       </button>
-      <button
-        class="p-2 rounded-full flex justify-center items-center hover:text-zinc-800"
-      >
-        <span class="material-symbols-rounded"> bookmark </span>
-      </button>
+      <app-save-button
+        [isSaved]="post.post.isSave!"
+        [ofPostId]="post.post.id"
+      ></app-save-button>
     </div>
     <hr />
 

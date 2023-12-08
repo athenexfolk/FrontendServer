@@ -93,10 +93,10 @@ export class PostService {
   }
 
   savePost(id: string) {
-    return this.postRepo.savePost(id).subscribe();
+    return this.postRepo.savePost(id);
   }
 
   unsavePost(id: string) {
-    return this.postRepo.unsavePost(id).subscribe();
+    return this.postRepo.unsavePost(id);
   }
 }
