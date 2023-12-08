@@ -1,21 +1,15 @@
-<div class="flex gap-4">
+<div class="flex gap-4 p-4">
   <button
-    class="self-start flex items-center gap-2 justify-start p-2"
+    class="self-start flex items-center gap-2 justify-start p-2 rounded-lg bg-zinc-100 hover:bg-zinc-200"
     (click)="goBack()"
   >
-    <span class="flex items-center p-2">
-      <span class="material-symbols-rounded"> arrow_back </span>
-    </span>
-    <span class="text-sm font-semibold">กลับหน้าที่ผ่านมา</span>
+    <span class="material-symbols-rounded"> arrow_back </span>
   </button>
   <button
-    class="self-start flex items-center gap-2 justify-start p-2"
+    class="self-start flex items-center gap-2 justify-start p-2 rounded-lg bg-zinc-100 hover:bg-zinc-200"
     [routerLink]="['/']"
   >
-    <span class="flex items-center p-2">
-      <span class="material-symbols-rounded"> home </span>
-    </span>
-    <span class="text-sm font-semibold">กลับหน้าหลัก</span>
+    <span class="material-symbols-rounded"> home </span>
   </button>
 </div>
 

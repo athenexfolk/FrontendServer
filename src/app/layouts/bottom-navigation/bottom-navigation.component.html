@@ -1,3 +1,11 @@
-<div class="fixed bottom-0 left-0 w-full bg-zinc-100 shadow-md shadow-zinc-400 z-50">
+<!-- <div class="fixed bottom-0 left-0 w-full bg-zinc-100 shadow-md shadow-zinc-400 z-50">
   <app-navigation></app-navigation>
-</div>
+</div> -->
+
+<button
+  [routerLink]="['/write']"
+  class="fixed bottom-4 right-4 bg-zinc-100 shadow-md shadow-zinc-400 z-50 p-2 flex justify-center items-center rounded-full transition-all"
+  #floatButton
+>
+  <span class="material-symbols-rounded"> edit </span>
+</button>
