@@ -8,6 +8,8 @@ import { CommentService } from '../../../core/services/comment.service';
 import { CommentAndOwner } from '../../../core/models/comment';
 import { switchMap } from 'rxjs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UserInformationService } from '../../../core/services/user-information.service';
+import { DisplayName } from '../../../core/models/profile';
 
 @Component({
   selector: 'app-comment-input',
@@ -24,20 +26,20 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 export class CommentInputComponent implements OnInit {
   @Input({ required: true }) forPostId = '';
   @Output() addComment = new EventEmitter<CommentAndOwner>();
-  me!: User;
+  me!: DisplayName;
 
   data = '';
 
   constructor(
     private commentService: CommentService,
-    private userService: UserService,
+    private userInformationService: UserInformationService,
     private authorityService: AuthorityService
   ) {}
 
   ngOnInit(): void {
-    this.userService
-      .getUser(this.authorityService.user_id!)
-      .subscribe((user) => (this.me = user!));
+    this.userInformationService
+      .getDisplayName([this.authorityService.user_id!])
+      .subscribe((user) => (this.me = user[0]!));
   }
 
   sendComment() {

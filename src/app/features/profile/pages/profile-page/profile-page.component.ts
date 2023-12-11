@@ -2,31 +2,46 @@ import {
   Component,
   ElementRef,
   HostListener,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AvatarComponent } from '../../../../shared/users/avatar/avatar.component';
 import { PostPreviewComponent } from '../../../../shared/posts/post-preview/post-preview.component';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap, tap } from 'rxjs';
-import { User } from '../../../../core/models/user';
-import { UserService } from '../../../../core/services/user.service';
+import { Observable, Subscription, map, switchMap, tap } from 'rxjs';
 import { LazyPostService } from '../../../../core/services/lazy-post.service';
 import { PostPreviewAndAuthor } from '../../../../core/models/post-and-author';
 import { AuthorityService } from '../../../../core/auth/authority.service';
+import { ProfileComponent } from '../../../../shared/users/profile/profile.component';
+import { UserInformationService } from '../../../../core/services/user-information.service';
+import { Profile } from '../../../../core/models/profile';
+import { FollowButtonComponent } from '../../../../shared/users/follow-button/follow-button.component';
+import { FollowersComponent } from '../../../../shared/users/followers/followers.component';
+import { FolloweesComponent } from '../../../../shared/users/followees/followees.component';
 
 @Component({
   selector: 'app-profile-page',
   standalone: true,
-  imports: [CommonModule, AvatarComponent, PostPreviewComponent],
+  imports: [
+    CommonModule,
+    ProfileComponent,
+    PostPreviewComponent,
+    FollowButtonComponent,
+    FollowersComponent,
+    FolloweesComponent
+  ],
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.scss',
 })
-export class ProfilePageComponent implements OnInit {
-  user!: User;
-  myId: string | null = null;
+export class ProfilePageComponent implements OnInit, OnDestroy {
+  user$!: Observable<Profile>;
+  isFollow$!: Observable<{ isFollowed: boolean }>;
   ppas: PostPreviewAndAuthor[] = [];
+
+  myId: string | null = null;
+
+  postSubscription = new Subscription();
 
   @ViewChild('postgroup') postgroup!: ElementRef<HTMLElement>;
   readyStatus = true;
@@ -34,43 +49,52 @@ export class ProfilePageComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private userService: UserService,
     private authority: AuthorityService,
-    private lazyPostService: LazyPostService
+    private lazyPostService: LazyPostService,
+    private userInformationService: UserInformationService
   ) {}
 
   ngOnInit(): void {
     this.myId = this.authority.user_id;
+    let authorId$ = this.route.paramMap.pipe(
+      map((params) => {
+        const authorId = params.get('authorId');
+        if (!authorId) {
+          throw new Error('Invalid Author ID');
+        }
+        return authorId;
+      })
+    );
 
-    this.route.paramMap
+    this.user$ = authorId$.pipe(
+      switchMap((authorId) =>
+        this.userInformationService.getUserProfile(authorId)
+      )
+    );
+
+    this.isFollow$ = authorId$.pipe(
+      switchMap((authorId) => this.userInformationService.getFollow(authorId)),
+      map((relation) => ({ isFollowed: !!relation })),
+    );
+
+    this.postSubscription = authorId$
       .pipe(
-        map((params) => {
-          const authorId = params.get('authorId');
-          if (!authorId) {
-            throw new Error('Invalid Author ID');
-          }
-          return authorId;
-        }),
-        switchMap((authorId) => this.userService.getUser(authorId)),
-        map((user) => {
-          if (!user) {
-            throw new Error('Invalid User');
-          }
-          return user;
-        }),
-        tap((user) => (this.user = user)),
-        switchMap(() =>
+        switchMap((authorId) =>
           this.lazyPostService.posts$
             .asObservable()
             .pipe(
               map((ppas) =>
-                ppas.filter((post) => post.author.id === this.user.id)
+                ppas.filter((post) => post.author.userId === authorId)
               )
             )
         ),
         tap(() => this.lazyPostService.loadMore())
       )
       .subscribe((ppas) => (this.ppas = ppas));
+  }
+
+  ngOnDestroy(): void {
+    this.postSubscription.unsubscribe();
   }
 
   postTrackBy(index: number, item: PostPreviewAndAuthor) {

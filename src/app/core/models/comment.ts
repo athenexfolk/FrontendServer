@@ -1,3 +1,4 @@
+import { DisplayName } from './profile';
 import { User } from './user';
 
 export interface CommentRequest {
@@ -16,7 +17,7 @@ export interface Comment {
 
 export interface CommentAndOwner {
   comment: Comment;
-  owner: User;
+  owner: DisplayName;
 }
 
 export interface CommentAndReplies {

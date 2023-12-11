@@ -6,9 +6,8 @@
   </div>
   <div class="p-2">
     <app-profile-header
-      [authorId]="reply.owner.id"
-      [name]="reply.owner.username"
-      [src]="reply.owner.avatar"
+      [authorId]="reply.owner.userId"
+      [name]="reply.owner.displayName"
     ></app-profile-header>
     <p class="my-3">
       {{ reply.comment.data }}

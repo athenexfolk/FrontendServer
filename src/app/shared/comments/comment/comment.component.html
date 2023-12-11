@@ -1,8 +1,7 @@
 <div class="py-4">
   <app-profile-header
-    [authorId]="commentAndReplies.comment.owner.id"
-    [name]="commentAndReplies.comment.owner.username"
-    [src]="commentAndReplies.comment.owner.avatar"
+    [authorId]="commentAndReplies.comment.owner.userId"
+    [name]="commentAndReplies.comment.owner.displayName"
   ></app-profile-header>
   <p class="py-3">
     {{ commentAndReplies.comment.comment.data }}

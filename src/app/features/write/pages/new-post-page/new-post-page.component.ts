@@ -9,15 +9,12 @@ import { PostAndAuthor } from '../../../../core/models/post-and-author';
 import { UserService } from '../../../../core/services/user.service';
 import { AuthorityService } from '../../../../core/auth/authority.service';
 import { PostDataService } from '../../../../core/services/post-data.service';
+import { UserInformationService } from '../../../../core/services/user-information.service';
 
 @Component({
   selector: 'app-new-post-page',
   standalone: true,
-  imports: [
-    CommonModule,
-    OverlayComponent,
-    PostComponent,
-  ],
+  imports: [CommonModule, OverlayComponent, PostComponent],
   templateUrl: './new-post-page.component.html',
   styleUrl: './new-post-page.component.scss',
 })
@@ -30,7 +27,7 @@ export class NewPostPageComponent implements OnInit, OnDestroy {
   constructor(
     private postService: PostService,
     private router: Router,
-    private userService: UserService,
+    private userInformationService: UserInformationService,
     private authority: AuthorityService,
     private pds: PostDataService
   ) {}
@@ -38,22 +35,24 @@ export class NewPostPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.pds.clearPostData();
 
-    this.userService.getUser(this.authority.user_id!).subscribe((author) => {
-      this.pa = {
-        author: author!,
-        post: {
-          id: '',
-          authorId: '',
-          title: '',
-          description: '',
-          tags: [],
-          content: '',
-          createdTime: new Date(),
-          lastUpdatedTime: new Date(),
-          isPublished: false,
-        },
-      };
-    });
+    this.userInformationService
+      .getDisplayName([this.authority.user_id!])
+      .subscribe((author) => {
+        this.pa = {
+          author: author[0],
+          post: {
+            id: '',
+            authorId: '',
+            title: '',
+            description: '',
+            tags: [],
+            content: '',
+            createdTime: new Date(),
+            lastUpdatedTime: new Date(),
+            isPublished: false,
+          },
+        };
+      });
   }
 
   ngOnDestroy(): void {

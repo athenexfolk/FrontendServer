@@ -1,8 +1,7 @@
 <article class="grow grid grid-cols-1 gap-3 py-6">
   <app-profile-header
-    [src]="ppa.author.avatar"
-    [name]="ppa.author.username"
-    [authorId]="ppa.author.id"
+    [name]="ppa.author.displayName"
+    [authorId]="ppa.author.userId"
   ></app-profile-header>
   <div class="flex justify-between gap-4">
     <a [routerLink]="['/post', ppa.postPreview.id]" class="grow">
@@ -21,7 +20,10 @@
   </div>
   <div class="flex items-center justify-between gap-3 pe-28">
     <div class="flex items-center gap-2">
-      <app-tag-group *ngIf="ppa.postPreview.tags.length" class="hidden md:block">
+      <app-tag-group
+        *ngIf="ppa.postPreview.tags.length"
+        class="hidden md:block"
+      >
         <app-tag *ngFor="let tag of tags" [tag]="tag" />
       </app-tag-group>
       <p class="text-xs">
@@ -29,9 +31,9 @@
       </p>
     </div>
     <app-post-options
-      *ngIf="userId === ppa.author.id"
+      *ngIf="userId === ppa.author.userId"
       [ofPostId]="ppa.postPreview.id"
-      [ofAuthorId]="ppa.author.id"
+      [ofAuthorId]="ppa.author.userId"
       (deleteEmitter)="deleteFromPosts($event)"
     ></app-post-options>
   </div>

@@ -11,6 +11,9 @@ import { CommonModule } from '@angular/common';
 export class AvatarComponent {
   @Input() size: number = 10;
   @Input() src: string = 'assets/images/default-avatar.svg';
+  @Input() hasShadow = false;
+
+  readonly avatarEndpoint = '/api/img/v1/avatar/';
 
   onAvatarError(e: Event) {
     let el = e.target as HTMLImageElement;

@@ -1,8 +1,7 @@
 <ng-container *ngIf="me">
   <app-profile-header
-    [authorId]="me.id"
-    [name]="me.username"
-    [src]="me.avatar"
+    [authorId]="me.userId"
+    [name]="me.displayName"
   ></app-profile-header>
 </ng-container>
 <div class="grow flex flex-col gap-4">

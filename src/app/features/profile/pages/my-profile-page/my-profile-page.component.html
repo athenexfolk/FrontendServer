@@ -2,24 +2,14 @@
   <div
     class="md:w-[300px] shrink-0 md:sticky md:top-0 md:h-screen flex flex-col gap-4 p-4"
   >
-    <ng-container *ngIf="user$ | async as user">
-      <app-profile [userProfile]="user"></app-profile>
-      <ng-container *ngIf="isFollow$ | async as followStatus">
-        <app-follow-button
-          [userId]="user.userId"
-          [isFollowed]="followStatus.isFollowed"
-        ></app-follow-button>
-      </ng-container>
-      <div class="space-y-8">
-        <div>
-          <h3 class="text-lg font-semibold mb-2">ผู้ที่กำลังติดตาม</h3>
-          <app-followees [authorId]="user.userId"></app-followees>
-        </div>
-        <div>
-          <h3 class="text-lg font-semibold mb-2">ผู้ติดตาม</h3>
-          <app-followers [authorId]="user.userId"></app-followers>
-        </div>
-      </div>
+    <ng-container *ngIf="me$ | async as me">
+      <app-profile [userProfile]="me"></app-profile>
+      <button
+        [routerLink]="['settings']"
+        class="px-4 py-2 rounded-full bg-zinc-600 hover:bg-zinc-800 text-white font-semibold flex gap-2 justify-center items-center"
+      >
+        <span class="material-symbols-rounded"> settings </span>ตั้งค่าโปรไฟล์
+      </button>
     </ng-container>
   </div>
 

@@ -1,12 +1,13 @@
 import { Post, PostPreview } from './post-response';
+import { DisplayName } from './profile';
 import { User } from './user';
 
 export interface PostPreviewAndAuthor {
   postPreview: PostPreview;
-  author: User;
+  author: DisplayName;
 }
 
 export interface PostAndAuthor {
   post: Post;
-  author: User;
+  author: DisplayName;
 }

@@ -5,6 +5,8 @@ import { AvatarComponent } from '../../shared/users/avatar/avatar.component';
 import { AuthorityService } from '../../core/auth/authority.service';
 import { UserService } from '../../core/services/user.service';
 import { User } from '../../core/models/user';
+import { UserInformationService } from '../../core/services/user-information.service';
+import { Profile } from '../../core/models/profile';
 
 @Component({
   selector: 'app-account',
@@ -14,20 +16,20 @@ import { User } from '../../core/models/user';
   styleUrl: './account.component.scss',
 })
 export class AccountComponent implements OnInit {
-  myUser?: User;
+  me!: Profile;
   isPanelOpened = false;
 
   constructor(
     private authority: AuthorityService,
     private router: Router,
-    private userService: UserService
+    private userInformationService: UserInformationService
   ) {}
 
   ngOnInit(): void {
     if (this.authority.user_id)
-      this.userService
-        .getUser(this.authority.user_id)
-        .subscribe((user) => (this.myUser = user));
+      this.userInformationService
+        .getUserProfile(this.authority.user_id)
+        .subscribe((user) => (this.me = user));
   }
 
   openPanel() {

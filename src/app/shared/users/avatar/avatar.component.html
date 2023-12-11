@@ -1,7 +1,8 @@
 <img
-  class="object-cover object-center rounded-full"
+  class="object-cover object-center rounded-full bg-zinc-50"
+  [ngClass]="{ 'shadow-sm shadow-zinc-400': hasShadow }"
   [style.width.px]="size * 4"
   [style.height.px]="size * 4"
-  [src]="'/api/img/v1' + src"
+  [src]="avatarEndpoint + src"
   (error)="onAvatarError($event)"
 />

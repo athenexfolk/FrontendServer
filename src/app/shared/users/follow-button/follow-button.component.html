@@ -1,0 +1,15 @@
+<button
+  *ngIf="!isMe && isLoggedIn"
+  (click)="debouncedToggleFollow()"
+  class="rounded-lg w-full font-semibold px-4 py-2 transition-all flex justify-center items-center gap-2"
+  [ngClass]="
+    !isFollowed
+      ? 'bg-green-700 hover:bg-green-900 text-white'
+      : 'bg-zinc-200 hover:bg-zinc-400 text-zinc-600'
+  "
+>
+  <span class="material-symbols-rounded">
+    {{ isFollowed ? "done" : "add" }}
+  </span>
+  ติดตาม{{ isFollowed ? "แล้ว" : "" }}
+</button>

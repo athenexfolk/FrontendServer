@@ -15,9 +15,8 @@
       [isEditable]="isEditable"
     ></app-tag-factory>
     <app-profile-header
-      [authorId]="pa.author.id"
-      [name]="pa.author.username"
-      [src]="pa.author.avatar"
+      [authorId]="pa.author.userId"
+      [name]="pa.author.displayName"
     ></app-profile-header>
     <app-post-cover
       [(coverImageSrc)]="pa.post.coverImage"

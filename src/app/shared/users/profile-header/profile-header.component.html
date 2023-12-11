@@ -1,9 +1,7 @@
-<div class="flex gap-4 items-center">
-  <app-avatar [src]="src"></app-avatar>
-  <a
-    role="link"
-    [routerLink]="['/', 'profile', authorId]"
-    class="font-bold hover:underline"
-    >{{ name }}</a
-  >
+<div
+  [routerLink]="['/', 'profile', authorId]"
+  class="flex gap-4 items-center group hover:cursor-pointer"
+>
+  <app-avatar [src]="authorId"></app-avatar>
+  <a role="link" class="font-bold group-hover:underline">{{ name }}</a>
 </div>

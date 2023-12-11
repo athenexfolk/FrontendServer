@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditProfilePageComponent } from './edit-profile-page.component';
+import { FollowButtonComponent } from './follow-button.component';
 
-describe('EditProfilePageComponent', () => {
-  let component: EditProfilePageComponent;
-  let fixture: ComponentFixture<EditProfilePageComponent>;
+describe('FollowButtonComponent', () => {
+  let component: FollowButtonComponent;
+  let fixture: ComponentFixture<FollowButtonComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EditProfilePageComponent]
+      imports: [FollowButtonComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(EditProfilePageComponent);
+    fixture = TestBed.createComponent(FollowButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,9 @@
+<div class="flex items-center flex-col gap-4">
+  <ng-container *ngIf="userProfile; else loading">
+    <app-avatar [size]="32" [src]="userProfile.userId"></app-avatar>
+    <span class="text-xl font-bold">{{ userProfile.displayName }}</span>
+    <span class="self-start">{{ userProfile.shortBio }}</span>
+  </ng-container>
+</div>
+
+<ng-template #loading> loading... </ng-template>

@@ -1,6 +1,6 @@
 <div class="relative flex items-center">
   <button class="w-10 h-10 rounded-full" (click)="openPanel()">
-    <app-avatar *ngIf="myUser" [src]="myUser.avatar"></app-avatar>
+    <app-avatar *ngIf="me" [src]="me.userId"></app-avatar>
   </button>
   <div
     *ngIf="isPanelOpened"
@@ -9,9 +9,9 @@
     <div class="relative space-y-4">
       <div class="flex items-start gap-8 justify-between">
         <div class="flex flex-col md:flex-row md:items-center gap-4">
-          <app-avatar *ngIf="myUser" [src]="myUser.avatar"></app-avatar>
+          <app-avatar *ngIf="me" [src]="me.userId"></app-avatar>
           <span class="font-bold max-w-[200px] text-ellipsis overflow-hidden">
-            {{ myUser?.username }}
+            {{ me.displayName }}
           </span>
         </div>
         <button
@@ -24,7 +24,7 @@
       <hr />
       <div class="flex flex-col gap-2">
         <button
-          [routerLink]="['/profile']"
+          [routerLink]="['/profile', 'me']"
           class="px-4 py-2 rounded-lg font-semibold hover:bg-zinc-100 flex gap-2 justify-start"
         >
           <span class="material-symbols-rounded">person</span>

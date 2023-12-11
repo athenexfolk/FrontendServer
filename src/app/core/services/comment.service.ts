@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CommentRepositoryService } from '../repositories/comment-repository.service';
-import { UserService } from './user.service';
 import { map, switchMap } from 'rxjs';
 import {
   Comment,
@@ -8,6 +7,7 @@ import {
   CommentAndReplies,
   CommentRequest,
 } from '../models/comment';
+import { UserInformationService } from './user-information.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ import {
 export class CommentService {
   constructor(
     private commentRepo: CommentRepositoryService,
-    private userService: UserService
+    private userInformationService: UserInformationService
   ) {}
 
   getAllCommentsInPost(postId: string) {
@@ -30,14 +30,14 @@ export class CommentService {
   }
 
   mapCommentsAndOwners(comments: Comment[], ownerIds: string[]) {
-    return this.userService.getUsers(ownerIds).pipe(
+    return this.userInformationService.getDisplayName(ownerIds).pipe(
       map((owners) =>
         comments.map(
           (comment) =>
             ({
               comment: comment,
               owner: owners.find(
-                (owner) => owner.id === comment.commentOwnerId
+                (owner) => owner.userId === comment.commentOwnerId
               ),
             } as CommentAndOwner)
         )
@@ -56,10 +56,12 @@ export class CommentService {
   }
 
   mapCommentAndOwner(comment: Comment, ownerId: string) {
-    return this.userService
-      .getUser(ownerId)
+    return this.userInformationService
+      .getDisplayName([ownerId])
       .pipe(
-        map((owner) => ({ comment: comment, owner: owner } as CommentAndOwner))
+        map(
+          (owner) => ({ comment: comment, owner: owner[0] } as CommentAndOwner)
+        )
       );
   }
 

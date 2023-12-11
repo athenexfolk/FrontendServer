@@ -6,15 +6,16 @@ import { filter, map, switchMap } from 'rxjs';
 import { Post, PostPreview } from '../models/post-response';
 import { PostAndAuthor, PostPreviewAndAuthor } from '../models/post-and-author';
 import { PostAddDto, PostUpdateDto } from '../models/post-request';
+import { UserInformationService } from './user-information.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PostService {
   constructor(
     private postRepo: PostRepositoryService,
     private imageRepo: ImageRepositoryService,
-    private userService: UserService
+    private userInformationService: UserInformationService
   ) {}
 
   getAllPosts(size: number, pivot: string | null, author?: string) {
@@ -30,17 +31,14 @@ export class PostService {
   }
 
   mapPostPreviewsAndAuthors(postPreviews: PostPreview[], authorIds: string[]) {
-    return this.userService.getUsers(authorIds).pipe(
+    return this.userInformationService.getDisplayName(authorIds).pipe(
       map((authors) =>
-        postPreviews.map(
-          (postPreview) =>
-            ({
-              postPreview: postPreview,
-              author: authors.find(
-                (author) => author.id === postPreview.authorId
-              ),
-            } as PostPreviewAndAuthor)
-        )
+        postPreviews.map<PostPreviewAndAuthor>((postPreview) => ({
+          postPreview: postPreview,
+          author: authors.find(
+            (author) => author.userId === postPreview.authorId
+          )!,
+        }))
       )
     );
   }
@@ -57,14 +55,14 @@ export class PostService {
   }
 
   mapPostAndAuthor(post: Post, authorId: string) {
-    return this.userService.getUser(authorId).pipe(
+    return this.userInformationService.getDisplayName([authorId]).pipe(
       map(
         (author) =>
           ({
             post: post,
-            author: author,
+            author: author[0],
           } as PostAndAuthor)
-      )
+      ),
     );
   }
 

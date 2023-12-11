@@ -1,11 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  Subject,
-  debounceTime,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { Subject, debounceTime, switchMap, tap } from 'rxjs';
 import { PostService } from '../../../../core/services/post.service';
 
 @Component({
