@@ -6,6 +6,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { publicEndpointInterceptor } from './core/interceptors/public-endpoint.interceptor';
 import { tokenInterceptor } from './core/interceptors/token.interceptor';
 import { Runner } from './socket/runner';
+import { cacheInterceptor } from './core/interceptors/cache.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,7 +15,11 @@ export const appConfig: ApplicationConfig = {
       withInMemoryScrolling({ scrollPositionRestoration: 'enabled' })
     ),
     provideHttpClient(
-      withInterceptors([publicEndpointInterceptor, tokenInterceptor])
+      withInterceptors([
+        publicEndpointInterceptor,
+        tokenInterceptor,
+        cacheInterceptor,
+      ])
     ),
     {
       provide: Runner,
