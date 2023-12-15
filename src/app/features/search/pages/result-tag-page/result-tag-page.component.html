@@ -1,0 +1,26 @@
+<main class="p-4 lg:p-8" *ngIf="isTagValid; else emptyTag">
+  @defer (when ppas) {
+  <ng-container *ngIf="ppas.length; else emptyPosts">
+    <div class="grid grid-cols-1 divide-y">
+      <app-post-preview
+        *ngFor="let ppa of ppas"
+        [ppa]="ppa"
+        [userId]="userId"
+      ></app-post-preview>
+    </div>
+  </ng-container>
+  } @loading (minimum 500ms){
+  <div class="flex justify-center items-center gap-4">
+    <span class="material-symbols-rounded animate-spin">
+      progress_activity </span
+    >กำลังโหลดข้อมูล...
+  </div>
+  }
+</main>
+
+<ng-template #emptyTag
+  ><p class="text-center">เลือกแท็กเพื่อค้นหา</p></ng-template
+>
+<ng-template #emptyPosts>
+  <p class="text-center">ไม่มีโพสต์ในแท็กที่ค้นหา</p>
+</ng-template>

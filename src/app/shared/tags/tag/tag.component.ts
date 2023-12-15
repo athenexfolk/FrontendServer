@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Tag } from '../../../core/models/tag';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-tag',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './tag.component.html',
   styleUrl: './tag.component.scss',
 })

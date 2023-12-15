@@ -31,7 +31,7 @@ export class SaveButtonComponent {
 
   save() {
     this.saved();
-    return this.postService.likePost(this.ofPostId).pipe(
+    return this.postService.savePost(this.ofPostId).pipe(
       tap({
         error: () => this.unsaved(),
       })
@@ -40,7 +40,7 @@ export class SaveButtonComponent {
 
   unsave() {
     this.unsaved();
-    return this.postService.unlikePost(this.ofPostId).pipe(
+    return this.postService.unsavePost(this.ofPostId).pipe(
       tap({
         error: () => this.save(),
       })

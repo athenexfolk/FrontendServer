@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, tap } from 'rxjs';
-import { PostPreviewAndAuthor } from '../models/post-and-author';
-import { PostService } from './post.service';
+import { PostPreviewAndAuthor } from '../core/models/post-and-author';
+import { PostService } from '../core/services/post.service';
 
 type LoadMoreOptions = {
   author?: string;
@@ -12,12 +12,12 @@ type LoadMoreOptions = {
 @Injectable({
   providedIn: 'root',
 })
-export class LazyPostService {
+export class LazyPostsService {
   private _posts$: BehaviorSubject<PostPreviewAndAuthor[]>;
   private _pivot$: BehaviorSubject<string | null>;
 
   get posts$() {
-    return this._posts$.asObservable();
+    return this._posts$;
   }
 
   get posts() {
@@ -35,18 +35,17 @@ export class LazyPostService {
   constructor(private postService: PostService) {
     this._posts$ = new BehaviorSubject<PostPreviewAndAuthor[]>([]);
     this._pivot$ = new BehaviorSubject<string | null>(null);
-    this.loadMore({ completeCallback: () => {}, zeroLengthHandler: () => {} });
   }
 
-  loadMore({ zeroLengthHandler, completeCallback, author }: LoadMoreOptions) {    
+  loadMore({ zeroLengthHandler, completeCallback, author }: LoadMoreOptions) {
     this.postService
       .getAllPosts({ size: 20, pivot: this.pivot, author })
       .pipe(
         tap((newPosts) => {
           if (newPosts.length > 0) {
             const lastPivot = newPosts[newPosts.length - 1].postPreview.id;
-            this._posts$.next([...this.posts, ...newPosts]);
-            this._pivot$.next(lastPivot);
+            this.posts$.next([...this.posts, ...newPosts]);
+            this.pivot$.next(lastPivot);
           } else {
             zeroLengthHandler();
           }
@@ -58,7 +57,7 @@ export class LazyPostService {
   }
 
   onPostAdd(addingPost: PostPreviewAndAuthor) {
-    this._posts$.next([addingPost, ...this.posts]);
+    this.posts$.next([addingPost, ...this.posts]);
   }
 
   onPostUpdate(updatingPost: PostPreviewAndAuthor) {
@@ -73,7 +72,7 @@ export class LazyPostService {
 
     const updatedPosts = [...this.posts];
     updatedPosts[index] = updatingPost;
-    this._posts$.next(updatedPosts);
+    this.posts$.next(updatedPosts);
   }
 
   onPostDelete(deletingPostId: string) {
@@ -82,10 +81,10 @@ export class LazyPostService {
     );
 
     if (index !== -1) {
-      const updatedPosts = this._posts$.value.filter(
+      const updatedPosts = this.posts$.value.filter(
         (pa) => pa.postPreview.id !== deletingPostId
       );
-      this._posts$.next(updatedPosts);
+      this.posts$.next(updatedPosts);
     }
   }
 }

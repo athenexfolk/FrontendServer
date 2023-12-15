@@ -1,0 +1,67 @@
+<div class="max-w-screen-md mx-auto">
+  <div class="flex items-start gap-4 p-4 rounded-lg">
+    <div
+      class="relative flex gap-2 items-center rounded-lg px-4 py-2 bg-zinc-100"
+    >
+      <input
+        (focus)="openTagsPanel()"
+        type="text"
+        [(ngModel)]="searchText"
+        (input)="filterTags($event)"
+        placeholder="ค้นหาตามแท็ก..."
+        class="bg-zinc-100 outline-0"
+      />
+      <div
+        *ngIf="isTagsPanelOpen"
+        class="absolute top-[110%] left-0 w-full max-h-40 hide-scrollbar overflow-y-auto bg-white rounded-lg shadow-sm flex flex-col text-sm"
+      >
+        <button
+          *ngFor="let tag of filteredSearchTags"
+          (click)="addTagFilter(tag)"
+          class="px-4 py-2 border-s-4 border-zinc-100/0 hover:border-zinc-200/100 flex gap-4 justify-start items-center"
+        >
+          <div
+            [style.backgroundColor]="'#' + tag.color"
+            class="rounded-full p-1.5"
+          ></div>
+          <span>{{ tag.name }}</span>
+        </button>
+        <button
+          *ngIf="!isSearchTextExist && searchText.length"
+          (click)="addTagFilter(mapUnknowTag())"
+          class="px-4 py-2 border-s-4 border-zinc-100/0 hover:border-zinc-200/100 flex gap-4 justify-start items-center"
+        >
+          <div
+            [style.backgroundColor]="'#3f3f46'"
+            class="p-1.5 rounded-full"
+          ></div>
+          <span>{{ searchText }}</span>
+        </button>
+        <button
+          (click)="closeTagsPanel()"
+          class="sticky bottom-0 px-2 py-1 text-red-600 bg-white shadow"
+        >
+          ปิด
+        </button>
+      </div>
+    </div>
+    <div class="grow">
+      <div class="p-2 flex flex-wrap gap-2">
+        <app-tag-remover
+          *ngFor="let tag of allTags"
+          [tag]="tag"
+          (remove)="removeTagFilter($event)"
+        ></app-tag-remover>
+      </div>
+    </div>
+    <div>
+      <button
+        (click)="searchPosts()"
+        class="px-4 py-2 font-semibold rounded-lg bg-green-600 text-white"
+      >
+        ค้นหา
+      </button>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>

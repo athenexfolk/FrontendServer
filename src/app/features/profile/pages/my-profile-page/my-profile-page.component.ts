@@ -2,6 +2,7 @@ import {
   Component,
   ElementRef,
   HostListener,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -23,7 +24,7 @@ import { PostPreviewComponent } from '../../../../shared/posts/post-preview/post
   templateUrl: './my-profile-page.component.html',
   styleUrl: './my-profile-page.component.scss',
 })
-export class MyProfilePageComponent implements OnInit {
+export class MyProfilePageComponent implements OnInit, OnDestroy {
   me$!: Observable<Profile>;
   myId: string | null = null;
   ppas: PostPreviewAndAuthor[] = [];
@@ -45,17 +46,21 @@ export class MyProfilePageComponent implements OnInit {
       this.authorityService.user_id!
     );
 
-    this.postSubscription = this.lazyPostService.posts$
-      .asObservable()
+    this.postSubscription.add(this.lazyPostService.posts$
       .pipe(
-        map((ppas) =>
-          ppas.filter(
+        map((ppas) => {
+          console.log(ppas);
+          return ppas.filter(
             (post) => post.author.userId === this.authorityService.user_id!
           )
-        ),
-        tap(() => this.lazyPostService.loadMore())
+        }
+        )
       )
-      .subscribe((ppas) => (this.ppas = ppas));
+      .subscribe((ppas) => (this.ppas = ppas)))
+  }
+
+  ngOnDestroy(): void {
+      this.postSubscription.unsubscribe()
   }
 
   postTrackBy(index: number, item: PostPreviewAndAuthor) {
@@ -76,15 +81,18 @@ export class MyProfilePageComponent implements OnInit {
     }
   }
 
+  loadMore() {
+    this.lazyPostService.loadMore({
+      completeCallback: () => {
+        this.readyStatus = true;
+      },
+      zeroLengthHandler: () => {
+        this.endLoad = true;
+      },
+    });
+  }
+
   loadPostOnScroll() {
-    setTimeout(
-      () =>
-        this.lazyPostService.loadMore(
-          undefined,
-          () => (this.readyStatus = true),
-          () => (this.endLoad = true)
-        ),
-      1000
-    );
+    setTimeout(() => this.loadMore(), 1000);
   }
 }

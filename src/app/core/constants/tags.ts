@@ -7,4 +7,5 @@ export const Tags: Tag[] = [
   { name: 'NodeJS', color: '68A063' },
   { name: 'C', color: '004482' },
   { name: 'Java', color: 'ec2025' },
+  { name: 'Python', color: 'ffde57'}
 ];

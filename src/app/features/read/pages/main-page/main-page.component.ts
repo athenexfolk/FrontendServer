@@ -11,11 +11,21 @@ import { PostPreviewComponent } from '../../../../shared/posts/post-preview/post
 import { AuthorityService } from '../../../../core/auth/authority.service';
 import { LazyPostService } from '../../../../core/services/lazy-post.service';
 import { PostPreviewAndAuthor } from '../../../../core/models/post-and-author';
+import { TagService } from '../../../../core/services/tag.service';
+import { TagComponent } from '../../../../shared/tags/tag/tag.component';
+import { Tag } from '../../../../core/models/tag';
+import { TagGroupComponent } from '../../../../shared/tags/tag-group/tag-group.component';
 
 @Component({
   selector: 'app-main-page',
   standalone: true,
-  imports: [CommonModule, RouterLink, PostPreviewComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    PostPreviewComponent,
+    TagComponent,
+    TagGroupComponent,
+  ],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss',
 })
@@ -25,6 +35,7 @@ export class MainPageComponent implements OnInit {
     'เบต้าบล็อกให้บริการในการเขียนบทความในรูปแบบบล็อก โดยอำนวยความสะดวกให้โปรแกรมเมอร์โดยการเพิ่มฟังก์ชันในการเขียนโค้ด และสั่งให้โค้ดทำงาน ขณะนี้ ระบบของเราให้บริการในภาษา C, C++, Python, Java';
 
   ppas: PostPreviewAndAuthor[] = [];
+  topTags: Tag[] = [];
   userId: string | null = null;
   isLoggedIn = false;
 
@@ -34,14 +45,16 @@ export class MainPageComponent implements OnInit {
 
   constructor(
     private authorityService: AuthorityService,
-    private lazyPostService: LazyPostService
+    private lazyPostService: LazyPostService,
+    private tagService: TagService
   ) {}
 
   ngOnInit(): void {
-    this.lazyPostService.posts$
-      .asObservable()
-      .subscribe((r) => (this.ppas = r));
-    this.lazyPostService.loadMore();
+    this.lazyPostService.posts$.subscribe((res) => {
+      this.ppas = res;
+    });
+
+    this.tagService.getTopTags().subscribe((tags) => (this.topTags = tags));
 
     this.userId = this.authorityService.user_id;
     this.isLoggedIn = this.authorityService.isLoggedin;
@@ -72,19 +85,22 @@ export class MainPageComponent implements OnInit {
     }
   }
 
-  loadPostOnScroll() {
-    setTimeout(
-      () =>
-        this.lazyPostService.loadMore(
-          undefined,
-          () => (this.readyStatus = true),
-          () => (this.endLoad = true)
-        ),
-      1000
-    );
-  }
-
   deleteId(id: string) {
     this.ppas = this.ppas.filter((p) => p.postPreview.id !== id);
+  }
+
+  loadMore() {
+    this.lazyPostService.loadMore({
+      completeCallback: () => {
+        this.readyStatus = true;
+      },
+      zeroLengthHandler: () => {
+        this.endLoad = true;
+      },
+    });
+  }
+
+  loadPostOnScroll() {
+    setTimeout(() => this.loadMore(), 1000);
   }
 }

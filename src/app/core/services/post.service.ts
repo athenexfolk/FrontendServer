@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { PostRepositoryService } from '../repositories/post-repository.service';
+import {
+  type GetPostsOptions,
+  PostRepositoryService,
+} from '../repositories/post-repository.service';
 import { ImageRepositoryService } from '../repositories/image-repository.service';
-import { UserService } from './user.service';
 import { filter, map, switchMap } from 'rxjs';
 import { Post, PostPreview } from '../models/post-response';
 import { PostAndAuthor, PostPreviewAndAuthor } from '../models/post-and-author';
@@ -18,8 +20,8 @@ export class PostService {
     private userInformationService: UserInformationService
   ) {}
 
-  getAllPosts(size: number, pivot: string | null, author?: string) {
-    return this.postRepo.getPosts(size, pivot, author).pipe(
+  getAllPosts({ size, pivot, author, tags }: GetPostsOptions) {
+    return this.postRepo.getPosts({ size, pivot, author, tags }).pipe(
       switchMap((response) => {
         const postPreviews = response.data?.collections || [];
         const authorIds = postPreviews.map(
@@ -62,7 +64,7 @@ export class PostService {
             post: post,
             author: author[0],
           } as PostAndAuthor)
-      ),
+      )
     );
   }
 

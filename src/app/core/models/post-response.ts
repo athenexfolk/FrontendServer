@@ -14,7 +14,7 @@ export interface PostPreview extends Traceable, Identifiable {
   likeCount?: number;
 
   isPublished: boolean;
-  isSave?: boolean;
+  isSaved?: boolean;
   isLiked?: boolean;
 }
 

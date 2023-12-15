@@ -5,6 +5,13 @@ import { Post, PostPreview } from '../models/post-response';
 import { Response } from '../models/response';
 import { PostAddDto, PostUpdateDto } from '../models/post-request';
 
+export type GetPostsOptions = {
+  size: number;
+  pivot: string | null;
+  tags?: string[];
+  author?: string;
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -13,7 +20,7 @@ export class PostRepositoryService {
 
   constructor(private http: HttpClient) {}
 
-  getPosts(size: number = 20, pivot: string | null = null, author?: string) {
+  getPosts({ size, pivot, author, tags }: GetPostsOptions) {
     let endpoint = this.postEndpoint;
     endpoint += '?take=' + size;
     if (pivot) {
@@ -21,6 +28,9 @@ export class PostRepositoryService {
     }
     if (author) {
       endpoint += '&of=' + author;
+    }
+    if (tags && tags.length > 0) {
+      endpoint += tags.map((tag) => '&tag=' + tag).join('');
     }
 
     return this.http.get<Response<Pageable<PostPreview[]>>>(

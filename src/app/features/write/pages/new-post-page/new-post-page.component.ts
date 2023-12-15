@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { PostComponent } from '../../../../shared/posts/post/post.component';
 import { PostAndAuthor } from '../../../../core/models/post-and-author';
-import { UserService } from '../../../../core/services/user.service';
 import { AuthorityService } from '../../../../core/auth/authority.service';
 import { PostDataService } from '../../../../core/services/post-data.service';
 import { UserInformationService } from '../../../../core/services/user-information.service';

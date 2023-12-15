@@ -29,7 +29,7 @@ import { FolloweesComponent } from '../../../../shared/users/followees/followees
     PostPreviewComponent,
     FollowButtonComponent,
     FollowersComponent,
-    FolloweesComponent
+    FolloweesComponent,
   ],
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.scss',
@@ -59,6 +59,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     let authorId$ = this.route.paramMap.pipe(
       map((params) => {
         const authorId = params.get('authorId');
+        
         if (!authorId) {
           throw new Error('Invalid Author ID');
         }
@@ -74,23 +75,22 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
 
     this.isFollow$ = authorId$.pipe(
       switchMap((authorId) => this.userInformationService.getFollow(authorId)),
-      map((relation) => ({ isFollowed: !!relation })),
+      map((relation) => ({ isFollowed: !!relation }))
     );
 
-    this.postSubscription = authorId$
-      .pipe(
-        switchMap((authorId) =>
-          this.lazyPostService.posts$
-            .asObservable()
-            .pipe(
-              map((ppas) =>
+    this.postSubscription.add(
+      authorId$
+        .pipe(
+          switchMap((authorId) =>
+            this.lazyPostService.posts$.pipe(
+              map((ppas) => 
                 ppas.filter((post) => post.author.userId === authorId)
               )
             )
-        ),
-        tap(() => this.lazyPostService.loadMore())
-      )
-      .subscribe((ppas) => (this.ppas = ppas));
+          ),
+        )
+        .subscribe((ppas) => (this.ppas = ppas))
+    );
   }
 
   ngOnDestroy(): void {
@@ -115,15 +115,18 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     }
   }
 
+  loadMore() {
+    this.lazyPostService.loadMore({
+      completeCallback: () => {
+        this.readyStatus = true;
+      },
+      zeroLengthHandler: () => {
+        this.endLoad = true;
+      },
+    });
+  }
+
   loadPostOnScroll() {
-    setTimeout(
-      () =>
-        this.lazyPostService.loadMore(
-          undefined,
-          () => (this.readyStatus = true),
-          () => (this.endLoad = true)
-        ),
-      1000
-    );
+    setTimeout(() => this.loadMore(), 1000);
   }
 }

@@ -5,6 +5,7 @@ import { MainLayoutComponent } from './layouts/main-layout/main-layout.component
 import { PlainLayoutComponent } from './layouts/plain-layout/plain-layout.component';
 import { reverseAuthGuard } from './core/guards/reverse-auth.guard';
 import { authGuard } from './core/guards/auth.guard';
+import { LazyPostComponent } from './dev/lazy-post/lazy-post.component';
 
 export const routes: Routes = [
   {
@@ -26,6 +27,15 @@ export const routes: Routes = [
             (m) => m.ProfileModule
           ),
       },
+      {
+        path: 'search',
+        loadChildren: () =>
+          import('./features/search/search.module').then((m) => m.SearchModule),
+      },
+      {
+        path: 'dev',
+        component: LazyPostComponent
+      }
     ],
   },
   {
