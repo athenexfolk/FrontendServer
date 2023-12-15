@@ -20,8 +20,6 @@ export class PostDataService {
     this._coverImageSrc = '';
     this._tags = [];
     this._content = '';
-
-    console.log('post data was cleared');
   }
 
   get title() {
