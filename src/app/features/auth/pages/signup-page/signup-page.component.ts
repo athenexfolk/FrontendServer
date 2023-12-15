@@ -23,6 +23,8 @@ export class SignupPageComponent {
   isPasswordRequiresNonAlphanumeric = false;
   isPasswordMatched = false;
 
+  isUsernameTaken = false
+
   constructor(
     private passwordRegister: PasswordService,
     private router: Router,
@@ -49,7 +51,10 @@ export class SignupPageComponent {
           console.log(err.error[0].description);
           if (err.error[0].code === 'PasswordRequiresNonAlphanumeric') {
             this.isPasswordRequiresNonAlphanumeric = false;
-          } else if (err.error[0].code === '') {
+          } else if (err.error[0].code === 'DuplicateUserName') {
+            console.log('DuplicateUserName');
+            
+            this.isUsernameTaken = true;
           } else {
           }
         },
@@ -87,5 +92,9 @@ export class SignupPageComponent {
         this.registerForm.value.password ===
         this.registerForm.value.confirmPassword;
     }
+  }
+
+  resetOnInputUsername() {
+    this.isUsernameTaken = false
   }
 }

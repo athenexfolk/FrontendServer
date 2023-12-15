@@ -6,21 +6,33 @@
       [formGroup]="registerForm"
       (ngSubmit)="onSubmit()"
     >
-      <div class="flex items-center gap-4 rounded-lg border px-4 py-2">
-        <input
-          type="text"
-          formControlName="username"
-          class="focus:outline-0 bg-transparent"
-          placeholder="ชื่อผู้ใช้"
-          required="true"
-          autocomplete=""
-        />
+      <div class="space-y-2">
+        <div
+          class="flex items-center gap-4 rounded-lg border px-4 py-2"
+          [ngClass]="{ 'border-red-500 text-red-500': isUsernameTaken }"
+        >
+          <span class="material-symbols-rounded"> person </span>
+          <input
+            type="text"
+            formControlName="username"
+            class="focus:outline-0 bg-transparent w-full"
+            placeholder="ชื่อผู้ใช้"
+            required="true"
+            (input)="resetOnInputUsername()"
+            autocomplete
+          />
+        </div>
+        <span *ngIf="isUsernameTaken" class="text-red-500 text-xs"
+          >ชื่อผู้ใช้นี้ได้ถูกใช้แล้ว</span
+        >
       </div>
+
       <div class="flex items-center gap-4 rounded-lg border px-4 py-2">
+        <span class="material-symbols-rounded"> password </span>
         <input
           type="password"
           formControlName="password"
-          class="focus:outline-0 bg-transparent"
+          class="focus:outline-0 bg-transparent w-full"
           placeholder="รหัสผ่าน"
           required="true"
           autocomplete="new-password"
@@ -28,33 +40,20 @@
         />
       </div>
       <div class="flex items-center gap-4 rounded-lg border px-4 py-2">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-6 h-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
-          />
-        </svg>
+        <span class="material-symbols-rounded"> lock </span>
         <input
           type="password"
           formControlName="confirmPassword"
-          class="focus:outline-0 bg-transparent"
+          class="focus:outline-0 bg-transparent w-full"
           placeholder="ยืนยันรหัสผ่าน"
           required="true"
           autocomplete="new-password"
           (keyup)="checkValidation()"
         />
       </div>
-      <div class="text-sm">
+      <div class="text-sm space-y-2">
         <div
-          class="flex items-center gap-2 transition-all"
+          class="flex items-start gap-2 transition-all"
           [ngClass]="{ 'text-green-500': isPasswordLengthValid }"
         >
           <svg
@@ -74,7 +73,7 @@
           <p>รหัสผ่านมีอย่างน้อย 8 อักขระ</p>
         </div>
         <div
-          class="flex items-center gap-2"
+          class="flex items-start gap-2"
           [ngClass]="{ 'text-green-500': isPasswordRequiresNonAlphanumeric }"
         >
           <svg
@@ -83,7 +82,7 @@
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            class="w-4 h-4"
+            class="w-4 h-4 shrink-0"
           >
             <path
               stroke-linecap="round"
@@ -91,10 +90,13 @@
               d="M4.5 12.75l6 6 9-13.5"
             />
           </svg>
-          <p>รหัสผ่านมีอักขระพิเศษอย่างน้อย 1 ตัว</p>
+          <p>
+            รหัสผ่านมีตัวอักษรพิมพ์ใหญ่ ตัวอักษรพิมพ์เล็ก ตัวเลข
+            และอักขระพิเศษอย่างน้อย 1 ตัว
+          </p>
         </div>
         <div
-          class="flex items-center gap-2"
+          class="flex items-start gap-2"
           [ngClass]="{ 'text-green-500': isPasswordMatched }"
         >
           <svg
